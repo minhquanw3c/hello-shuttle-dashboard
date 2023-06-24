@@ -29,16 +29,24 @@ var app = new Vue({
                             label: '#'
                         },
                         {
-                            key: 'bookingId',
-                            label: 'Booking number'
+                            key: 'customerFullName',
+                            label: 'Customer'
+                        },
+                        {
+                            key: 'customerPhone',
+                            label: 'Phone'
                         },
                         {
                             key: 'bookingPaymentStatus',
-                            label: 'Payment status'
+                            label: 'Payment status',
                         },
                         {
                             key: 'bookingCreatedAt',
                             label: 'Created at'
+                        },
+                        {
+                            key: 'actions',
+                            label: 'Actions'
                         },
                     ],
                 },
@@ -46,6 +54,12 @@ var app = new Vue({
             bookings: [],
             errorMessages: {
                 required: 'This field is required',
+            },
+            modalConfig: {
+                bookingDetails: {
+                    show: false,
+                    data: [],
+                }
             },
         }
     },
@@ -99,6 +113,88 @@ var app = new Vue({
                     noCloseButton: true,
                 }
             );
+        },
+        viewBookingDetails: function (bookingData) {
+            const self = this;
+
+            const bookingDetails = JSON.parse(bookingData.bookingData);
+
+            self.modalConfig.bookingDetails.data.tripType = bookingDetails.reservation.tripType;
+            
+            const customer = [
+                {
+                    label: 'Full name',
+                    value: bookingDetails.review.customer.firstName + " " + bookingDetails.review.customer.lastName
+                },
+                {
+                    label: 'Email',
+                    value: bookingDetails.review.customer.contact.email
+                },
+                {
+                    label: 'Phone',
+                    value: bookingDetails.review.customer.contact.mobileNumber
+                },
+            ];
+
+            const oneWayTrip = [
+                {
+                    label: 'Origin',
+                    value: bookingDetails.reservation.oneWayTrip.origin.description,
+                },
+                {
+                    label: 'Destination',
+                    value: bookingDetails.reservation.oneWayTrip.destination.description,
+                },
+                {
+                    label: 'Pickup time',
+                    value: moment(
+                            bookingDetails.reservation.oneWayTrip.pickup.date.concat(" ", bookingDetails.reservation.oneWayTrip.pickup.time),
+                            "YYYY-MM-DD hh:mm:ss"
+                        ).format('LLLL'),
+                },
+                {
+                    label: 'Miles',
+                    value: bookingDetails.review.routes.oneWayTrip.miles,
+                },
+                {
+                    label: 'Total',
+                    value: '$' + bookingDetails.review.prices.oneWayTrip,
+                },
+            ];
+
+            if (self.modalConfig.bookingDetails.data.tripType === 'round-trip') {
+                const roundTrip = [
+                    {
+                        label: 'Origin',
+                        value: bookingDetails.reservation.roundTrip.origin.description,
+                    },
+                    {
+                        label: 'Destination',
+                        value: bookingDetails.reservation.roundTrip.destination.description,
+                    },
+                    {
+                        label: 'Pickup time',
+                        value: moment(
+                                bookingDetails.reservation.roundTrip.pickup.date.concat(" ", bookingDetails.reservation.roundTrip.pickup.time),
+                                "YYYY-MM-DD hh:mm:ss"
+                            ).format('LLLL'),
+                    },
+                    {
+                        label: 'Miles',
+                        value: bookingDetails.review.routes.roundTrip.miles,
+                    },
+                    {
+                        label: 'Total',
+                        value: '$' + bookingDetails.review.prices.roundTrip,
+                    },
+                ];
+                self.modalConfig.bookingDetails.data.roundTrip = roundTrip;
+            }
+
+            self.modalConfig.bookingDetails.data.customer = customer;
+            self.modalConfig.bookingDetails.data.oneWayTrip = oneWayTrip;
+            self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
+            self.modalConfig.bookingDetails.show = true;
         },
     },
     computed: {
