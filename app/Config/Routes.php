@@ -32,13 +32,17 @@ $routes->set404Override();
 $routes->get('/', 'Home::showLoginForm');
 $routes->get('/bookings', 'Home::showBookings');
 $routes->get('/configurations', 'Home::showConfigurations');
+$routes->get('/coupons', 'Home::showCoupons');
 
 $routes->get('api/configurations/list', 'Home::getConfigList');
 $routes->get('api/cars/list', 'Home::getCarsList');
 $routes->get('api/bookings/list', 'Home::getBookingsList');
+$routes->get('api/coupons/list', 'Home::getCouponsList');
 
 $routes->post('api/configurations/edit', 'Home::editConfig');
 $routes->post('api/cars/edit', 'Home::editCar');
+$routes->post('api/coupons/create', 'Home::createCoupon');
+$routes->post('api/coupons/edit', 'Home::editCoupon');
 
 /*
  * --------------------------------------------------------------------

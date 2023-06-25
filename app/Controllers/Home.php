@@ -4,6 +4,9 @@ namespace App\Controllers;
 use App\Models\ConfigModel;
 use App\Models\CarModel;
 
+use CodeIgniter\I18n\Time;
+use Ramsey\Uuid\Uuid;
+
 class Home extends BaseController
 {
     public function showLoginForm()
@@ -19,6 +22,11 @@ class Home extends BaseController
     public function showConfigurations()
     {
         return view('configurations');
+    }
+
+    public function showCoupons()
+    {
+        return view('coupons');
     }
 
     public function getConfigList()
@@ -48,6 +56,15 @@ class Home extends BaseController
         return $this->response->setJSON($bookings_list);
     }
 
+    public function getCouponsList()
+    {
+        $coupon_model = model(CouponModel::class);
+
+        $coupons = $coupon_model->getCoupons();
+
+        return $this->response->setJSON($coupons);
+    }
+
     public function editConfig()
     {
         $config_model = model(ConfigModel::class);
@@ -73,6 +90,60 @@ class Home extends BaseController
 
         $response = [
             'result' => $edit_car_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function createCoupon()
+    {
+        $coupon_model = model(CouponModel::class);
+
+        $request_params = $this->request->getVar('form');
+
+        $coupon_id = Uuid::uuid4()->toString();
+
+        $data = [
+            'coupon_id' => $coupon_id,
+            'coupon_code' => $request_params->code,
+            'discount_amount' => $request_params->discountAmount,
+            'is_percentage' => $request_params->isPercentage,
+            'start_date' => $request_params->startDate,
+            'end_date' => $request_params->endDate,
+            'created_at' => Time::now('UTC'),
+            'updated_at' => Time::now('UTC'),
+        ];
+
+        $create_coupon_result = $coupon_model->createCoupon($data);
+
+        $response = [
+            'result' => $create_coupon_result,
+            'message' => $create_coupon_result ? 'Coupon created' : 'Error occurred'
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function editCoupon()
+    {
+        $coupon_model = model(CouponModel::class);
+
+        $request_params = $this->request->getVar('form');
+
+        $coupon_id = $request_params->couponId;
+        $data = [
+            'coupon_code' => $request_params->code,
+            'discount_amount' => $request_params->discountAmount,
+            'is_percentage' => $request_params->isPercentage,
+            'start_date' => $request_params->startDate,
+            'end_date' => $request_params->endDate,
+            'updated_at' => Time::now('UTC'),
+        ];
+
+        $edit_coupon_result = $coupon_model->updateCouponById($coupon_id, $data);
+
+        $response = [
+            'result' => $edit_coupon_result,
         ];
 
         return $this->response->setJSON($response);
