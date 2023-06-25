@@ -16,17 +16,29 @@ class Home extends BaseController
 
     public function showBookings()
     {
-        return view('bookings');
+        $data = [
+            'pageTitle' => 'Bookings'
+        ];
+
+        return view('bookings', $data);
     }
 
     public function showConfigurations()
     {
-        return view('configurations');
+        $data = [
+            'pageTitle' => 'Configurations'
+        ];
+
+        return view('configurations', $data);
     }
 
     public function showCoupons()
     {
-        return view('coupons');
+        $data = [
+            'pageTitle' => 'Coupons'
+        ];
+
+        return view('coupons', $data);
     }
 
     public function getConfigList()
