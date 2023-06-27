@@ -37,4 +37,11 @@ class BookingModel extends Model
 
         return $get_list_query;
     }
+
+    public function clearBookings()
+    {
+        $clear_booking_query = $this->truncate();
+
+        return $clear_booking_query;
+    }
 }

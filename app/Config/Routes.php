@@ -43,6 +43,7 @@ $routes->post('api/configurations/edit', 'Home::editConfig');
 $routes->post('api/cars/edit', 'Home::editCar');
 $routes->post('api/coupons/create', 'Home::createCoupon');
 $routes->post('api/coupons/edit', 'Home::editCoupon');
+$routes->post('api/bookings/clear', 'Home::clearBookings');
 
 /*
  * --------------------------------------------------------------------

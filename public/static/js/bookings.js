@@ -200,6 +200,28 @@ var app = new Vue({
             self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
             self.modalConfig.bookingDetails.show = true;
         },
+        clearTestData: function (showToast = true) {
+            const self = this;
+            const payload = {};
+
+            axios
+                .post(baseURL + '/api/bookings/clear', payload)
+                .then(res => {
+                    if (showToast) {
+                        var toastType = res.data.result ? 'success' : 'error';
+                        self.showToastNotification(toastType);
+                    }
+
+                    self.fetchBookingsList(showToast = false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    if (showToast) {
+                        var toastType = 'error';
+                        self.showToastNotification(toastType);
+                    }
+                });
+        },
     },
     computed: {
 

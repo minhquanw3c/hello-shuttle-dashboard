@@ -2,6 +2,11 @@
 
 <?= $this->section("main") ?>
 <div class="col-12 text-right px-0">
+	<b-button variant="danger" @click="clearTestData">
+		<b-icon icon="trash"></b-icon>
+		Bookings
+	</b-button>
+
 	<b-button variant="outline-primary" @click="fetchBookingsList">
 		<b-icon icon="arrow-repeat"></b-icon>
 		Bookings

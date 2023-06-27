@@ -160,4 +160,19 @@ class Home extends BaseController
 
         return $this->response->setJSON($response);
     }
+
+    public function clearBookings()
+    {
+        $booking_model = model(BookingModel::class);
+        $booking_schedule_model = model(BookingScheduleModel::class);
+
+        $clear_bookings_result = $booking_model->clearBookings();
+        $clear_schedules_result = $booking_schedule_model->clearSchedules();
+
+        $response = [
+            'result' => $clear_bookings_result && $clear_schedules_result
+        ];
+
+        return $this->response->setJSON($response);
+    }
 }
