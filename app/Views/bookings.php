@@ -1,10 +1,30 @@
 <?= $this->extend("templates/base") ?>
 
 <?= $this->section("main") ?>
+<div class="col-12 text-right px-0">
+	<b-button variant="outline-primary" @click="fetchBookingsList">
+		<b-icon icon="arrow-repeat"></b-icon>
+		Bookings
+	</b-button>
+</div>
+
 <b-table-lite caption="Bookings" caption-top responsive striped :fields="tableConfig.bookings.fields" :items="bookings">
 	<template #cell(index)="row">
 		{{ row.index + 1 }}
 	</template>
+
+	<template #cell(bookingPaymentStatus)="data">
+		<span class="badge badge-info">{{ data.value }}</span>
+	</template>
+
+	<template #cell(bookingStatus)="data">
+		<span class="badge badge-primary">{{ data.value }}</span>
+	</template>
+
+	<template #cell(bookingCreatedAt)="data">
+		{{ moment(data.value, 'YYYY-MM-DD HH:mm:ss').format('LLLL') }}
+	</template>
+
 	<template #cell(actions)="row">
 		<b-button-group>
 			<b-button size="sm" variant="outline-primary" title="View booking details" @click="viewBookingDetails(row.item)">

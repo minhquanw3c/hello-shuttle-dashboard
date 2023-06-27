@@ -28,8 +28,10 @@ class BookingModel extends Model
             'CONCAT(customers.first_name, " ", customers.last_name) AS customerFullName',
             'customers.email AS customerEmail',
             'customers.phone AS customerPhone',
+            'booking_status.booking_status_desc AS bookingStatus',
         ])
         ->join('payment_status', 'payment_status.payment_status_id = bookings.payment_status')
+        ->join('booking_status', 'booking_status.booking_status_id = bookings.booking_status')
         ->join('customers', 'customers.customer_id = bookings.booked_by_customer')
         ->findAll();
 

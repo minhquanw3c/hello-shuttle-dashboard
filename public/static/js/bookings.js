@@ -41,6 +41,10 @@ var app = new Vue({
                             label: 'Payment status',
                         },
                         {
+                            key: 'bookingStatus',
+                            label: 'Booking status',
+                        },
+                        {
                             key: 'bookingCreatedAt',
                             label: 'Created at'
                         },
@@ -81,7 +85,7 @@ var app = new Vue({
                 .get(baseURL + '/api/bookings/list', payload)
                 .then(res => {
                     console.log(res);
-                    self.bookings = res.data;
+                    self.bookings = _.sortBy(res.data, booking => new Date(booking.bookingCreatedAt)).reverse();
 
                     if (showToast) {
                         var toastType = res.status === 200 ? 'success' : 'error';
