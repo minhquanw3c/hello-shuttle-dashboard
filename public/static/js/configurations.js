@@ -34,7 +34,7 @@ var app = new Vue({
                         },
                         {
                             key: 'configValue',
-                            label: 'Range value'
+                            label: 'Value'
                         },
                         {
                             key: 'configGroupName',
@@ -77,7 +77,7 @@ var app = new Vue({
                         },
                         {
                             key: 'carStartPrice',
-                            label: 'Start price'
+                            label: 'Price'
                         },
                         {
                             key: 'carActive',
@@ -100,10 +100,26 @@ var app = new Vue({
             },
             showEditConfigModal: false,
             showEditCarModal: false,
+            showAddConfigModal: false,
             modals: {
                 editConfig: {},
                 editCar: {},
+                addConfig: {
+                    configName: null,
+                    configValue: null,
+                    configType: null,
+                },
             },
+            bookingOptionTypes: [
+                {
+                    text: 'Extras',
+                    value: 'extras',
+                },
+                {
+                    text: 'Protection',
+                    value: 'protection',
+                },
+            ],
         }
     },
     mounted: async function () {
@@ -187,6 +203,11 @@ var app = new Vue({
             self.showEditConfigModal = !self.showEditConfigModal;
             self.modals.editConfig = { ...data };
         },
+        openCreateConfigModal: function () {
+            const self = this;
+
+            self.showAddConfigModal = !self.showAddConfigModal;
+        },
         openCarModal: function (data) {
             const self = this;
 
@@ -210,6 +231,15 @@ var app = new Vue({
             }
 
             self.$v.modals.editCar.$reset();
+        },
+        clearCreateConfigModalState: function (closeModal = false) {
+            const self = this;
+
+            if (closeModal) {
+                self.showAddConfigModal = false;
+            }
+
+            self.$v.modals.addConfig.$reset();
         },
         editCar: function () {
             const self = this;
@@ -270,6 +300,35 @@ var app = new Vue({
                     self.clearConfigModalState(true);
                 });
         },
+        createConfig: function () {
+            const self = this;
+
+            self.$v.modals.addConfig.$touch();
+            if (self.$v.modals.addConfig.$invalid) { return; }
+
+            const modalData = { ...self.modals.addConfig };
+
+            const payload = {
+                form: {
+                    name: modalData.configName,
+                    value: modalData.configValue,
+                    type: modalData.configType,
+                }
+            };
+
+            axios
+                .post(baseURL + '/api/configurations/create', payload)
+                .then(res => {
+                    var toastType = res.status === 200 ? 'success' : 'error';
+                    self.showToastNotification(toastType);
+                    self.clearCreateConfigModalState(true);
+                    self.fetchConfigList(showToast = false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    self.clearCreateConfigModalState(true);
+                });
+        },
     },
     computed: {
 
@@ -278,6 +337,17 @@ var app = new Vue({
         modals: {
             editConfig: {
                 configValue: {
+                    required: required
+                },
+            },
+            addConfig: {
+                configName: {
+                    required: required
+                },
+                configValue: {
+                    required: required
+                },
+                configType: {
                     required: required
                 },
             },

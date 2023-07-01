@@ -11,6 +11,7 @@ class ConfigModel extends Model
 	protected $primaryKey = 'config_id';
 
 	protected $allowedFields = [
+        'config_id',
 		'config_name',
         'config_value',
         'config_type_code',
@@ -43,9 +44,17 @@ class ConfigModel extends Model
         ])
         ->join('config_types', 'config_types.config_type_id = configurations.config_type_code')
         ->join('config_groups', 'config_groups.config_group_id = configurations.config_group_code')
+        ->where('configurations.config_editable', 1)
         ->findAll();
 
         return $get_list_query;
+    }
+
+    public function createConfig($data)
+    {
+        $save_query = $this->insert($data, false);
+
+        return $save_query;
     }
 
     public function editConfig($data)

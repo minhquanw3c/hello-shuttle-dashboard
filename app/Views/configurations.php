@@ -1,6 +1,13 @@
 <?= $this->extend("templates/base") ?>
 
 <?= $this->section("main") ?>
+<div class="col-12 text-right px-0">
+	<b-button variant="outline-primary" @click="openCreateConfigModal">
+		<b-icon icon="plus-square"></b-icon>
+		Configuration
+	</b-button>
+</div>
+
 <b-table-lite caption="Configurations" caption-top responsive striped :fields="tableConfig.configurations.fields" :items="configList">
     <template #cell(index)="row">
         {{ row.index + 1 }}
@@ -25,7 +32,55 @@
 
 <!-- Modals sections -->
 
-<!-- Configurations -->
+<!-- Add new configurations -->
+<b-modal
+    title="Add new configuration"
+    @close="clearCreateConfigModalState"
+    :visible="showAddConfigModal">
+    <b-form-group
+        label="Config name"
+        :state="validateInputField($v.modals.addConfig.configName)"
+        :invalid-feedback="errorMessages.required">
+        <b-form-input v-model="$v.modals.addConfig.configName.$model">
+        </b-form-input>
+    </b-form-group>
+
+    <b-form-group
+        :state="validateInputField($v.modals.addConfig.configValue)"
+        :invalid-feedback="errorMessages.required"
+        label="Config value">
+        <b-input-group>
+            <b-form-input v-model="$v.modals.addConfig.configValue.$model">
+            </b-form-input>
+            <b-input-group-append>
+                <b-button>
+                    <b-icon icon="currency-dollar"></b-icon>
+                </b-button>
+            </b-input-group-append>
+        </b-input-group>
+    </b-form-group>
+
+    <b-form-group
+        :state="validateInputField($v.modals.addConfig.configType)"
+        :invalid-feedback="errorMessages.required"
+        label="Config type">
+        <b-form-select
+            :options="bookingOptionTypes"
+            v-model="$v.modals.addConfig.configType.$model">
+        </b-form-select>
+    </b-form-group>
+
+    <template #modal-footer>
+        <b-button
+            class="px-4"
+            variant="primary"
+            @click="createConfig">
+            Create
+        </b-button>
+    </template>
+</b-modal>
+
+<!-- Edit Configurations -->
 <b-modal title="Edit configuration" @close="clearConfigModalState" :visible="showEditConfigModal">
     <b-form-group label="Config name">
         <b-form-input disabled v-model="modals.editConfig.configName">

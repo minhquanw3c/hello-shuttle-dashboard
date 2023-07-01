@@ -77,6 +77,33 @@ class Home extends BaseController
         return $this->response->setJSON($coupons);
     }
 
+    public function createConfig()
+    {
+        $config_model = model(ConfigModel::class);
+
+        $request_params = $this->request->getVar('form');
+
+        $new_config_data = [
+            'config_id' => 'cfg-opt-' . random_string('alnum', 5),
+            'config_name' => $request_params->name,
+            'config_value' => $request_params->value,
+            'config_type_code' => 'cfg-01',
+            'config_group_code' => $request_params->type == 'extras' ? 'cfg-gr-opt' : 'cfg-gr-prt',
+            'config_active' => 1,
+            'config_editable' => 1,
+            'config_created_at' => Time::now('UTC'),
+            'config_updated_at' => Time::now('UTC'),
+        ];
+
+        $create_config_result = $config_model->createConfig($new_config_data);
+
+        $response = [
+            'result' => $create_config_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
     public function editConfig()
     {
         $config_model = model(ConfigModel::class);

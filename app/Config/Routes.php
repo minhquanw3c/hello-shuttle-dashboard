@@ -40,6 +40,7 @@ $routes->get('api/bookings/list', 'Home::getBookingsList');
 $routes->get('api/coupons/list', 'Home::getCouponsList');
 
 $routes->post('api/configurations/edit', 'Home::editConfig');
+$routes->post('api/configurations/create', 'Home::createConfig');
 $routes->post('api/cars/edit', 'Home::editCar');
 $routes->post('api/coupons/create', 'Home::createCoupon');
 $routes->post('api/coupons/edit', 'Home::editCoupon');
