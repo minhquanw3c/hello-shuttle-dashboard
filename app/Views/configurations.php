@@ -24,8 +24,9 @@
 </b-table-lite>
 
 <!-- Modals sections -->
+
 <!-- Configurations -->
-<b-modal @close="clearConfigModalState" :visible="showEditConfigModal">
+<b-modal title="Edit configuration" @close="clearConfigModalState" :visible="showEditConfigModal">
     <b-form-group label="Config name">
         <b-form-input disabled v-model="modals.editConfig.configName">
         </b-form-input>
@@ -36,7 +37,9 @@
             <b-form-input v-model="$v.modals.editConfig.configValue.$model">
             </b-form-input>
             <b-input-group-append>
-                <b-icon icon="currency-dollar"></b-icon>
+                <b-button>
+                    <b-icon icon="currency-dollar"></b-icon>
+                </b-button>
             </b-input-group-append>
         </b-input-group>
     </b-form-group>
@@ -53,7 +56,7 @@
 </b-modal>
 
 <!-- Cars -->
-<b-modal @close="clearCarModalState" :visible="showEditCarModal">
+<b-modal title="Edit configuration" @close="clearCarModalState" :visible="showEditCarModal">
     <b-form-group label="Car name">
         <b-form-input disabled v-model="modals.editCar.carName">
         </b-form-input>

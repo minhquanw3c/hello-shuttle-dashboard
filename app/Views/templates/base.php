@@ -26,7 +26,7 @@
 		<div id="sidebar-wrapper" class="sidebar-wrapper">
 			<div class="sidebar-heading">
 				<a href="<?= base_url('/') ?>">
-					<img src="<?= base_url('static/images/logo/hello-shuttle-gold.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
+					<img src="<?= base_url('static/images/logo/hello-shuttle-black-01.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
 				</a>
 			</div>
 			<nav class="sidebar py-2 mb-4">
