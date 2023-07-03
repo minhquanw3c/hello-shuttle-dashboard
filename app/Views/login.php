@@ -19,7 +19,7 @@
 			<div class="col-lg-5 px-0 bg-login">
 				<div class="login-left pb-4">
 					<a href="<?= base_url('/') ?>">
-						<img src="<?= base_url('static/images/logo/hello-shuttle-white-02.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
+						<img src="<?= base_url('static/images/logo/hello-shuttle-white-03.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
 					</a>
 					<img class="img-fluid login-img" src="<?= base_url('static/images/login.png') ?>" alt="">
 					<img src="<?= base_url('static/images/ball-b.png') ?>" class="ball1 img-fluid d-none d-md-block" alt="">

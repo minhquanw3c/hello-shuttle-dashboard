@@ -26,7 +26,7 @@
 		<div id="sidebar-wrapper" class="sidebar-wrapper">
 			<div class="sidebar-heading">
 				<a href="<?= base_url('/') ?>">
-					<img src="<?= base_url('static/images/logo/hello-shuttle-black-01.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
+					<img src="<?= base_url('static/images/logo/hello-shuttle-black-03.png') ?>" class="mt-4 ps-3 ms-4 ml-0 pl-0" alt="hello-shuttle-car-rental">
 				</a>
 			</div>
 			<nav class="sidebar py-2 mb-4">
@@ -34,21 +34,21 @@
 					<li class="nav-item">
 						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/configurations">
 							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-outlined"> home </span> Configurations
+								<span class="material-symbols-outlined"> settings </span> Configurations
 							</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/bookings">
 							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-rounded"> star </span> Bookings
+								<span class="material-symbols-rounded"> receipt_long </span> Bookings
 							</span>
 						</a>
 					</li>
                     <li class="nav-item">
 						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/coupons">
 							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-rounded"> star </span> Coupons
+								<span class="material-symbols-rounded"> price_change </span> Coupons
 							</span>
 						</a>
 					</li>
