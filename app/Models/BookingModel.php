@@ -27,6 +27,8 @@ class BookingModel extends Model
             'payment_status.payment_status_desc AS bookingPaymentStatus',
             'CONCAT(customers.first_name, " ", customers.last_name) AS customerFullName',
             'customers.email AS customerEmail',
+            'customers.first_name AS customerFirstName',
+            'customers.last_name AS customerLastName',
             'customers.phone AS customerPhone',
             'booking_status.booking_status_desc AS bookingStatus',
         ])
@@ -43,5 +45,22 @@ class BookingModel extends Model
         $clear_booking_query = $this->truncate();
 
         return $clear_booking_query;
+    }
+
+    public function updateBookingById($booking_id, $data)
+    {
+        $update_query = $this->update(
+            $booking_id,
+            $data
+        );
+
+        return $update_query;
+    }
+
+    public function getColumnValueByKeys($booking_id, $column_key)
+    {
+        $retrieve_query = $this->select($column_key)->find($booking_id)[$column_key];
+
+        return $retrieve_query;
     }
 }

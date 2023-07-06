@@ -62,7 +62,12 @@ var app = new Vue({
             modalConfig: {
                 bookingDetails: {
                     show: false,
-                    data: [],
+                    data: {},
+                },
+                editBookingDetails: {
+                    show: false,
+                    data: {},
+                    form: {},
                 }
             },
         }
@@ -222,11 +227,70 @@ var app = new Vue({
                     }
                 });
         },
+        editBookingDetails: function () {
+            const self = this;
+
+            self.$v.modalConfig.editBookingDetails.form.$touch();
+            var formValidity = !self.$v.modalConfig.editBookingDetails.form.$invalid;
+
+            if (formValidity === false) {
+                self.showToastNotification(toastType = 'error');
+                return;
+            }
+
+            let payloadData = {...self.modalConfig.editBookingDetails.form};
+
+            const payload = {
+                form: {
+                    customerFirstName: payloadData.customerFirstName,
+                    customerLastName: payloadData.customerLastName,
+                    customerPhone: payloadData.customerPhone,
+                    bookingId: payloadData.bookingId,
+                }
+            };
+
+            axios
+                .post(baseURL + '/api/bookings/edit', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                        self.modalConfig.editBookingDetails.show = false;
+                    }
+
+                    var toastType = res.data.result ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
+        },
+        showEditBookingModal: function (bookingData) {
+            const self = this;
+
+            self.modalConfig.editBookingDetails.show = true;
+            self.modalConfig.editBookingDetails.form = bookingData;
+        },
     },
     computed: {
 
     },
     validations: {
-
+        modalConfig: {
+            editBookingDetails: {
+                form: {
+                    customerFirstName: {
+                        required: required
+                    },
+                    customerLastName: {
+                        required: required
+                    },
+                    customerPhone: {
+                        required: required
+                    },
+                },
+            },
+        },
     },
 });

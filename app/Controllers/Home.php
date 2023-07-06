@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\ConfigModel;
 use App\Models\CarModel;
-
+use App\Models\CustomerModel;
 use CodeIgniter\I18n\Time;
 use Ramsey\Uuid\Uuid;
 
@@ -198,6 +199,45 @@ class Home extends BaseController
 
         $response = [
             'result' => $clear_bookings_result && $clear_schedules_result
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function editBooking()
+    {
+        $request_params = (object) $this->request->getVar('form');
+
+        $booking_model = model(BookingModel::class);
+        $customer_model = model(CustomerModel::class);
+
+        $booking_data = $booking_model->getColumnValueByKeys($request_params->bookingId, 'booking_data');
+        $customer_id = $booking_model->getColumnValueByKeys($request_params->bookingId, 'booked_by_customer');
+
+        $booking_data = json_decode($booking_data);
+
+        $booking_data->review->customer->firstName = $request_params->customerFirstName;
+        $booking_data->review->customer->lastName = $request_params->customerLastName;
+        $booking_data->review->customer->contact->mobileNumber = $request_params->customerPhone;
+
+        $update_booking_result = $booking_model->updateBookingById(
+            $request_params->bookingId,
+            [
+                'booking_data' => json_encode($booking_data)
+            ]
+        );
+
+        $update_customer_result = $customer_model->updateCustomerDetails(
+            $customer_id,
+            [
+                'first_name' => $request_params->customerFirstName,
+                'last_name' => $request_params->customerLastName,
+                'phone' => $request_params->customerPhone,
+            ]
+        );
+
+        $response = [
+            'result' => $update_booking_result && $update_customer_result
         ];
 
         return $this->response->setJSON($response);
