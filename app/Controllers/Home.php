@@ -12,11 +12,72 @@ class Home extends BaseController
 {
     public function showLoginForm()
     {
-        return view('login');
+        helper('form');
+
+        if (session()->has('logged_in')) {
+            return redirect()->to(base_url('bookings'));
+        } else {
+            return view('login');
+        }
+    }
+
+    public function authoriseUser()
+    {
+        $form = $this->request->getPost();
+        $session = \Config\Services::session();
+
+        $user_data = [
+            'email' => $form['email'],
+            'password' => $form['password'],
+        ];
+
+        $validation = \Config\Services::validation();
+
+        $validation->setRules([
+            'email' => [
+                'rules' => 'required|valid_email',
+                'errors' => [
+                    'required' => 'Email is required',
+                    'valid_email' => 'Email must be a valid email address',
+                ],
+            ],
+            'password' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Password is required',
+                ],
+            ],
+        ]);
+
+        $input_validity = $validation->run($user_data);
+
+        if (!$input_validity) {
+            return redirect()->back()->withInput();
+        }
+
+        $user_model = model(UserModel::class);
+        $user = $user_model->getUserByEmail($user_data['email']);
+
+        if (count($user) == 0) {
+            $session->setFlashdata('_ci_validation_errors', ['account' => 'Email is not existed']);
+            return redirect()->back()->withInput();
+        }
+
+        $hash = $user[0]['userPassword'];
+
+        if (!password_verify($user_data['password'], $hash)) {
+            $session->setFlashdata('_ci_validation_errors', ['account' => 'Email or password is incorrect']);
+            return redirect()->back()->withInput();
+        };
+
+        $session->set('logged_in', $user_data['email']);
+
+        return redirect()->to(base_url('bookings'));
     }
 
     public function showBookings()
     {
+        session()->start();
         $data = [
             'pageTitle' => 'Bookings'
         ];
@@ -26,6 +87,7 @@ class Home extends BaseController
 
     public function showConfigurations()
     {
+        session()->start();
         $data = [
             'pageTitle' => 'Configurations'
         ];
@@ -35,6 +97,7 @@ class Home extends BaseController
 
     public function showCoupons()
     {
+        session()->start();
         $data = [
             'pageTitle' => 'Coupons'
         ];

@@ -41,12 +41,26 @@
 				<div class="login-right">
 					<div class="login-form">
 						<h3 class="text-center">Sign in to system</h3>
-						<form class="mt-4" onsubmit="redirectUserToDashboard(event)">
-							<label for="email" class="large mb-2">Email Address</label>
-							<input type="email" name="email" id="email" placeholder="info@example.com" class="form-control mb-3 border-0 py-2" required>
+
+						<?php
+							$errors = validation_errors();
+						?>
+						<?php if (! empty($errors)): ?>
+							<div class="alert alert-danger" role="alert">
+								<ul class="list-group">
+								<?php foreach ($errors as $error): ?>
+									<li><?= esc($error) ?></li>
+								<?php endforeach ?>
+								</ul>
+							</div>
+						<?php endif ?>
+
+						<?= form_open(base_url('login'), ['name' => 'login-form']); ?>
+							<label for="email" class="large mb-2">Email address</label>
+							<input type="text" name="email" id="email" placeholder="info@example.com" class="form-control mb-3 border-0 py-2" required value="<?= set_value('email') ?>">
 							<div class="inputgroup">
 								<label for="txtPassword" class="large mb-2">Password</label>
-								<input type="password" name="password" id="txtPassword" placeholder="Password" class="form-control mb-3 border-0 py-2" required>
+								<input type="password" name="password" id="txtPassword" placeholder="Password" class="form-control mb-3 border-0 py-2" required value="<?= set_value('password') ?>">
 								<button type="button" id="btnToggle" class="toggle">
 									<span id="eyeIcon" class="material-symbols-outlined">
 										visibility
@@ -62,7 +76,7 @@
 							<div class="d-flex flex-column mt-2">
 								<button type="submit" class="primary-btn w-75 mx-auto mb-3">Sign in</button>
 							</div>
-						</form>
+						<?= form_close(); ?>
 					</div>
 				</div>
 			</div>
@@ -93,22 +107,17 @@
 		}
 
 		function checkInput() {
-			// if (passwordInput.value === '') {
-			// toggle.style.display = 'none';
-			// toggle.innerHTML = 'show';
-			//  passwordInput.type = 'password';
-			// } else {
-			//  toggle.style.display = 'block';
-			// }
+			if (passwordInput.value === '') {
+				toggle.style.display = 'none';
+				toggle.innerHTML = 'show';
+				passwordInput.type = 'password';
+			} else {
+				toggle.style.display = 'block';
+			}
 		}
 
 		toggle.addEventListener("click", togglePassword, false);
 		passwordInput.addEventListener("keyup", checkInput, false);
-
-		function redirectUserToDashboard(event) {
-			event.preventDefault();
-			window.location.href = "<?= base_url('/') ?>" + "/bookings";
-		}
 	</script>
 </body>
 
