@@ -21,6 +21,16 @@ class Home extends BaseController
         }
     }
 
+    public function logout()
+    {
+        if (session()->has('logged_in')) {
+            session()->destroy();
+            return redirect()->to(base_url('/'));
+        } else {
+            return view('login');
+        }
+    }
+
     public function authoriseUser()
     {
         $form = $this->request->getPost();

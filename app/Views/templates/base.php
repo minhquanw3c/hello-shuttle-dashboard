@@ -70,13 +70,36 @@
 				<div class="d-flex gap-2 p-lg-2 p-lg-0 align-items-center justify-content-end">
 
 					<div class="nav-item dropdown">
-						<a class="d-flex gap-2 align-items-center" href="#" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a
+							class="d-flex gap-2 align-items-center"
+							href="javascript:void(0)"
+							id="navbarDropdown4"
+							role="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
 							<img src="<?= base_url('static/images/users/avatar.png') ?>" alt="user">
 							<div class="d-flex flex-column d-none d-xl-block">
 								<p class="mb-0">System admin</p>
 								<span class="small">Account Settings</span>
 							</div>
+							<span class="material-symbols-outlined d-none d-lg-block">
+								expand_more
+							</span>
 						</a>
+						<ul
+							class="dropdown-menu dropdown-menu-end user shadow border-0"
+							aria-labelledby="navbarDropdown4"
+              				onclick="event.stopPropagation()">
+							  <li><span class="px-3 d-inline-block">Welcome Admin!</span></li>
+							  <li>
+								<a
+									class="dropdown-item d-flex align-items-center gap-1"
+									href="<?= base_url('logout') ?>">
+									<span class="material-symbols-outlined"> logout </span>
+									Log Out
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<!-- For pc -->
@@ -119,6 +142,7 @@
 	<script src="<?= base_url('static/js/vendors/popper.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/axios.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/bootstrap.min.js') ?>" type="text/javascript"></script>
+	<script src="<?= base_url('static/js/vendors/bootstrap-v5.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/lodash.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/moment-with-locales.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/vue.min.js') ?>" type="text/javascript"></script>
