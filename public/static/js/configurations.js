@@ -120,6 +120,10 @@ var app = new Vue({
                     value: 'protection',
                 },
             ],
+            configActiveTabIndex: 0,
+            systemConfigList: [],
+            extrasConfigList: [],
+            protectionConfigList: [],
         }
     },
     mounted: async function () {
@@ -164,7 +168,9 @@ var app = new Vue({
                 .get(baseURL + '/api/configurations/list', payload)
                 .then(res => {
                     console.log(res);
-                    self.configList = res.data;
+                    self.systemConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-sys');
+                    self.extrasConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-opt');
+                    self.protectionConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-prt');
 
                     if (showToast) {
                         var toastType = res.status === 200 ? 'success' : 'error';

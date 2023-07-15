@@ -42,6 +42,7 @@
 	</template>
 </b-table-lite>
 
+<!-- View booking details -->
 <b-modal
 	static
 	:visible="modalConfig.bookingDetails.show"
@@ -53,9 +54,9 @@
 	size="lg"
 	body-class="p-md-4">
 	<section>
-		<h5>Customer</h5>
-		<ul class="list-group list-group-flush">
-			<li v-for="detail in modalConfig.bookingDetails.data.customer" class="list-group-item">
+		<ul class="list-group">
+			<li class="list-group-item list-group-item-info">Customer</li>
+			<li v-for="detail in modalConfig.bookingDetails.data.customer" class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">{{ detail.label }}</div>
 					<div class="col-12 col-md-6">{{ detail.value }}</div>
@@ -67,29 +68,45 @@
 	<section class="mt-4">
 		<h5>Trip details</h5>
 
-		<ul class="list-group list-group-flush">
-			<li>Picking-up</li>
-			<li v-for="detail in modalConfig.bookingDetails.data.oneWayTrip" class="list-group-item">
+		<ul class="list-group">
+			<li class="list-group-item list-group-item-info">Picking-up</li>
+			<li v-for="detail in modalConfig.bookingDetails.data.oneWayTrip" class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">{{ detail.label }}</div>
-					<div class="col-12 col-md-6">{{ detail.value }}</div>
+					<div class="col-12 col-md-6">
+						<template v-if="detail.value instanceof Array">
+							<p v-for="item in detail.value" class="m-0">{{ item.configName }}</p>
+						</template>
+
+						<template v-if="!(detail.value instanceof Array)">
+							{{ detail.value }}
+						</template>
+					</div>
 				</div>
 			</li>
 		</ul>
 
-		<ul class="list-group list-group-flush" v-if="modalConfig.bookingDetails.data.tripType === 'round-trip'">
-			<li>Return</li>
-			<li v-for="detail in modalConfig.bookingDetails.data.roundTrip" class="list-group-item">
+		<ul class="list-group mt-4" v-if="modalConfig.bookingDetails.data.tripType === 'round-trip'">
+			<li class="list-group-item list-group-item-info">Return</li>
+			<li v-for="detail in modalConfig.bookingDetails.data.roundTrip" class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">{{ detail.label }}</div>
-					<div class="col-12 col-md-6">{{ detail.value }}</div>
+					<div class="col-12 col-md-6">
+						<template v-if="detail.value instanceof Array">
+							<p v-for="item in detail.value" class="m-0">{{ item.configName }}</p>
+						</template>
+
+						<template v-if="!(detail.value instanceof Array)">
+							{{ detail.value }}
+						</template>
+					</div>
 				</div>
 			</li>
 		</ul>
 	</section>
 
 	<section class="mt-4">
-		<h5>Total: &dollar;{{ modalConfig.bookingDetails.data.totalPrice }}</h5>
+		<div class="list-group-item list-group-item-info text-right">Total: &dollar;{{ modalConfig.bookingDetails.data.totalPrice }}</div>
 	</section>
 </b-modal>
 

@@ -112,7 +112,7 @@
 				<!-- Main content -->
 				<div class="row my-2 g-3 g-lg-4">
 					<div class="col-12">
-						<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded" id="main-app" v-cloak>
+						<div id="main-app" v-cloak>
 							<?= $this->renderSection("main") ?>
 						</div>
 					</div>

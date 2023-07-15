@@ -1,34 +1,86 @@
 <?= $this->extend("templates/base") ?>
 
 <?= $this->section("main") ?>
-<div class="col-12 text-right px-0">
-	<b-button variant="outline-primary" @click="openCreateConfigModal">
-		<b-icon icon="plus-square"></b-icon>
-		Configuration
-	</b-button>
+<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
+    <div class="col-12 text-right px-0 mb-3">
+        <b-button variant="outline-primary" @click="openCreateConfigModal">
+            <b-icon icon="plus-square"></b-icon>
+            Configuration
+        </b-button>
+    </div>
+
+    <b-tabs v-model="configActiveTabIndex" card>
+        <b-tab title="System">
+            <b-table-lite
+                responsive
+                striped
+                :fields="tableConfig.configurations.fields"
+                :items="systemConfigList">
+                <template #cell(index)="row">
+                    {{ row.index + 1 }}
+                </template>
+                <template #cell(actions)="row">
+                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                        <b-icon icon="pencil-fill"></b-icon>
+                    </b-button>
+                </template>
+            </b-table-lite>
+        </b-tab>
+
+        <b-tab title="Extras">
+            <b-table-lite
+                responsive
+                striped
+                :fields="tableConfig.configurations.fields"
+                :items="extrasConfigList">
+                <template #cell(index)="row">
+                    {{ row.index + 1 }}
+                </template>
+                <template #cell(actions)="row">
+                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                        <b-icon icon="pencil-fill"></b-icon>
+                    </b-button>
+                </template>
+            </b-table-lite>
+        </b-tab>
+
+        <b-tab title="Protection">
+            <b-table-lite
+                responsive
+                striped
+                :fields="tableConfig.configurations.fields"
+                :items="protectionConfigList">
+                <template #cell(index)="row">
+                    {{ row.index + 1 }}
+                </template>
+                <template #cell(actions)="row">
+                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                        <b-icon icon="pencil-fill"></b-icon>
+                    </b-button>
+                </template>
+            </b-table-lite>
+        </b-tab>
+    </b-tabs>
 </div>
 
-<b-table-lite caption="Configurations" caption-top responsive striped :fields="tableConfig.configurations.fields" :items="configList">
-    <template #cell(index)="row">
-        {{ row.index + 1 }}
-    </template>
-    <template #cell(actions)="row">
-        <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
-            <b-icon icon="pencil-fill"></b-icon>
-        </b-button>
-    </template>
-</b-table-lite>
-
-<b-table-lite caption="Cars" caption-top responsive striped :fields="tableConfig.cars.fields" :items="carsList">
-    <template #cell(index)="row">
-        {{ row.index + 1 }}
-    </template>
-    <template #cell(actions)="row">
-        <b-button variant="outline-primary" @click="openCarModal(row.item)" v-if="row.item.carEditable === '1'">
-            <b-icon icon="pencil-fill"></b-icon>
-        </b-button>
-    </template>
-</b-table-lite>
+<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded mt-4">
+    <b-table-lite
+        caption="Cars"
+        caption-top
+        responsive
+        striped
+        :fields="tableConfig.cars.fields"
+        :items="carsList">
+        <template #cell(index)="row">
+            {{ row.index + 1 }}
+        </template>
+        <template #cell(actions)="row">
+            <b-button variant="outline-primary" @click="openCarModal(row.item)" v-if="row.item.carEditable === '1'">
+                <b-icon icon="pencil-fill"></b-icon>
+            </b-button>
+        </template>
+    </b-table-lite>
+</div>
 
 <!-- Modals sections -->
 
@@ -111,7 +163,7 @@
 </b-modal>
 
 <!-- Cars -->
-<b-modal title="Edit configuration" @close="clearCarModalState" :visible="showEditCarModal">
+<b-modal title="Edit car" @close="clearCarModalState" :visible="showEditCarModal">
     <b-form-group label="Car name">
         <b-form-input disabled v-model="modals.editCar.carName">
         </b-form-input>

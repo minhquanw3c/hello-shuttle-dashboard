@@ -162,6 +162,14 @@ var app = new Vue({
                         ).format('LLLL'),
                 },
                 {
+                    label: 'Extras',
+                    value: bookingDetails.chooseOptions.oneWayTrip.extras,
+                },
+                {
+                    label: 'Protection',
+                    value: bookingDetails.chooseOptions.oneWayTrip.protection,
+                },
+                {
                     label: 'Miles',
                     value: bookingDetails.review.routes.oneWayTrip.miles,
                 },
@@ -189,6 +197,14 @@ var app = new Vue({
                             ).format('LLLL'),
                     },
                     {
+                        label: 'Extras',
+                        value: bookingDetails.chooseOptions.roundTrip.extras,
+                    },
+                    {
+                        label: 'Protection',
+                        value: bookingDetails.chooseOptions.roundTrip.protection,
+                    },
+                    {
                         label: 'Miles',
                         value: bookingDetails.review.routes.roundTrip.miles,
                     },
@@ -204,28 +220,6 @@ var app = new Vue({
             self.modalConfig.bookingDetails.data.oneWayTrip = oneWayTrip;
             self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
             self.modalConfig.bookingDetails.show = true;
-        },
-        clearTestData: function (showToast = true) {
-            const self = this;
-            const payload = {};
-
-            axios
-                .post(baseURL + '/api/bookings/clear', payload)
-                .then(res => {
-                    if (showToast) {
-                        var toastType = res.data.result ? 'success' : 'error';
-                        self.showToastNotification(toastType);
-                    }
-
-                    self.fetchBookingsList(showToast = false);
-                })
-                .catch(error => {
-                    console.log(error);
-                    if (showToast) {
-                        var toastType = 'error';
-                        self.showToastNotification(toastType);
-                    }
-                });
         },
         editBookingDetails: function () {
             const self = this;
