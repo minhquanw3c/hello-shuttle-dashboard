@@ -73,14 +73,22 @@ class Home extends BaseController
             return redirect()->back()->withInput();
         }
 
-        $hash = $user[0]['userPassword'];
+        $user = $user[0];
+        $hash = $user['userPassword'];
 
         if (!password_verify($user_data['password'], $hash)) {
             $session->setFlashdata('_ci_validation_errors', ['account' => 'Email or password is incorrect']);
             return redirect()->back()->withInput();
         };
 
-        $session->set('logged_in', $user_data['email']);
+        $logged_in_data = [
+            'username' => $user_data['email'],
+            // 'expiration' => time() + 5,
+            'role' => $user['userRole'],
+            'allowed_routes' => $user['userAllowedRoutes'],
+        ];
+
+        $session->set('logged_in', $logged_in_data);
 
         return redirect()->to(base_url('bookings'));
     }

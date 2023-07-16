@@ -66,8 +66,6 @@
 	</section>
 
 	<section class="mt-4">
-		<h5>Trip details</h5>
-
 		<ul class="list-group">
 			<li class="list-group-item list-group-item-info">Picking-up</li>
 			<li v-for="detail in modalConfig.bookingDetails.data.oneWayTrip" class="list-group-item list-group-item-action">
@@ -103,6 +101,17 @@
 				</div>
 			</li>
 		</ul>
+
+		<ul class="list-group mt-4">
+			<li class="list-group-item list-group-item-info">Additional notes</li>
+			<li v-for="note in modalConfig.bookingDetails.data.additionalNotes" class="list-group-item list-group-item-action">
+				<div class="row">
+					<div class="col-12 col-md-6">{{ note.label }}</div>
+					<div class="col-12 col-md-6">{{ note.value }}</div>
+				</div>
+			</li>
+		</ul>
+
 	</section>
 
 	<section class="mt-4">

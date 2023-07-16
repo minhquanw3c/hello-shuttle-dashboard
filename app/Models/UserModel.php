@@ -30,15 +30,19 @@ class UserModel extends Model
     public function getUserByEmail($user_email)
     {
         $get_user_query = $this->select([
-            'user_id AS userId',
-            'user_email AS userEmail',
-            'user_hashed_password AS userPassword',
-            'user_first_name AS userFirstName',
-            'user_last_name AS userLastName',
+            'users.user_id AS userId',
+            'users.user_email AS userEmail',
+            'users.user_hashed_password AS userPassword',
+            'users.user_first_name AS userFirstName',
+            'users.user_last_name AS userLastName',
+            'roles.role_id AS userRole',
+            'roles.role_allowed_routes AS userAllowedRoutes',
         ])
+        ->join('roles', 'roles.role_id = users.user_role')
         ->where([
-            'user_active' => 1,
-            'user_email' => $user_email
+            'users.user_active' => 1,
+            'roles.role_active' => 1,
+            'users.user_email' => $user_email,
         ])
         ->findAll();
 

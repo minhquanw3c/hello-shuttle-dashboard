@@ -29,10 +29,23 @@ class UserAuth implements FilterInterface
 
         if ($logged_in) {
             $user_model = model(UserModel::class);
-            $user = $user_model->getUserByEmail(session()->get('logged_in'));
+            $user = session()->get('logged_in');
+            $user = $user_model->getUserByEmail($user['username']);
 
             if (count($user) == 0) {
+                session()->destroy();
                 return redirect()->to(base_url('/'));
+            }
+
+            $user = $user[0];
+
+            if (!($user['userRole'] === 'admin')) {
+                $request_page = $request->uri->getPath();
+                $allowed_routes = explode("|", $user['userAllowedRoutes']);
+
+                if (!in_array($request_page, $allowed_routes)) {
+                    return redirect()->to(base_url('bookings'));
+                }
             }
         } else {
             return redirect()->to(base_url('/'));

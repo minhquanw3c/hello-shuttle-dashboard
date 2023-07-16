@@ -145,7 +145,22 @@ var app = new Vue({
                 },
             ];
 
-            const oneWayTrip = [
+            let additionalNotes = [
+                {
+                    label: 'Airline',
+                    value: bookingDetails.review.airline.brand ? bookingDetails.review.airline.brand.text : 'Not provided',
+                },
+                {
+                    label: 'Flight number',
+                    value: bookingDetails.review.airline.flightNumber ? bookingDetails.review.airline.flightNumber : 'Not provided',
+                },
+                {
+                    label: 'Notes',
+                    value: bookingDetails.review.additionalNotes ? bookingDetails.review.additionalNotes : 'Not provided',
+                },
+            ];
+
+            let oneWayTrip = [
                 {
                     label: 'Origin',
                     value: bookingDetails.reservation.oneWayTrip.origin.description,
@@ -180,7 +195,7 @@ var app = new Vue({
             ];
 
             if (self.modalConfig.bookingDetails.data.tripType === 'round-trip') {
-                const roundTrip = [
+                let roundTrip = [
                     {
                         label: 'Origin',
                         value: bookingDetails.reservation.roundTrip.origin.description,
@@ -217,6 +232,7 @@ var app = new Vue({
             }
 
             self.modalConfig.bookingDetails.data.customer = customer;
+            self.modalConfig.bookingDetails.data.additionalNotes = additionalNotes;
             self.modalConfig.bookingDetails.data.oneWayTrip = oneWayTrip;
             self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
             self.modalConfig.bookingDetails.show = true;
