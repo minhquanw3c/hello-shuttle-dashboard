@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ConfigModel;
 use App\Models\CarModel;
 use App\Models\CustomerModel;
+use App\Models\NavigationMenuModel;
 use CodeIgniter\I18n\Time;
 use Ramsey\Uuid\Uuid;
 
@@ -81,11 +82,16 @@ class Home extends BaseController
             return redirect()->back()->withInput();
         };
 
+        $navigation_menu_model = model(NavigationMenuModel::class);
+        $nav_items = $navigation_menu_model->getNavItemsByRole($user['userRole']);
+
         $logged_in_data = [
-            'username' => $user_data['email'],
+            'username' => $user['userEmail'],
+            'user_full_name' => $user['userFullName'],
             // 'expiration' => time() + 5,
             'role' => $user['userRole'],
             'allowed_routes' => $user['userAllowedRoutes'],
+            'nav_items_data' => $nav_items,
         ];
 
         $session->set('logged_in', $logged_in_data);

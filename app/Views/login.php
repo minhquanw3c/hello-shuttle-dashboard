@@ -57,7 +57,7 @@
 
 						<?= form_open(base_url('login'), ['name' => 'login-form']); ?>
 							<label for="email" class="large mb-2">Email address</label>
-							<input type="text" name="email" id="email" placeholder="info@example.com" class="form-control mb-3 border-0 py-2" required value="<?= set_value('email') ?>">
+							<input type="email" name="email" id="email" placeholder="info@example.com" class="form-control mb-3 border-0 py-2" required value="<?= set_value('email') ?>">
 							<div class="inputgroup">
 								<label for="txtPassword" class="large mb-2">Password</label>
 								<input type="password" name="password" id="txtPassword" placeholder="Password" class="form-control mb-3 border-0 py-2" required value="<?= set_value('password') ?>">

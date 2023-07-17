@@ -35,14 +35,19 @@ class UserModel extends Model
             'users.user_hashed_password AS userPassword',
             'users.user_first_name AS userFirstName',
             'users.user_last_name AS userLastName',
-            'roles.role_id AS userRole',
-            'roles.role_allowed_routes AS userAllowedRoutes',
+            'CONCAT(users.user_last_name, " ", users.user_first_name) AS userFullName',
+            'users.user_role AS userRole',
+            'GROUP_CONCAT(roles_permissions.allowed_route_pattern SEPARATOR "|") AS userAllowedRoutes',
         ])
-        ->join('roles', 'roles.role_id = users.user_role')
+        ->join('roles_permissions', 'roles_permissions.role = users.user_role')
         ->where([
             'users.user_active' => 1,
-            'roles.role_active' => 1,
+            'roles_permissions.permission_active' => 1,
             'users.user_email' => $user_email,
+        ])
+        ->groupBy([
+            'users.user_email',
+            'users.user_role',
         ])
         ->findAll();
 

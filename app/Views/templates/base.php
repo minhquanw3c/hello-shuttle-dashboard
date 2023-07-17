@@ -31,27 +31,19 @@
 			</div>
 			<nav class="sidebar py-2 mb-4">
 				<ul class="nav flex-column" id="nav_accordion">
-					<li class="nav-item">
-						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/configurations">
-							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-outlined"> settings </span> Configurations
-							</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/bookings">
-							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-rounded"> receipt_long </span> Bookings
-							</span>
-						</a>
-					</li>
-                    <li class="nav-item">
-						<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/') ?>/coupons">
-							<span class="d-flex gap-1 align-items-center">
-								<span class="material-symbols-rounded"> price_change </span> Coupons
-							</span>
-						</a>
-					</li>
+					<?php
+						$nav_items = session()->get('logged_in.nav_items_data');
+					?>
+					<?php foreach($nav_items as $nav): ?>
+						<li class="nav-item">
+							<a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('/' . $nav['navRoute']) ?>">
+								<span class="d-flex gap-1 align-items-center">
+									<span class="material-symbols-rounded"> <?= $nav['navIcon'] ?> </span> <?= $nav['navTitle'] ?>
+								</span>
+							</a>
+						</li>
+					<?php endforeach ?>
+				</ul>
 			</nav>
 		</div>
 		<!-- /#sidebar-wrapper -->
@@ -79,7 +71,7 @@
 							aria-expanded="false">
 							<img src="<?= base_url('static/images/users/avatar.png') ?>" alt="user">
 							<div class="d-flex flex-column d-none d-xl-block">
-								<p class="mb-0">System admin</p>
+								<p class="mb-0"><?= session()->get('logged_in.user_full_name') ?></p>
 								<span class="small">Account Settings</span>
 							</div>
 							<span class="material-symbols-outlined d-none d-lg-block">
@@ -90,7 +82,7 @@
 							class="dropdown-menu dropdown-menu-end user shadow border-0"
 							aria-labelledby="navbarDropdown4"
               				onclick="event.stopPropagation()">
-							  <li><span class="px-3 d-inline-block">Welcome Admin!</span></li>
+							  <li><span class="px-3 d-inline-block">Welcome <?= session()->get('logged_in.userFullName') ?></span></li>
 							  <li>
 								<a
 									class="dropdown-item d-flex align-items-center gap-1"
