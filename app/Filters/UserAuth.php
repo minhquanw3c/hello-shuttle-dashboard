@@ -26,6 +26,7 @@ class UserAuth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $logged_in = session()->has('logged_in');
+        $request = \Config\Services::request();
 
         if ($logged_in) {
             $user_model = model(UserModel::class);
@@ -40,11 +41,12 @@ class UserAuth implements FilterInterface
             $user = $user[0];
 
             if (!($user['userRole'] === 'admin')) {
-                $request_page = $request->uri->getPath();
+                $request_path = $request->getPath();
                 $allowed_routes = explode("|", $user['userAllowedRoutes']);
+                $api_pattern = '/^api/';
 
-                if (!in_array($request_page, $allowed_routes)) {
-                    return redirect()->to(base_url('bookings'));
+                if (!in_array($request_path, $allowed_routes)) {
+                    return preg_match($api_pattern, $request_path) ? service('response')->setStatusCode(401) : redirect()->to(base_url('bookings'));
                 }
             }
         } else {

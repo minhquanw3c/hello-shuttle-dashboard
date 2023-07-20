@@ -32,9 +32,9 @@ $routes->set404Override();
 $routes->get('/', 'Home::showLoginForm');
 $routes->post('login', 'Home::authoriseUser');
 $routes->get('logout', 'Home::logout');
-$routes->get('/bookings', 'Home::showBookings');
-$routes->get('/configurations', 'Home::showConfigurations');
-$routes->get('/coupons', 'Home::showCoupons');
+$routes->get('bookings', 'Home::showBookings');
+$routes->get('configurations', 'Home::showConfigurations');
+$routes->get('coupons', 'Home::showCoupons');
 
 $routes->get('api/configurations/list', 'Home::getConfigList');
 $routes->get('api/cars/list', 'Home::getCarsList');

@@ -68,6 +68,16 @@ class Filters extends BaseConfig
                 'bookings',
                 'coupons',
                 'configurations',
+                'api/bookings/list',
+                'api/bookings/edit',
+                'api/configurations/list',
+                'api/configurations/create',
+                'api/configurations/edit',
+                'api/coupons/list',
+                'api/coupons/create',
+                'api/coupons/edit',
+                'api/cars/list',
+                'api/cars/edit',
             ]
         ]
     ];

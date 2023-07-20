@@ -280,7 +280,7 @@ var app = new Vue({
             const self = this;
 
             self.modalConfig.editBookingDetails.show = true;
-            self.modalConfig.editBookingDetails.form = bookingData;
+            self.modalConfig.editBookingDetails.form = {...bookingData};
         },
     },
     computed: {
