@@ -31,6 +31,8 @@ class BookingModel extends Model
             'customers.last_name AS customerLastName',
             'customers.phone AS customerPhone',
             'booking_status.booking_status_desc AS bookingStatus',
+            'bookings.booking_ref_no AS bookingRefNo',
+            'bookings.cancel_session_id AS bookingCancelSessionId',
         ])
         ->join('payment_status', 'payment_status.payment_status_id = bookings.payment_status')
         ->join('booking_status', 'booking_status.booking_status_id = bookings.booking_status')

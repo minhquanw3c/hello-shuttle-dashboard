@@ -37,6 +37,10 @@ var app = new Vue({
                             label: 'Phone'
                         },
                         {
+                            key: 'bookingRefNo',
+                            label: 'Reference number',
+                        },
+                        {
                             key: 'bookingPaymentStatus',
                             label: 'Payment status',
                         },
@@ -68,6 +72,7 @@ var app = new Vue({
                     show: false,
                     data: {},
                     form: {},
+                    cancelBookingLink: null,
                 }
             },
         }
@@ -77,6 +82,12 @@ var app = new Vue({
         this.fetchBookingsList();
     },
     methods: {
+        generateCancelBookingLink: function (bookingData) {
+            const self = this;
+            const bookingFormHostURL = 'https://helloshuttle.com/';
+
+            return bookingFormHostURL.concat('cancel?booking_id=', bookingData.bookingId, '&cancel_session_id=', bookingData.bookingCancelSessionId);
+        },
         validateInputField: function (input) {
             const self = this;
 
@@ -281,6 +292,7 @@ var app = new Vue({
 
             self.modalConfig.editBookingDetails.show = true;
             self.modalConfig.editBookingDetails.form = {...bookingData};
+            self.modalConfig.editBookingDetails.cancelBookingLink = self.generateCancelBookingLink({...bookingData});
         },
     },
     computed: {

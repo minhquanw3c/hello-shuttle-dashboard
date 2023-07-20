@@ -18,6 +18,10 @@
 		{{ row.index + 1 }}
 	</template>
 
+	<template #cell(bookingRefNo)="data">
+		{{ data.value }}
+	</template>
+
 	<template #cell(bookingPaymentStatus)="data">
 		<span class="badge badge-info">{{ data.value }}</span>
 	</template>
@@ -31,11 +35,16 @@
 	</template>
 
 	<template #cell(actions)="row">
-		<b-button-group v-if="row.item.bookingStatus === 'Processing'">
+		<b-button-group>
 			<b-button size="sm" variant="outline-primary" title="View booking details" @click="viewBookingDetails(row.item)">
 				<b-icon icon="eye"></b-icon>
 			</b-button>
-			<b-button size="sm" variant="outline-success" title="Edit booking details" @click="showEditBookingModal(row.item)">
+			<b-button
+				v-if="row.item.bookingStatus === 'Processing'"
+				size="sm"
+				variant="outline-success"
+				title="Edit booking details"
+				@click="showEditBookingModal(row.item)">
 				<b-icon icon="pencil"></b-icon>
 			</b-button>
 		</b-button-group>
@@ -163,6 +172,8 @@
 
 	<template #modal-footer>
 		<b-button
+			:href="modalConfig.editBookingDetails.cancelBookingLink"
+			target="_blank"
 			class="px-4 mr-2"
 			variant="danger">
 			Cancel booking
@@ -178,5 +189,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>
-<script src="<?= base_url('static/js/bookings.js') ?>"></script>
+<script src="<?= base_url('static/js/bookings.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>

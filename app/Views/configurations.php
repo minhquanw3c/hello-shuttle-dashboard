@@ -197,5 +197,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>
-<script src="<?= base_url('static/js/configurations.js') ?>"></script>
+<script src="<?= base_url('static/js/configurations.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>
