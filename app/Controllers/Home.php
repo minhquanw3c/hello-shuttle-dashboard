@@ -179,6 +179,7 @@ class Home extends BaseController
             'config_group_code' => $request_params->type == 'extras' ? 'cfg-gr-opt' : 'cfg-gr-prt',
             'config_active' => 1,
             'config_editable' => 1,
+            'config_maximum_quantity' => $request_params->maximumQuantity,
             'config_created_at' => Time::now('UTC'),
             'config_updated_at' => Time::now('UTC'),
         ];

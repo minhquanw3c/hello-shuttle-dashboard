@@ -108,6 +108,7 @@ var app = new Vue({
                     configName: null,
                     configValue: null,
                     configType: null,
+                    configMaximumQuantity: 1,
                 },
             },
             bookingOptionTypes: [
@@ -289,6 +290,7 @@ var app = new Vue({
                 form: {
                     configId: modalData.configId,
                     value: modalData.configValue,
+                    maximumQuantity: modalData.configMaximumQuantity,
                     active: modalData.configActive,
                 }
             };
@@ -318,6 +320,7 @@ var app = new Vue({
                 form: {
                     name: modalData.configName,
                     value: modalData.configValue,
+                    maximumQuantity: modalData.configMaximumQuantity,
                     type: modalData.configType,
                 }
             };
@@ -345,6 +348,9 @@ var app = new Vue({
                 configValue: {
                     required: required
                 },
+                configMaximumQuantity: {
+                    required: required
+                },
             },
             addConfig: {
                 configName: {
@@ -356,6 +362,9 @@ var app = new Vue({
                 configType: {
                     required: required
                 },
+                configMaximumQuantity: {
+                    required: required
+                },
             },
             editCar: {
                 carQuantity: {
@@ -363,7 +372,7 @@ var app = new Vue({
                 },
                 carStartPrice: {
                     required: required
-                }
+                },
             },
         },
     },

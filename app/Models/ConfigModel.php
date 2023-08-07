@@ -18,6 +18,7 @@ class ConfigModel extends Model
         'config_group_code',
         'config_active',
         'config_editable',
+        'config_maximum_quantity',
         'config_created_at',
         'config_updated_at',
 	];
@@ -37,6 +38,7 @@ class ConfigModel extends Model
             'configurations.config_value AS configValue',
             'configurations.config_active AS configActive',
             'configurations.config_editable AS configEditable',
+            'configurations.config_maximum_quantity AS configMaximumQuantity',
             'config_types.config_type_id AS configTypeId',
             'config_types.config_type_desc AS configTypeName',
             'config_groups.config_group_id AS configGroupId',
@@ -63,6 +65,7 @@ class ConfigModel extends Model
             $data->configId,
             [
                 'config_value' => $data->value,
+                'config_maximum_quantity' => $data->maximumQuantity,
                 'config_active' => $data->active,
             ]
         );

@@ -93,7 +93,9 @@
         label="Config name"
         :state="validateInputField($v.modals.addConfig.configName)"
         :invalid-feedback="errorMessages.required">
-        <b-form-input v-model="$v.modals.addConfig.configName.$model">
+        <b-form-input
+            type="text"
+            v-model="$v.modals.addConfig.configName.$model">
         </b-form-input>
     </b-form-group>
 
@@ -102,7 +104,9 @@
         :invalid-feedback="errorMessages.required"
         label="Config value">
         <b-input-group>
-            <b-form-input v-model="$v.modals.addConfig.configValue.$model">
+            <b-form-input
+                type="number"
+                v-model="$v.modals.addConfig.configValue.$model">
             </b-form-input>
             <b-input-group-append>
                 <b-button>
@@ -122,6 +126,17 @@
         </b-form-select>
     </b-form-group>
 
+    <b-form-group
+        :state="validateInputField($v.modals.addConfig.configMaximumQuantity)"
+        :invalid-feedback="errorMessages.required"
+        label="Config maximum quantity">
+        <b-form-input
+            type="number"
+            min="1"
+            v-model="$v.modals.addConfig.configMaximumQuantity.$model">
+        </b-form-select>
+    </b-form-group>
+
     <template #modal-footer>
         <b-button
             class="px-4"
@@ -133,15 +148,43 @@
 </b-modal>
 
 <!-- Edit Configurations -->
-<b-modal title="Edit configuration" @close="clearConfigModalState" :visible="showEditConfigModal">
+<b-modal
+    title="Edit configuration"
+    @close="clearConfigModalState"
+    :visible="showEditConfigModal">
     <b-form-group label="Config name">
-        <b-form-input disabled v-model="modals.editConfig.configName">
+        <b-form-input
+            type="text"
+            disabled
+            v-model="modals.editConfig.configName">
         </b-form-input>
     </b-form-group>
 
-    <b-form-group :state="validateInputField($v.modals.editConfig.configValue)" :invalid-feedback="errorMessages.required" label="Config value">
+    <b-form-group
+        :state="validateInputField($v.modals.editConfig.configValue)"
+        :invalid-feedback="errorMessages.required"
+        label="Config value">
         <b-input-group>
-            <b-form-input v-model="$v.modals.editConfig.configValue.$model">
+            <b-form-input
+                type="number"
+                v-model="$v.modals.editConfig.configValue.$model">
+            </b-form-input>
+            <b-input-group-append>
+                <b-button>
+                    <b-icon icon="currency-dollar"></b-icon>
+                </b-button>
+            </b-input-group-append>
+        </b-input-group>
+    </b-form-group>
+
+    <b-form-group
+        :state="validateInputField($v.modals.editConfig.configMaximumQuantity)"
+        :invalid-feedback="errorMessages.required"
+        label="Config maximum quantity">
+        <b-input-group>
+            <b-form-input
+                type="number"
+                v-model="$v.modals.editConfig.configMaximumQuantity.$model">
             </b-form-input>
             <b-input-group-append>
                 <b-button>
@@ -152,50 +195,85 @@
     </b-form-group>
 
     <b-form-group>
-        <b-form-checkbox value="1" unchecked-value="0" v-model="modals.editConfig.configActive">
+        <b-form-checkbox
+            value="1"
+            unchecked-value="0"
+            v-model="modals.editConfig.configActive">
             Active?
         </b-form-checkbox>
     </b-form-group>
 
     <template #modal-footer>
-        <b-button class="px-4" variant="primary" @click="editConfig">Save</b-button>
+        <b-button
+            class="px-4"
+            variant="primary"
+            @click="editConfig">
+            Save
+        </b-button>
     </template>
 </b-modal>
 
 <!-- Cars -->
-<b-modal title="Edit car" @close="clearCarModalState" :visible="showEditCarModal">
+<b-modal
+    title="Edit car"
+    @close="clearCarModalState"
+    :visible="showEditCarModal">
     <b-form-group label="Car name">
-        <b-form-input disabled v-model="modals.editCar.carName">
+        <b-form-input
+            type="text"
+            disabled
+            v-model="modals.editCar.carName">
         </b-form-input>
     </b-form-group>
 
     <b-form-group label="Car seats">
-        <b-form-input disabled v-model="modals.editCar.carSeatsCapacity">
+        <b-form-input
+            type="number"
+            disabled
+            v-model="modals.editCar.carSeatsCapacity">
         </b-form-input>
     </b-form-group>
 
-    <b-form-group :state="validateInputField($v.modals.editCar.carStartPrice)" :invalid-feedback="errorMessages.required" label="Start price">
-        <b-form-input v-model="$v.modals.editCar.carStartPrice.$model">
+    <b-form-group
+        :state="validateInputField($v.modals.editCar.carStartPrice)"
+        :invalid-feedback="errorMessages.required"
+        label="Start price">
+        <b-form-input
+            type="number"
+            v-model="$v.modals.editCar.carStartPrice.$model">
         </b-form-input>
     </b-form-group>
 
-    <b-form-group :state="validateInputField($v.modals.editCar.carQuantity)" :invalid-feedback="errorMessages.required" label="Car quantity">
-        <b-form-input v-model="$v.modals.editCar.carQuantity.$model">
+    <b-form-group
+        :state="validateInputField($v.modals.editCar.carQuantity)"
+        :invalid-feedback="errorMessages.required"
+        label="Car quantity">
+        <b-form-input
+            type="number"
+            v-model="$v.modals.editCar.carQuantity.$model">
         </b-form-input>
     </b-form-group>
 
     <b-form-group>
-        <b-form-checkbox value="1" unchecked-value="0" v-model="modals.editCar.carActive">
+        <b-form-checkbox
+            value="1"
+            unchecked-value="0"
+            v-model="modals.editCar.carActive">
             Active?
         </b-form-checkbox>
     </b-form-group>
 
     <template #modal-footer>
-        <b-button class="px-4" variant="primary" @click="editCar">Save</b-button>
+        <b-button
+            class="px-4"
+            variant="primary"
+            @click="editCar">
+            Save
+        </b-button>
     </template>
 </b-modal>
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>
-<script src="<?= base_url('static/js/configurations.js?v=' . now()) ?>"></script>
+<script src="<?= base_url('static/js/configurations.js') ?>"></script>
 <?= $this->endSection() ?>
