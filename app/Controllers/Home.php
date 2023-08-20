@@ -6,6 +6,8 @@ use App\Models\ConfigModel;
 use App\Models\CarModel;
 use App\Models\CustomerModel;
 use App\Models\NavigationMenuModel;
+use App\Models\ConfigCarPriceModel;
+
 use CodeIgniter\I18n\Time;
 use Ramsey\Uuid\Uuid;
 
@@ -211,13 +213,15 @@ class Home extends BaseController
     public function editCar()
     {
         $car_model = model(CarModel::class);
+        $car_price_config_model = model(ConfigCarPriceModel::class);
 
         $request_params = $this->request->getVar('form');
 
         $edit_car_result = $car_model->editCar($request_params);
+        $edit_car_price_config_result = $car_price_config_model->editCarPriceConfig($request_params);
 
         $response = [
-            'result' => $edit_car_result,
+            'result' => $edit_car_result && $edit_car_price_config_result,
         ];
 
         return $this->response->setJSON($response);

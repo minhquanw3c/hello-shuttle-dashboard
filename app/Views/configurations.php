@@ -20,7 +20,11 @@
                     {{ row.index + 1 }}
                 </template>
                 <template #cell(actions)="row">
-                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                    <b-button
+                        size="sm"
+                        variant="outline-primary"
+                        @click="openConfigModal(row.item)"
+                        v-if="row.item.configEditable === '1'">
                         <b-icon icon="pencil-fill"></b-icon>
                     </b-button>
                 </template>
@@ -37,7 +41,11 @@
                     {{ row.index + 1 }}
                 </template>
                 <template #cell(actions)="row">
-                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                    <b-button
+                        size="sm"
+                        variant="outline-primary"
+                        @click="openConfigModal(row.item)"
+                        v-if="row.item.configEditable === '1'">
                         <b-icon icon="pencil-fill"></b-icon>
                     </b-button>
                 </template>
@@ -54,7 +62,11 @@
                     {{ row.index + 1 }}
                 </template>
                 <template #cell(actions)="row">
-                    <b-button variant="outline-primary" @click="openConfigModal(row.item)" v-if="row.item.configEditable === '1'">
+                    <b-button
+                        size="sm"
+                        variant="outline-primary"
+                        @click="openConfigModal(row.item)"
+                        v-if="row.item.configEditable === '1'">
                         <b-icon icon="pencil-fill"></b-icon>
                     </b-button>
                 </template>
@@ -75,7 +87,11 @@
             {{ row.index + 1 }}
         </template>
         <template #cell(actions)="row">
-            <b-button variant="outline-primary" @click="openCarModal(row.item)" v-if="row.item.carEditable === '1'">
+            <b-button
+                size="sm"
+                variant="outline-primary"
+                @click="openCarModal(row.item)"
+                v-if="row.item.carEditable === '1'">
                 <b-icon icon="pencil-fill"></b-icon>
             </b-button>
         </template>
@@ -215,53 +231,278 @@
 
 <!-- Cars -->
 <b-modal
+    scrollable
+    no-close-on-esc
+    no-close-on-backdrop
+    size="lg"
     title="Edit car"
     @close="clearCarModalState"
     :visible="showEditCarModal">
-    <b-form-group label="Car name">
-        <b-form-input
-            type="text"
-            disabled
-            v-model="modals.editCar.carName">
-        </b-form-input>
-    </b-form-group>
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <img
+                class="d-inline-block img-fluid"
+                :src="baseURL + '/static/images/vehicles/' + modals.editCar.carImage"
+                :alt="modals.editCar.carName"
+            />
+        </div>
+    </div>
 
-    <b-form-group label="Car seats">
-        <b-form-input
-            type="number"
-            disabled
-            v-model="modals.editCar.carSeatsCapacity">
-        </b-form-input>
-    </b-form-group>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <b-form-group label="Name">
+                <b-form-input
+                    type="text"
+                    disabled
+                    v-model="modals.editCar.carName">
+                </b-form-input>
+            </b-form-group>
+        </div>
 
-    <b-form-group
-        :state="validateInputField($v.modals.editCar.carStartPrice)"
-        :invalid-feedback="errorMessages.required"
-        label="Start price">
-        <b-form-input
-            type="number"
-            v-model="$v.modals.editCar.carStartPrice.$model">
-        </b-form-input>
-    </b-form-group>
+        <div class="col-12 col-md-6">
+            <b-form-group label="Seats">
+                <b-form-input
+                    type="number"
+                    disabled
+                    min="1"
+                    v-model="modals.editCar.carSeatsCapacity">
+                </b-form-input>
+            </b-form-group>
+        </div>
+    </div>
 
-    <b-form-group
-        :state="validateInputField($v.modals.editCar.carQuantity)"
-        :invalid-feedback="errorMessages.required"
-        label="Car quantity">
-        <b-form-input
-            type="number"
-            v-model="$v.modals.editCar.carQuantity.$model">
-        </b-form-input>
-    </b-form-group>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.openDoorPrice)"
+                :invalid-feedback="errorMessages.required"
+                label="Open door">
+                <b-form-input
+                    type="number"
+                    v-model="$v.modals.editCar.openDoorPrice.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
 
-    <b-form-group>
-        <b-form-checkbox
-            value="1"
-            unchecked-value="0"
-            v-model="modals.editCar.carActive">
-            Active?
-        </b-form-checkbox>
-    </b-form-group>
+        <div class="col-12 col-md-6">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.carQuantity)"
+                :invalid-feedback="errorMessages.required"
+                label="Quantity">
+                <b-form-input
+                    min="1"
+                    type="number"
+                    v-model="$v.modals.editCar.carQuantity.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row align-items-baseline">
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.firstMiles)"
+                :invalid-feedback="errorMessage_firstMiles"
+                label="First miles">
+                <b-form-input
+                    min="1"
+                    type="number"
+                    v-model="$v.modals.editCar.firstMiles.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.firstMilesPrice)"
+                :invalid-feedback="errorMessages.required"
+                label="First price">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.firstMilesPrice.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group>
+                <b-form-checkbox
+                    value="1"
+                    unchecked-value="0"
+                    v-model="$v.modals.editCar.firstMilesPriceActive.$model">
+                    Active?
+                </b-form-checkbox>
+            </b-form-group>
+        </div>
+    </div>
+
+    <div class="row align-items-baseline">
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.secondMiles)"
+                :invalid-feedback="errorMessage_secondMiles"
+                label="Second miles">
+                <b-form-input
+                    min="1"
+                    type="number"
+                    v-model="$v.modals.editCar.secondMiles.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.secondMilesPrice)"
+                :invalid-feedback="errorMessages.required"
+                label="Second price">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.secondMilesPrice.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group>
+                <b-form-checkbox
+                    value="1"
+                    unchecked-value="0"
+                    v-model="$v.modals.editCar.secondMilesPriceActive.$model">
+                    Active?
+                </b-form-checkbox>
+            </b-form-group>
+        </div>
+    </div>
+
+    <div class="row align-items-baseline">
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.thirdMiles)"
+                :invalid-feedback="errorMessage_thirdMiles"
+                label="Third miles">
+                <b-form-input
+                    min="1"
+                    type="number"
+                    v-model="$v.modals.editCar.thirdMiles.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.thirdMilesPrice)"
+                :invalid-feedback="errorMessages.required"
+                label="Third price">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.thirdMilesPrice.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <b-form-group>
+                <b-form-checkbox
+                    value="1"
+                    unchecked-value="0"
+                    v-model="$v.modals.editCar.thirdMilesPriceActive.$model">
+                    Active?
+                </b-form-checkbox>
+            </b-form-group>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row align-items-center">
+        <div class="col-12 col-md-3">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.adminFeeLimitMiles)"
+                :invalid-feedback="errorMessages.required"
+                label="Limit miles">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.adminFeeLimitMiles.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-3">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.adminFeeType)"
+                :invalid-feedback="errorMessages.required"
+                label="Fee type">
+                <b-form-select
+                    text-field="text"
+                    value-field="value"
+                    v-model="$v.modals.editCar.adminFeeType.$model"
+                    :options="adminFeeTypes">
+                </b-form-select>
+            </b-form-group>
+        </div>
+
+        <div
+            v-if="$v.modals.editCar.adminFeeType.$model === 'percentage'"
+            class="col-12 col-md-3">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.adminFeePercentage)"
+                :invalid-feedback="errorMessages.required"
+                label="Percentage">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.adminFeePercentage.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div
+            v-if="$v.modals.editCar.adminFeeType.$model === 'fixed'"
+            class="col-12 col-md-3">
+            <b-form-group
+                :state="validateInputField($v.modals.editCar.adminFeeFixedAmount)"
+                :invalid-feedback="errorMessages.required"
+                label="Fixed amount">
+                <b-form-input
+                    min="0"
+                    type="number"
+                    v-model="$v.modals.editCar.adminFeeFixedAmount.$model">
+                </b-form-input>
+            </b-form-group>
+        </div>
+
+        <div class="col-12 col-md-3">
+            <b-form-group>
+                <b-form-checkbox
+                    value="1"
+                    unchecked-value="0"
+                    v-model="$v.modals.editCar.adminFeeActive.$model">
+                    Active?
+                </b-form-checkbox>
+            </b-form-group>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row align-items-baseline">
+        <div class="col-12">
+            <b-form-group>
+                <b-form-checkbox
+                    value="1"
+                    unchecked-value="0"
+                    v-model="$v.modals.editCar.carActive.$model">
+                    Enable this car for booking?
+                </b-form-checkbox>
+            </b-form-group>
+        </div>
+    </div>
 
     <template #modal-footer>
         <b-button

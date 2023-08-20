@@ -1,7 +1,7 @@
 Vue.use(window.vuelidate.default);
 Vue.component('multiselect', window.VueMultiselect.default);
-const { required, requiredIf, minLength, email, minValue } = window.validators;
-// import placePredictions from "../mixins/placePrediction";
+const { required, requiredIf, minLength, email, minValue, numeric } = window.validators;
+// Vue.use(VueMask);
 
 var app = new Vue({
     el: '#main-app',
@@ -76,8 +76,8 @@ var app = new Vue({
                             label: 'Number of cars'
                         },
                         {
-                            key: 'carStartPrice',
-                            label: 'Price'
+                            key: 'openDoorPrice',
+                            label: 'Open door'
                         },
                         {
                             key: 'carActive',
@@ -97,6 +97,7 @@ var app = new Vue({
             carsList: [],
             errorMessages: {
                 required: 'This field is required',
+                invalidValue: 'Invalid value',
             },
             showEditConfigModal: false,
             showEditCarModal: false,
@@ -119,6 +120,16 @@ var app = new Vue({
                 {
                     text: 'Protection',
                     value: 'protection',
+                },
+            ],
+            adminFeeTypes: [
+                {
+                    text: 'Percentage',
+                    value: 'percentage',
+                },
+                {
+                    text: 'Fixed',
+                    value: 'fixed',
                 },
             ],
             configActiveTabIndex: 0,
@@ -261,7 +272,26 @@ var app = new Vue({
                     carId: modalData.carId,
                     carQuantity: modalData.carQuantity,
                     carActive: modalData.carActive,
-                    carStartPrice: modalData.carStartPrice,
+                    //---
+                    openDoorPrice: modalData.openDoorPrice,
+                    //---
+                    firstMiles: modalData.firstMiles,
+                    firstMilesPrice: modalData.firstMilesPrice,
+                    firstMilesPriceActive: modalData.firstMilesPriceActive,
+                    //---
+                    secondMiles: modalData.secondMiles,
+                    secondMilesPrice: modalData.secondMilesPrice,
+                    secondMilesPriceActive: modalData.secondMilesPriceActive,
+                    //---
+                    thirdMiles: modalData.thirdMiles,
+                    thirdMilesPrice: modalData.thirdMilesPrice,
+                    thirdMilesPriceActive: modalData.thirdMilesPriceActive,
+                    //---
+                    adminFeeLimitMiles: modalData.adminFeeLimitMiles,
+                    adminFeeType: modalData.adminFeeType,
+                    adminFeePercentage: modalData.adminFeePercentage,
+                    adminFeeFixedAmount: modalData.adminFeeFixedAmount,
+                    adminFeeActive: modalData.adminFeeActive,
                 }
             };
 
@@ -340,7 +370,59 @@ var app = new Vue({
         },
     },
     computed: {
+        errorMessage_firstMiles: function () {
+            const self = this;
 
+            if (!(self.$v.modals.editCar.firstMiles.required === true)) {
+                return self.errorMessages.required;
+            }
+
+            if (
+                !(self.$v.modals.editCar.firstMiles.numeric === true)
+                ||
+                !(self.$v.modals.editCar.firstMiles.minValue === true)
+            ) {
+                return self.errorMessages.invalidValue;
+            }
+        },
+        errorMessage_secondMiles: function () {
+            const self = this;
+
+            if (!(self.$v.modals.editCar.secondMiles.required === true)) {
+                return self.errorMessages.required;
+            }
+
+            if (
+                !(self.$v.modals.editCar.secondMiles.numeric === true)
+                ||
+                !(self.$v.modals.editCar.secondMiles.minValue === true)
+            ) {
+                return self.errorMessages.invalidValue;
+            }
+
+            if (!(self.$v.modals.editCar.secondMiles.mustGreaterThanFirstMiles === true)) {
+                return 'Must be greater than First miles';
+            }
+        },
+        errorMessage_thirdMiles: function () {
+            const self = this;
+
+            if (!(self.$v.modals.editCar.thirdMiles.required === true)) {
+                return self.errorMessages.required;
+            }
+
+            if (
+                !(self.$v.modals.editCar.thirdMiles.numeric === true)
+                ||
+                !(self.$v.modals.editCar.thirdMiles.minValue === true)
+            ) {
+                return self.errorMessages.invalidValue;
+            }
+
+            if (!(self.$v.modals.editCar.thirdMiles.mustBeGreatest === true)) {
+                return 'Must be greater than First and Second miles';
+            }
+        },
     },
     validations: {
         modals: {
@@ -370,8 +452,70 @@ var app = new Vue({
                 carQuantity: {
                     required: required
                 },
-                carStartPrice: {
+                carActive: {},
+                openDoorPrice: {
                     required: required
+                },
+                // First miles config
+                firstMiles: {
+                    required: required,
+                    numeric: numeric,
+                    minValue: minValue(0),
+                },
+                firstMilesPrice: {
+                    required: required,
+                },
+                firstMilesPriceActive: {},
+                // Second miles config
+                secondMiles: {
+                    required: required,
+                    numeric: numeric,
+                    minValue: minValue(0),
+                    mustBeGreaterThanFirstMiles: function () {
+                        let firstMiles = parseInt(this.$v.modals.editCar.firstMiles.$model);
+                        let secondMiles = parseInt(this.$v.modals.editCar.secondMiles.$model);
+
+                        return secondMiles > firstMiles;
+                    },
+                },
+                secondMilesPrice: {
+                    required: required,
+                },
+                secondMilesPriceActive: {},
+                // Third miles config
+                thirdMiles: {
+                    required: required,
+                    numeric: numeric,
+                    minValue: minValue(0),
+                    mustBeGreatest: function () {
+                        let firstMiles = parseInt(this.$v.modals.editCar.firstMiles.$model);
+                        let secondMiles = parseInt(this.$v.modals.editCar.secondMiles.$model);
+                        let thirdMiles = parseInt(this.$v.modals.editCar.thirdMiles.$model);
+
+                        return (thirdMiles > secondMiles) && (thirdMiles > firstMiles);
+                    },
+                },
+                thirdMilesPrice: {
+                    required: required,
+                },
+                thirdMilesPriceActive: {},
+                // Admin fee
+                adminFeeLimitMiles: {
+                    required: required,
+                },
+                adminFeeActive: {},
+                adminFeeType: {
+                    required: required,
+                },
+                adminFeePercentage: {
+                    requiredIf: requiredIf(function() {
+                        return this.$v.modals.editCar.adminFeeType.$model === 'percentage';
+                    })
+                },
+                adminFeeFixedAmount: {
+                    requiredIf: requiredIf(function() {
+                        return this.$v.modals.editCar.adminFeeType.$model === 'fixed';
+                    })
                 },
             },
         },

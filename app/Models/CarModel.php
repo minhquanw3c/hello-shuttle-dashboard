@@ -27,10 +27,31 @@ class CarModel extends Model
             'config_cars.car_name AS carName',
             'config_cars.car_seats_capacity AS carSeatsCapacity',
             'config_cars.car_quantity AS carQuantity',
-            'config_cars.car_start_price AS carStartPrice',
             'config_cars.car_active AS carActive',
             'config_cars.car_editable AS carEditable',
+            'config_cars.car_image AS carImage',
+            // ----
+            'config_cars_price.open_door_price AS openDoorPrice',
+            // ---
+            'config_cars_price.first_miles AS firstMiles',
+            'config_cars_price.first_miles_price AS firstMilesPrice',
+            'config_cars_price.first_miles_price_active AS firstMilesPriceActive',
+            // ---
+            'config_cars_price.second_miles AS secondMiles',
+            'config_cars_price.second_miles_price AS secondMilesPrice',
+            'config_cars_price.second_miles_price_active AS secondMilesPriceActive',
+            // ---
+            'config_cars_price.third_miles AS thirdMiles',
+            'config_cars_price.third_miles_price AS thirdMilesPrice',
+            'config_cars_price.third_miles_price_active AS thirdMilesPriceActive',
+            // ---
+            'config_cars_price.admin_fee_limit_miles AS adminFeeLimitMiles',
+            'config_cars_price.admin_fee_type AS adminFeeType',
+            'config_cars_price.admin_fee_percentage AS adminFeePercentage',
+            'config_cars_price.admin_fee_fixed_amount AS adminFeeFixedAmount',
+            'config_cars_price.admin_fee_active AS adminFeeActive',
         ])
+        ->join('config_cars_price', 'config_cars_price.car_id = config_cars.car_id')
         ->findAll();
 
         return $get_list_query;
@@ -38,15 +59,14 @@ class CarModel extends Model
 
     public function editCar($data)
     {
-        $edit_query = $this->update(
+        $edit_car_query = $this->update(
             $data->carId,
             [
                 'car_quantity' => $data->carQuantity,
                 'car_active' => $data->carActive,
-                'car_start_price' => $data->carStartPrice,
             ]
         );
 
-        return $edit_query;
+        return $edit_car_query;
     }
 }
