@@ -155,7 +155,7 @@
         </b-form-checkbox>
     </b-form-group>
 
-    <template v-if="$v.modals.addConfig.configCountable.$model === 1">
+    <template v-if="$v.modals.addConfig.configCountable.$model === '1'">
         <b-form-group
             :state="validateInputField($v.modals.addConfig.configMaximumQuantity)"
             :invalid-feedback="errorMessages.required"

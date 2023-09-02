@@ -110,6 +110,7 @@ var app = new Vue({
                     configValue: null,
                     configType: null,
                     configMaximumQuantity: 1,
+                    configCountable: null,
                 },
             },
             bookingOptionTypes: [
