@@ -50,6 +50,8 @@ class CarModel extends Model
             'config_cars_price.admin_fee_percentage AS adminFeePercentage',
             'config_cars_price.admin_fee_fixed_amount AS adminFeeFixedAmount',
             'config_cars_price.admin_fee_active AS adminFeeActive',
+            //---
+            'config_cars_price.extra_luggages_price AS extraLuggagesPrice',
         ])
         ->join('config_cars_price', 'config_cars_price.car_id = config_cars.car_id')
         ->findAll();

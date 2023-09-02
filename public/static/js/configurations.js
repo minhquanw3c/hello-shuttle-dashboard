@@ -292,6 +292,8 @@ var app = new Vue({
                     adminFeePercentage: modalData.adminFeePercentage,
                     adminFeeFixedAmount: modalData.adminFeeFixedAmount,
                     adminFeeActive: modalData.adminFeeActive,
+                    //---
+                    extraLuggagesPrice: modalData.extraLuggagesPrice,
                 }
             };
 
@@ -322,6 +324,7 @@ var app = new Vue({
                     value: modalData.configValue,
                     maximumQuantity: modalData.configMaximumQuantity,
                     active: modalData.configActive,
+                    countable: modalData.configCountable,
                 }
             };
 
@@ -431,7 +434,12 @@ var app = new Vue({
                     required: required
                 },
                 configMaximumQuantity: {
-                    required: required
+                    requiredIf: requiredIf(function() {
+                        return this.$v.modals.editConfig.configCountable.$model === '1';
+                    })
+                },
+                configCountable: {
+                    
                 },
             },
             addConfig: {
@@ -445,7 +453,12 @@ var app = new Vue({
                     required: required
                 },
                 configMaximumQuantity: {
-                    required: required
+                    requiredIf: requiredIf(function() {
+                        return this.$v.modals.addConfig.configCountable.$model === '1';
+                    })
+                },
+                configCountable: {
+                    
                 },
             },
             editCar: {
@@ -516,6 +529,9 @@ var app = new Vue({
                     requiredIf: requiredIf(function() {
                         return this.$v.modals.editCar.adminFeeType.$model === 'fixed';
                     })
+                },
+                extraLuggagesPrice: {
+                    required: required,
                 },
             },
         },

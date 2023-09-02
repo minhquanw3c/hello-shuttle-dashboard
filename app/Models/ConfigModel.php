@@ -20,6 +20,7 @@ class ConfigModel extends Model
         'config_maximum_quantity',
         'config_created_at',
         'config_updated_at',
+        'config_countable',
 	];
 
     public function saveConfig($data)
@@ -38,6 +39,7 @@ class ConfigModel extends Model
             'configurations.config_active AS configActive',
             'configurations.config_editable AS configEditable',
             'configurations.config_maximum_quantity AS configMaximumQuantity',
+            'configurations.config_countable AS configCountable',
             'config_types.config_type_id AS configTypeId',
             'config_types.config_type_desc AS configTypeName',
             'config_groups.config_group_id AS configGroupId',
@@ -67,6 +69,7 @@ class ConfigModel extends Model
                 'config_value' => $data->value,
                 'config_maximum_quantity' => $data->maximumQuantity,
                 'config_active' => $data->active,
+                'config_countable' => $data->countable,
             ]
         );
 

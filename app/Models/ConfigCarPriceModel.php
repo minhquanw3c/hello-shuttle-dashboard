@@ -25,6 +25,7 @@ class ConfigCarPriceModel extends Model
         'admin_fee_percentage',
         'admin_fee_fixed_amount',
         'admin_fee_active',
+        'extra_luggages_price',
 	];
 
     public function editCarPriceConfig($data)
@@ -51,6 +52,8 @@ class ConfigCarPriceModel extends Model
                 'admin_fee_percentage' => $data->adminFeePercentage,
                 'admin_fee_fixed_amount' => $data->adminFeeFixedAmount,
                 'admin_fee_active' => $data->adminFeeActive,
+                //---
+                'extra_luggages_price' => $data->extraLuggagesPrice,
             ]
         );
 
