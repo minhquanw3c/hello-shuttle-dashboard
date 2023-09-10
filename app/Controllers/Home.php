@@ -24,6 +24,11 @@ class Home extends BaseController
         }
     }
 
+    public function activateAccount()
+    {
+        
+    }
+
     public function logout()
     {
         if (session()->has('logged_in')) {
