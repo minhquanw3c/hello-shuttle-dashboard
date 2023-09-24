@@ -13,6 +13,7 @@ class RoleModel extends Model
 	protected $allowedFields = [
 		'role_id',
         'role_desc',
+        'default_dashboard_route',
         'role_active',
         'role_created_at',
         'role_updated_at',

@@ -36,6 +36,9 @@ $routes->get('bookings', 'Home::showBookings');
 $routes->get('configurations', 'Home::showConfigurations');
 $routes->get('coupons', 'Home::showCoupons');
 
+$routes->get('customer/bookings', 'Home::showBookings');
+$routes->post('api/bookings/customer/list', 'Home::getBookingsList');
+
 $routes->get('api/configurations/list', 'Home::getConfigList');
 $routes->get('api/cars/list', 'Home::getCarsList');
 $routes->get('api/bookings/list', 'Home::getBookingsList');

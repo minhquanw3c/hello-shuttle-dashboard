@@ -94,31 +94,46 @@ class Home extends BaseController
 
         $logged_in_data = [
             'username' => $user['userEmail'],
+            'user_id' => $user['userId'],
             'user_full_name' => $user['userFullName'],
             // 'expiration' => time() + 5,
             'role' => $user['userRole'],
             'allowed_routes' => $user['userAllowedRoutes'],
             'nav_items_data' => $nav_items,
+            'default_dashboard_route' => $user['defaultDashboardRoute'],
         ];
 
         $session->set('logged_in', $logged_in_data);
 
-        return redirect()->to(base_url('bookings'));
+        return redirect()->to(base_url($user['defaultDashboardRoute']));
     }
 
     public function showBookings()
     {
         session()->start();
+
+        if (!session()->has('logged_in')) {
+            return redirect()->to('/');
+        }
+
+        $user_data = session()->get('logged_in');
+
         $data = [
-            'pageTitle' => 'Bookings'
+            'pageTitle' => 'Bookings',
+            'userId' => $user_data['user_id'],
         ];
 
-        return view('bookings', $data);
+        return view($user_data['default_dashboard_route'], $data);
     }
 
     public function showConfigurations()
     {
         session()->start();
+
+        if (!session()->has('logged_in')) {
+            return redirect()->to('/');
+        }
+
         $data = [
             'pageTitle' => 'Configurations'
         ];
@@ -129,6 +144,11 @@ class Home extends BaseController
     public function showCoupons()
     {
         session()->start();
+
+        if (!session()->has('logged_in')) {
+            return redirect()->to('/');
+        }
+
         $data = [
             'pageTitle' => 'Coupons'
         ];
@@ -156,9 +176,11 @@ class Home extends BaseController
 
     public function getBookingsList()
     {
+        $user_id = $this->request->getJsonVar('userId');
+
         $booking_model = model(BookingModel::class);
 
-        $bookings_list = $booking_model->getBookingsList();
+        $bookings_list = $booking_model->getBookingsList($user_id);
 
         return $this->response->setJSON($bookings_list);
     }

@@ -39,12 +39,15 @@ class UserModel extends Model
             'CONCAT(users.user_last_name, " ", users.user_first_name) AS userFullName',
             'users.user_role AS userRole',
             'GROUP_CONCAT(roles_permissions.allowed_route_pattern SEPARATOR "|") AS userAllowedRoutes',
+            'roles.default_dashboard_route AS defaultDashboardRoute',
         ])
         ->join('roles_permissions', 'roles_permissions.role = users.user_role')
+        ->join('roles', 'roles.role_id = users.user_role')
         ->where([
             'users.user_active' => 1,
             'roles_permissions.permission_active' => 1,
             'users.user_email' => $user_email,
+            'roles.role_active' => 1,
         ])
         ->groupBy([
             'users.user_email',
