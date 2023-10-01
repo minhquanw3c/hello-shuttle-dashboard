@@ -79,7 +79,7 @@ var app = new Vue({
     },
     mounted: async function () {
         console.log('app mounted');
-        this.fetchBookingsList();
+        this.fetchBookingsList(showToast = false);
     },
     methods: {
         generateCancelBookingLink: function (bookingData) {

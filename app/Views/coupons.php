@@ -68,7 +68,7 @@
 <b-modal title="Create coupon" no-close-on-esc no-close-on-backdrop @close="clearModalState('createCoupon', true)" :visible="showModal.createCoupon">
 	<b-form-group label="Coupon code" :state="validateInputField($v.modals.createCoupon.couponCode)" :invalid-feedback="errorMessages.required">
 		<b-input-group>
-			<b-form-input readonly v-model="$v.modals.createCoupon.couponCode.$model">
+			<b-form-input v-model="$v.modals.createCoupon.couponCode.$model">
 			</b-form-input>
 			<b-input-group-append>
 				<b-button @click="generateRandomString()">
