@@ -25,6 +25,11 @@ class ConfigCarPriceModel extends Model
         'admin_fee_percentage',
         'admin_fee_fixed_amount',
         'admin_fee_active',
+        'pickup_fee_limit_miles',
+        'pickup_fee_type',
+        'pickup_fee_percentage',
+        'pickup_fee_fixed_amount',
+        'pickup_fee_active',
         'extra_luggages_price',
 	];
 
@@ -52,6 +57,12 @@ class ConfigCarPriceModel extends Model
                 'admin_fee_percentage' => $data->adminFeePercentage,
                 'admin_fee_fixed_amount' => $data->adminFeeFixedAmount,
                 'admin_fee_active' => $data->adminFeeActive,
+                //---
+                'pickup_fee_limit_miles' => $data->pickUpFeeLimitMiles,
+                'pickup_fee_type' => $data->pickUpFeeType,
+                'pickup_fee_percentage' => $data->pickUpFeePercentage,
+                'pickup_fee_fixed_amount' => $data->pickUpFeeFixedAmount,
+                'pickup_fee_active' => $data->pickUpFeeActive,
                 //---
                 'extra_luggages_price' => $data->extraLuggagesPrice,
             ]

@@ -524,6 +524,80 @@
 
     <hr/>
 
+    <b-form-group label="Pickup fee">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.pickUpFeeLimitMiles)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Limit miles">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.pickUpFeeLimitMiles.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.pickUpFeeType)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Fee type">
+                    <b-form-select
+                        text-field="text"
+                        value-field="value"
+                        v-model="$v.modals.editCar.pickUpFeeType.$model"
+                        :options="pickUpFeeTypes">
+                    </b-form-select>
+                </b-form-group>
+            </div>
+
+            <div
+                v-if="$v.modals.editCar.pickUpFeeType.$model === 'percentage'"
+                class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.pickUpFeePercentage)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Percentage">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.pickUpFeePercentage.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div
+                v-if="$v.modals.editCar.pickUpFeeType.$model === 'fixed'"
+                class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.pickUpFeeFixedAmount)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Fixed amount">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.pickUpFeeFixedAmount.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <b-form-group>
+                    <b-form-checkbox
+                        value="1"
+                        unchecked-value="0"
+                        v-model="$v.modals.editCar.pickUpFeeActive.$model">
+                        Active?
+                    </b-form-checkbox>
+                </b-form-group>
+            </div>
+        </div>
+    </b-form-group>
+
+    <hr/>
+
     <b-form-group label="Extra lugguages">
         <div class="row align-items-center">
             <div class="col-12 col-md-3">

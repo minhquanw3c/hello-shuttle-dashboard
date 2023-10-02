@@ -144,7 +144,6 @@
 	<script src="<?= base_url('static/js/vendors/bootstrap-vue-icons.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/validators.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/vuelidate.min.js') ?>" type="text/javascript"></script>
-	<script src="<?= base_url('static/js/vendors/v-mask.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/theme/main.js') ?>"></script>
 	
     <?= $this->renderSection('page-scripts') ?>
