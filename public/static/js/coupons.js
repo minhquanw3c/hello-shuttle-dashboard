@@ -83,7 +83,7 @@ var app = new Vue({
     },
     mounted: async function () {
         console.log('app mounted');
-        this.fetchCouponsList();
+        this.fetchCouponsList(showToast = false);
     },
     methods: {
         validateInputField: function (input) {
@@ -208,6 +208,7 @@ var app = new Vue({
                 })
                 .catch(error => {
                     console.log(error);
+                    error.status === 500 && self.showToastNotification(toastType = 'error', error.data.message);
                     self.clearModalState(modalId = 'createCoupon', closeModal = true);
                 });
         },

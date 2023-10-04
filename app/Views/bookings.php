@@ -1,55 +1,57 @@
 <?= $this->extend("templates/base") ?>
 
 <?= $this->section("main") ?>
-<div class="col-12 text-right px-0">
-	<!-- <b-button variant="danger" @click="clearTestData">
-		<b-icon icon="trash"></b-icon>
-		Bookings
-	</b-button> -->
+<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
+	<div class="col-12 text-right px-0 mb-3">
+		<!-- <b-button variant="danger" @click="clearTestData">
+			<b-icon icon="trash"></b-icon>
+			Bookings
+		</b-button> -->
 
-	<b-button variant="outline-primary" @click="fetchBookingsList">
-		<b-icon icon="arrow-repeat"></b-icon>
-		Bookings
-	</b-button>
+		<b-button variant="outline-primary" @click="fetchBookingsList">
+			<b-icon icon="arrow-repeat"></b-icon>
+			Bookings
+		</b-button>
+	</div>
+
+	<b-table-lite responsive striped :fields="tableConfig.bookings.fields" :items="bookings">
+		<template #cell(index)="row">
+			{{ row.index + 1 }}
+		</template>
+
+		<template #cell(bookingRefNo)="data">
+			{{ data.value }}
+		</template>
+
+		<template #cell(bookingPaymentStatus)="data">
+			<span class="badge badge-info">{{ data.value }}</span>
+		</template>
+
+		<template #cell(bookingStatus)="data">
+			<span class="badge badge-primary">{{ data.value }}</span>
+		</template>
+
+		<template #cell(bookingCreatedAt)="data">
+			{{ moment(data.value, 'YYYY-MM-DD HH:mm:ss').format('LLLL') }}
+		</template>
+
+		<template #cell(actions)="row">
+			<b-button-group>
+				<b-button size="sm" variant="outline-primary" title="View booking details" @click="viewBookingDetails(row.item)">
+					<b-icon icon="eye"></b-icon>
+				</b-button>
+				<b-button
+					v-if="row.item.bookingStatus === 'Processing'"
+					size="sm"
+					variant="outline-success"
+					title="Edit booking details"
+					@click="showEditBookingModal(row.item)">
+					<b-icon icon="pencil"></b-icon>
+				</b-button>
+			</b-button-group>
+		</template>
+	</b-table-lite>
 </div>
-
-<b-table-lite caption="Bookings" caption-top responsive striped :fields="tableConfig.bookings.fields" :items="bookings">
-	<template #cell(index)="row">
-		{{ row.index + 1 }}
-	</template>
-
-	<template #cell(bookingRefNo)="data">
-		{{ data.value }}
-	</template>
-
-	<template #cell(bookingPaymentStatus)="data">
-		<span class="badge badge-info">{{ data.value }}</span>
-	</template>
-
-	<template #cell(bookingStatus)="data">
-		<span class="badge badge-primary">{{ data.value }}</span>
-	</template>
-
-	<template #cell(bookingCreatedAt)="data">
-		{{ moment(data.value, 'YYYY-MM-DD HH:mm:ss').format('LLLL') }}
-	</template>
-
-	<template #cell(actions)="row">
-		<b-button-group>
-			<b-button size="sm" variant="outline-primary" title="View booking details" @click="viewBookingDetails(row.item)">
-				<b-icon icon="eye"></b-icon>
-			</b-button>
-			<b-button
-				v-if="row.item.bookingStatus === 'Processing'"
-				size="sm"
-				variant="outline-success"
-				title="Edit booking details"
-				@click="showEditBookingModal(row.item)">
-				<b-icon icon="pencil"></b-icon>
-			</b-button>
-		</b-button-group>
-	</template>
-</b-table-lite>
 
 <!-- View booking details -->
 <b-modal

@@ -1,14 +1,14 @@
 <?= $this->extend("templates/base") ?>
 
 <?= $this->section("main") ?>
-<div class="col-12 text-right">
-	<b-button class="btn" variant="primary" @click="() => { showModal.createCoupon = true; }">
-		<b-icon icon="plus-circle"></b-icon>
-		Coupon
-	</b-button>
-</div>
-<div class="col-12">
-	<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
+<div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
+	<div class="col-12 text-right px-0 mb-3">
+		<b-button class="btn" variant="outline-primary" @click="() => { showModal.createCoupon = true; }">
+			<b-icon icon="plus-circle"></b-icon>
+			Coupon
+		</b-button>
+	</div>
+	<div class="col-12">
 		<b-table-lite caption="Coupons" caption-top responsive striped :fields="tableConfig.coupons.fields" :items="couponsList">
 			<template #cell(index)="row">
 				{{ row.index + 1 }}

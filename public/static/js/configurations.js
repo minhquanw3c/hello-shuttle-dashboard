@@ -150,8 +150,8 @@ var app = new Vue({
     },
     mounted: async function () {
         console.log('app mounted');
-        this.fetchConfigList();
-        this.fetchCarsList();
+        this.fetchConfigList(showToast = false);
+        this.fetchCarsList(showToast = false);
     },
     methods: {
         validateInputField: function (input) {
