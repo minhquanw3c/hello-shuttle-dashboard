@@ -181,6 +181,10 @@ var app = new Vue({
                     value: bookingDetails.reservation.oneWayTrip.destination.description,
                 },
                 {
+                    label: 'Rest stop',
+                    value: bookingDetails.reservation.oneWayTrip.restStop.description,
+                },
+                {
                     label: 'Pickup time',
                     value: moment(
                             bookingDetails.reservation.oneWayTrip.pickup.date.concat(" ", bookingDetails.reservation.oneWayTrip.pickup.time),
@@ -214,6 +218,10 @@ var app = new Vue({
                     {
                         label: 'Destination',
                         value: bookingDetails.reservation.roundTrip.destination.description,
+                    },
+                    {
+                        label: 'Rest stop',
+                        value: bookingDetails.reservation.roundTrip.restStop.description,
                     },
                     {
                         label: 'Pickup time',

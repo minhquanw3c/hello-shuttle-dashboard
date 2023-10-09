@@ -11,14 +11,6 @@ var app = new Vue({
                             label: '#'
                         },
                         {
-                            key: 'customerFullName',
-                            label: 'Customer'
-                        },
-                        {
-                            key: 'customerPhone',
-                            label: 'Phone'
-                        },
-                        {
                             key: 'bookingRefNo',
                             label: 'Reference number',
                         },
@@ -34,6 +26,10 @@ var app = new Vue({
                             key: 'bookingCreatedAt',
                             label: 'Created at'
                         },
+                        {
+                            key: 'actions',
+                            label: 'Actions'
+                        },
                     ],
                 },
             },
@@ -48,7 +44,7 @@ var app = new Vue({
     },
     mounted: async function () {
         console.log('app mounted');
-        this.fetchBookingsList();
+        this.fetchBookingsList(showToast = false);
     },
     methods: {
         fetchBookingsList: function (showToast = true) {
@@ -138,6 +134,10 @@ var app = new Vue({
                     value: bookingDetails.reservation.oneWayTrip.origin.description,
                 },
                 {
+                    label: 'Rest stop',
+                    value: bookingDetails.reservation.oneWayTrip.restStop.description,
+                },
+                {
                     label: 'Destination',
                     value: bookingDetails.reservation.oneWayTrip.destination.description,
                 },
@@ -171,6 +171,10 @@ var app = new Vue({
                     {
                         label: 'Origin',
                         value: bookingDetails.reservation.roundTrip.origin.description,
+                    },
+                    {
+                        label: 'Rest stop',
+                        value: bookingDetails.reservation.roundTrip.restStop.description,
                     },
                     {
                         label: 'Destination',

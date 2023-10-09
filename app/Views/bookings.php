@@ -3,11 +3,6 @@
 <?= $this->section("main") ?>
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
 	<div class="col-12 text-right px-0 mb-3">
-		<!-- <b-button variant="danger" @click="clearTestData">
-			<b-icon icon="trash"></b-icon>
-			Bookings
-		</b-button> -->
-
 		<b-button variant="outline-primary" @click="fetchBookingsList">
 			<b-icon icon="arrow-repeat"></b-icon>
 			Bookings
