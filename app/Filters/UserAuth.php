@@ -41,13 +41,10 @@ class UserAuth implements FilterInterface
             $user = $user[0];
 
             if (!($user['userRole'] === 'admin')) {
-                $request_path = $request->getPath();
+                $request_path = strtolower($request->getPath());
                 $allowed_routes = explode("|", $user['userAllowedRoutes']);
-                $api_pattern = '/^api/';
-
-                if (!in_array($request_path, $allowed_routes)) {
-                    return preg_match($api_pattern, $request_path) ? service('response')->setStatusCode(401) : redirect()->to(base_url('bookings'));
-                }
+                
+                return in_array($request_path, $allowed_routes) ? true : service('response')->setStatusCode(401);
             }
         } else {
             return redirect()->to(base_url('/'));

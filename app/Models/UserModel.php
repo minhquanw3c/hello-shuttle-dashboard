@@ -7,10 +7,11 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
 	protected $table = 'users';
-	protected $primaryKey = 'user_email';
-    protected $useAutoIncrement = true;
+	protected $primaryKey = 'user_id';
+    protected $useAutoIncrement = false;
 
 	protected $allowedFields = [
+        'user_id',
 		'user_email',
         'user_hashed_password',
         'user_first_name',
@@ -56,5 +57,33 @@ class UserModel extends Model
         ->findAll();
 
         return $get_user_query;
+    }
+
+    public function getUsers($excluded_roles)
+    {
+        $query = $this->select([
+            'users.user_id AS userId',
+            'users.user_email AS userEmail',
+            'users.user_first_name AS userFirstName',
+            'users.user_last_name AS userLastName',
+            'users.user_phone AS userPhone',
+            'users.user_created_at AS userCreatedAt',
+            'users.user_active AS userActive',
+            'users.user_role AS userRole',
+        ])
+        ->whereNotIn('users.user_role', $excluded_roles)
+        ->findAll();
+
+        return $query;
+    }
+
+    public function updateUserById($user_id, $data)
+    {
+        $update_query = $this->update(
+            $user_id,
+            $data
+        );
+
+        return $update_query;
     }
 }

@@ -113,7 +113,7 @@ class Home extends BaseController
         session()->start();
 
         if (!session()->has('logged_in')) {
-            return redirect()->to('/');
+            return view('login');
         }
 
         $user_data = session()->get('logged_in');
@@ -131,7 +131,7 @@ class Home extends BaseController
         session()->start();
 
         if (!session()->has('logged_in')) {
-            return redirect()->to('/');
+            return view('login');
         }
 
         $data = [
@@ -146,7 +146,7 @@ class Home extends BaseController
         session()->start();
 
         if (!session()->has('logged_in')) {
-            return redirect()->to('/');
+            return view('login');
         }
 
         $data = [
@@ -154,6 +154,24 @@ class Home extends BaseController
         ];
 
         return view('coupons', $data);
+    }
+
+    public function showUsers()
+    {
+        session()->start();
+
+        if (!session()->has('logged_in')) {
+            return view('login');
+        }
+
+        $user_data = session()->get('logged_in');
+
+        $data = [
+            'pageTitle' => 'Users',
+            'userRole' => $user_data['role'],
+        ];
+
+        return view('users', $data);
     }
 
     public function getConfigList()
@@ -192,6 +210,47 @@ class Home extends BaseController
         $coupons = $coupon_model->getCoupons();
 
         return $this->response->setJSON($coupons);
+    }
+
+    public function getUsersList()
+    {
+        $user_model = model(UserModel::class);
+
+        $user_data = session()->get('logged_in');
+
+        $excluded_roles = [];
+        array_push($excluded_roles, $user_data['role']);
+        $user_data['role'] === 'staff' && array_push($excluded_roles, 'admin');
+
+        $users = $user_model->getUsers($excluded_roles);
+
+        return $this->response->setJSON($users);
+    }
+
+    public function editUser()
+    {
+        $user_model = model(UserModel::class);
+
+        $request_params = $this->request->getVar('form');
+
+        $user_id = $request_params->userId;
+
+        $data = [
+            'user_email' => $request_params->userEmail,
+            'user_phone' => $request_params->userPhone,
+            'user_first_name' => $request_params->userFirstName,
+            'user_last_name' => $request_params->userLastName,
+            'user_active' => $request_params->userActive,
+            'user_updated_at' => Time::now('UTC'),
+        ];
+
+        $edit_user_result = $user_model->updateUserById($user_id, $data);
+
+        $response = [
+            'result' => $edit_user_result,
+        ];
+
+        return $this->response->setJSON($response);
     }
 
     public function createConfig()

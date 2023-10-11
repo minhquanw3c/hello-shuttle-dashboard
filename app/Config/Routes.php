@@ -35,6 +35,7 @@ $routes->get('logout', 'Home::logout');
 $routes->get('bookings', 'Home::showBookings');
 $routes->get('configurations', 'Home::showConfigurations');
 $routes->get('coupons', 'Home::showCoupons');
+$routes->get('users', 'Home::showUsers');
 
 $routes->get('customer/bookings', 'Home::showBookings');
 $routes->post('api/bookings/customer/list', 'Home::getBookingsList');
@@ -43,6 +44,7 @@ $routes->get('api/configurations/list', 'Home::getConfigList');
 $routes->get('api/cars/list', 'Home::getCarsList');
 $routes->get('api/bookings/list', 'Home::getBookingsList');
 $routes->get('api/coupons/list', 'Home::getCouponsList');
+$routes->get('api/users/list', 'Home::getUsersList');
 
 $routes->post('api/configurations/edit', 'Home::editConfig');
 $routes->post('api/configurations/create', 'Home::createConfig');
@@ -51,6 +53,7 @@ $routes->post('api/coupons/create', 'Home::createCoupon');
 $routes->post('api/coupons/edit', 'Home::editCoupon');
 // $routes->post('api/bookings/clear', 'Home::clearBookings');
 $routes->post('api/bookings/edit', 'Home::editBooking');
+$routes->post('api/users/edit', 'Home::editUser');
 
 /*
  * --------------------------------------------------------------------
