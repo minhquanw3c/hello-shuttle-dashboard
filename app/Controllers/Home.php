@@ -13,6 +13,18 @@ use Ramsey\Uuid\Uuid;
 
 class Home extends BaseController
 {
+    public function getResourcesURLs($resource_type)
+    {
+        $current_env = strtolower($_SERVER['CI_ENVIRONMENT']);
+
+        $resources = (object) [];
+
+        $resources->form = $current_env === 'production' ? 'https://helloshuttle.com/' : 'http://localhost/projects/hello-shuttle/public/';
+        $resources->dashboard = $current_env === 'production' ? 'https://dashboard.helloshuttle.com/' : 'http://localhost/projects/hello-shuttle-dashboard/public/';
+
+        return $resources->{$resource_type};
+    }
+
     public function showLoginForm()
     {
         helper('form');
@@ -20,7 +32,10 @@ class Home extends BaseController
         if (session()->has('logged_in')) {
             return redirect()->to(base_url('bookings'));
         } else {
-            return view('login');
+            $data = [
+                'bookingFormUrl' => $this->getResourcesURLs('form')
+            ];
+            return view('login', $data);
         }
     }
 
@@ -121,6 +136,7 @@ class Home extends BaseController
         $data = [
             'pageTitle' => 'Bookings',
             'userId' => $user_data['user_id'],
+            'bookingFormUrl' => $this->getResourcesURLs('form'),
         ];
 
         return view($user_data['default_dashboard_route'], $data);

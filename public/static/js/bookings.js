@@ -82,12 +82,11 @@ var app = new Vue({
         this.fetchBookingsList(showToast = false);
     },
     methods: {
-        generateCancelBookingLink: function (bookingData) {
-            const self = this;
-            const bookingFormHostURL = 'https://helloshuttle.com/';
+        // generateCancelBookingLink: function (bookingData) {
+        //     const self = this;
 
-            return bookingFormHostURL.concat('cancel?booking_id=', bookingData.bookingId, '&cancel_session_id=', bookingData.bookingCancelSessionId);
-        },
+        //     return bookingFormUrl.concat('cancel?booking_id=', bookingData.bookingId, '&cancel_session_id=', bookingData.bookingCancelSessionId);
+        // },
         validateInputField: function (input) {
             const self = this;
 
@@ -95,10 +94,12 @@ var app = new Vue({
         },
         fetchBookingsList: function (showToast = true) {
             const self = this;
-            const payload = {};
+            const payload = {
+                userId: null
+            };
 
             axios
-                .get(baseURL + '/api/bookings/list', payload)
+                .post(baseURL + '/api/bookings/list', payload)
                 .then(res => {
                     console.log(res);
                     self.bookings = _.sortBy(res.data, booking => new Date(booking.bookingCreatedAt)).reverse();
@@ -300,7 +301,34 @@ var app = new Vue({
 
             self.modalConfig.editBookingDetails.show = true;
             self.modalConfig.editBookingDetails.form = {...bookingData};
-            self.modalConfig.editBookingDetails.cancelBookingLink = self.generateCancelBookingLink({...bookingData});
+            // self.modalConfig.editBookingDetails.cancelBookingLink = self.generateCancelBookingLink({...bookingData});
+        },
+        cancelBooking: function () {
+            const self = this;
+
+            let bookingData = self.modalConfig.editBookingDetails.form;
+
+            const payload = {
+                booking_id: bookingData.bookingId,
+                cancel_session_id: bookingData.bookingCancelSessionId,
+            };
+
+            axios
+                .post(bookingFormUrl + 'api/booking/cancel', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                        self.modalConfig.editBookingDetails.show = false;
+                    }
+
+                    var toastType = res.data.result === true ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
         },
     },
     computed: {

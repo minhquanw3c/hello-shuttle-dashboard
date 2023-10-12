@@ -213,6 +213,31 @@ var app = new Vue({
             self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
             self.modalConfig.bookingDetails.show = true;
         },
+        cancelBooking: function (bookingData) {
+            const self = this;
+
+            const payload = {
+                booking_id: bookingData.bookingId,
+                cancel_session_id: bookingData.bookingCancelSessionId,
+            };
+
+            axios
+                .post(bookingFormUrl + 'api/booking/cancel', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                        self.modalConfig.editBookingDetails.show = false;
+                    }
+
+                    var toastType = res.data.result === true ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
+        },
     },
     computed: {
 

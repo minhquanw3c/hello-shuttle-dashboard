@@ -32,9 +32,14 @@
 
 		<template #cell(actions)="row">
 			<b-button-group>
-				<b-button size="sm" variant="outline-primary" title="View booking details" @click="viewBookingDetails(row.item)">
+				<b-button
+					size="sm"
+					variant="outline-primary"
+					title="View booking details"
+					@click="viewBookingDetails(row.item)">
 					<b-icon icon="eye"></b-icon>
 				</b-button>
+
 				<b-button
 					v-if="row.item.bookingStatus === 'Processing'"
 					size="sm"
@@ -169,12 +174,12 @@
 
 	<template #modal-footer>
 		<b-button
-			:href="modalConfig.editBookingDetails.cancelBookingLink"
-			target="_blank"
+			@click.prevent="cancelBooking"
 			class="px-4 mr-2"
 			variant="danger">
 			Cancel booking
 		</b-button>
+		
 		<b-button
 			class="px-4"
 			@click="editBookingDetails"
@@ -186,5 +191,9 @@
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>
+<script type="text/javascript">
+	const bookingFormUrl = "<?= $bookingFormUrl ?>";
+</script>
+
 <script src="<?= base_url('static/js/bookings.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>

@@ -10,10 +10,15 @@ class BookingModel extends Model
 	protected $primaryKey = 'booking_id';
 
 	protected $allowedFields = [
-        'booking_data',
+        'booking_id',
+        'booking_ref_no',
+		'booking_data',
+        'booking_status',
         'payment_link',
+        'payment_link_id',
         'payment_status',
         'checkout_session_id',
+        'cancel_session_id',
         'booking_created_at',
         'booking_updated_at',
         'booked_by_customer',

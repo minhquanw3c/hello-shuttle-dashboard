@@ -10,6 +10,11 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
 	<link rel="stylesheet" href="<?= base_url('static/css/theme/styles.css') ?>">
+	<style>
+		.text-right {
+			text-align: right !important;
+		}
+	</style>
 	<title>Login | Hello Shuttle</title>
 </head>
 
@@ -40,8 +45,12 @@
 			<div class="col-lg-7 px-0">
 				<div class="login-right">
 					<div class="login-form">
+						<div class="col-12 mb-3 text-right">
+							<a class="primary-btn" href="<?= $bookingFormUrl ?>">
+								Back to booking
+							</a>
+						</div>
 						<h3 class="text-center">Sign in to system</h3>
-
 						<?php
 							$errors = validation_errors();
 						?>
