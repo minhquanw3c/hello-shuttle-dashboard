@@ -45,12 +45,7 @@
 			<div class="col-lg-7 px-0">
 				<div class="login-right">
 					<div class="login-form">
-						<div class="col-12 mb-3 text-right">
-							<a class="primary-btn" href="<?= $bookingFormUrl ?>">
-								Back to booking
-							</a>
-						</div>
-						<h3 class="text-center">Sign in to system</h3>
+						<h3 class="text-center">Dashboard login</h3>
 						<?php
 							$errors = validation_errors();
 						?>
@@ -82,8 +77,11 @@
 									<label for="remember" class="cursor">Remember Me</label>
 								</div>
 							</div>
-							<div class="d-flex flex-column mt-2">
-								<button type="submit" class="primary-btn w-75 mx-auto mb-3">Sign in</button>
+							<div class="d-flex mt-2 justify-content-center">
+								<a class="outline-btn w-25 me-3" href="<?= $bookingFormUrl ?>">
+									Back to booking
+								</a>
+								<button type="submit" class="primary-btn w-25">Sign in</button>
 							</div>
 						<?= form_close(); ?>
 					</div>
