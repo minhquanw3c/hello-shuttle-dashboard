@@ -183,7 +183,7 @@ var app = new Vue({
                 },
                 {
                     label: 'Rest stop',
-                    value: bookingDetails.reservation.oneWayTrip.restStop.description,
+                    value: bookingDetails.reservation.oneWayTrip.restStop ? bookingDetails.reservation.oneWayTrip.restStop.description : null,
                 },
                 {
                     label: 'Pickup time',
@@ -222,7 +222,7 @@ var app = new Vue({
                     },
                     {
                         label: 'Rest stop',
-                        value: bookingDetails.reservation.roundTrip.restStop.description,
+                        value: bookingDetails.reservation.roundTrip.restStop ? bookingDetails.reservation.roundTrip.restStop.description : null,
                     },
                     {
                         label: 'Pickup time',
