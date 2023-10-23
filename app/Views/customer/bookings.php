@@ -144,5 +144,5 @@
 	const bookingFormUrl = "<?= $bookingFormUrl ?>";
 	const userId = "<?= $userId ?>";
 </script>
-<script src="<?= base_url('static/js/customer/bookings.js') ?>"></script>
+<script src="<?= base_url('static/js/customer/bookings.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>

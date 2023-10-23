@@ -78,7 +78,7 @@
 								</div>
 							</div>
 							<div class="d-flex mt-2 justify-content-center">
-								<a class="outline-btn w-25 me-3" href="<?= $bookingFormUrl ?>">
+								<a class="outline-btn text-center w-25 me-3" href="<?= $bookingFormUrl ?>">
 									Back to booking
 								</a>
 								<button type="submit" class="primary-btn w-25">Sign in</button>

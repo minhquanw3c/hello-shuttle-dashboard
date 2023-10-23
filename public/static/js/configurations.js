@@ -309,7 +309,12 @@ var app = new Vue({
                     pickUpFeeFixedAmount: modalData.pickUpFeeFixedAmount,
                     pickUpFeeActive: modalData.pickUpFeeActive,
                     //---
+                    maxLuggages: modalData.maxLuggages,
                     extraLuggagesPrice: modalData.extraLuggagesPrice,
+                    //---
+                    maxPassengers: modalData.maxPassengers,
+                    freePassengersQuantity: modalData.freePassengersQuantity,
+                    extraPassengersPrice: modalData.extraPassengersPrice,
                 }
             };
 
@@ -565,7 +570,20 @@ var app = new Vue({
                     })
                 },
                 // Luggages
+                maxLuggages: {
+                    required: required,
+                },
                 extraLuggagesPrice: {
+                    required: required,
+                },
+                // Passengers
+                maxPassengers: {
+                    required: required,
+                },
+                freePassengersQuantity: {
+                    required: required,
+                },
+                extraPassengersPrice: {
                     required: required,
                 },
             },

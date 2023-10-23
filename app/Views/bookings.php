@@ -66,6 +66,27 @@
 	body-class="p-md-4">
 	<section>
 		<ul class="list-group">
+			<li class="list-group-item list-group-item-info">Vehicle</li>
+			<li class="list-group-item list-group-item-action">
+				<div class="row">
+					<div class="col-12 mb-3 text-center">
+						<img
+							:src="modalConfig.bookingDetails.data.oneWayTripVehicle && modalConfig.bookingDetails.data.oneWayTripVehicle.image"
+							alt=""
+							class="img-fluid"
+						/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6">{{ modalConfig.bookingDetails.data.oneWayTripVehicle && modalConfig.bookingDetails.data.oneWayTripVehicle.label }}</div>
+					<div class="col-12 col-md-6">{{ modalConfig.bookingDetails.data.oneWayTripVehicle && modalConfig.bookingDetails.data.oneWayTripVehicle.value }}</div>
+				</div>
+			</li>
+		</ul>
+	</section>
+
+	<section class="mt-4">
+		<ul class="list-group">
 			<li class="list-group-item list-group-item-info">Customer</li>
 			<li v-for="detail in modalConfig.bookingDetails.data.customer" class="list-group-item list-group-item-action">
 				<div class="row">
@@ -95,7 +116,10 @@
 			</li>
 		</ul>
 
-		<ul class="list-group mt-4" v-if="modalConfig.bookingDetails.data.tripType === 'round-trip'">
+		<ul
+			class="list-group mt-4"
+			v-if="modalConfig.bookingDetails.data.tripType === 'round-trip'"
+		>
 			<li class="list-group-item list-group-item-info">Return</li>
 			<li v-for="detail in modalConfig.bookingDetails.data.roundTrip" class="list-group-item list-group-item-action">
 				<div class="row">

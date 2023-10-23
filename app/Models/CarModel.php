@@ -57,7 +57,12 @@ class CarModel extends Model
             'config_cars_price.pickup_fee_fixed_amount AS pickUpFeeFixedAmount',
             'config_cars_price.pickup_fee_active AS pickUpFeeActive',
             //---
+            'config_cars_price.max_luggages AS maxLuggages',
             'config_cars_price.extra_luggages_price AS extraLuggagesPrice',
+            //---
+            'config_cars_price.max_passengers AS maxPassengers',
+            'config_cars_price.free_passengers_quantity AS freePassengersQuantity',
+            'config_cars_price.extra_passengers_price AS extraPassengersPrice',
         ])
         ->join('config_cars_price', 'config_cars_price.car_id = config_cars.car_id')
         ->findAll();

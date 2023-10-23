@@ -1,7 +1,6 @@
 Vue.use(window.vuelidate.default);
 Vue.component('multiselect', window.VueMultiselect.default);
 const { required, requiredIf, minLength, email, minValue } = window.validators;
-// import placePredictions from "../mixins/placePrediction";
 
 var app = new Vue({
     el: '#main-app',
@@ -82,11 +81,6 @@ var app = new Vue({
         this.fetchBookingsList(showToast = false);
     },
     methods: {
-        // generateCancelBookingLink: function (bookingData) {
-        //     const self = this;
-
-        //     return bookingFormUrl.concat('cancel?booking_id=', bookingData.bookingId, '&cancel_session_id=', bookingData.bookingCancelSessionId);
-        // },
         validateInputField: function (input) {
             const self = this;
 
@@ -210,6 +204,12 @@ var app = new Vue({
                 },
             ];
 
+            let oneWayTripVehicle = {
+                label: 'Name',
+                value: bookingDetails.selectCar.oneWayTrip.vehicle.carName,
+                image: baseURL.concat('/static/images/vehicles/', bookingDetails.selectCar.oneWayTrip.vehicle.carImage)
+            };
+
             if (self.modalConfig.bookingDetails.data.tripType === 'round-trip') {
                 let roundTrip = [
                     {
@@ -254,6 +254,7 @@ var app = new Vue({
             self.modalConfig.bookingDetails.data.customer = customer;
             self.modalConfig.bookingDetails.data.additionalNotes = additionalNotes;
             self.modalConfig.bookingDetails.data.oneWayTrip = oneWayTrip;
+            self.modalConfig.bookingDetails.data.oneWayTripVehicle = oneWayTripVehicle;
             self.modalConfig.bookingDetails.data.totalPrice = bookingDetails.review.prices.total;
             self.modalConfig.bookingDetails.show = true;
         },

@@ -598,17 +598,75 @@
 
     <hr/>
 
-    <b-form-group label="Extra lugguages">
+    <b-form-group label="Lugguages">
         <div class="row align-items-center">
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.maxLuggages)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Maximum luggages">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.maxLuggages.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.extraLuggagesPrice)"
                     :invalid-feedback="errorMessages.required"
-                    label="Price per luggage">
+                    label="Price extra luggage">
                     <b-form-input
                         min="0"
                         type="number"
                         v-model="$v.modals.editCar.extraLuggagesPrice.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+        </div>
+    </b-form-group>
+
+    <hr/>
+
+    <b-form-group label="Passengers">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.maxPassengers)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Maximum passengers">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.maxPassengers.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.freePassengersQuantity)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Free cost passengers">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.freePassengersQuantity.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <b-form-group
+                    :state="validateInputField($v.modals.editCar.extraPassengersPrice)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Price extra passenger">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.extraPassengersPrice.$model">
                     </b-form-input>
                 </b-form-group>
             </div>
@@ -642,5 +700,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>
-<script src="<?= base_url('static/js/configurations.js') ?>"></script>
+<script src="<?= base_url('static/js/configurations.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>

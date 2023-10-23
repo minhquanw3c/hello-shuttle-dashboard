@@ -48,7 +48,6 @@ class ConfigModel extends Model
         ->join('config_types', 'config_types.config_type_id = configurations.config_type_code')
         ->join('config_groups', 'config_groups.config_group_id = configurations.config_group_code')
         ->where('configurations.config_editable', 1)
-        ->where('configurations.config_active', 1)
         ->findAll();
 
         return $get_list_query;
