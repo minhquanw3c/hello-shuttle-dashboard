@@ -166,7 +166,6 @@ var app = new Vue({
             axios
                 .get(baseURL + '/api/cars/list', payload)
                 .then(res => {
-                    console.log(res);
                     self.carsList = res.data;
 
                     if (showToast) {
@@ -189,7 +188,6 @@ var app = new Vue({
             axios
                 .get(baseURL + '/api/configurations/list', payload)
                 .then(res => {
-                    console.log(res);
                     self.systemConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-sys');
                     self.extrasConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-opt');
                     self.protectionConfigList = res.data.filter(item => item.configGroupId === 'cfg-gr-prt');
@@ -310,6 +308,7 @@ var app = new Vue({
                     pickUpFeeActive: modalData.pickUpFeeActive,
                     //---
                     maxLuggages: modalData.maxLuggages,
+                    freeLuggagesQuantity: modalData.freeLuggagesQuantity,
                     extraLuggagesPrice: modalData.extraLuggagesPrice,
                     //---
                     maxPassengers: modalData.maxPassengers,
@@ -571,6 +570,9 @@ var app = new Vue({
                 },
                 // Luggages
                 maxLuggages: {
+                    required: required,
+                },
+                freeLuggagesQuantity: {
                     required: required,
                 },
                 extraLuggagesPrice: {

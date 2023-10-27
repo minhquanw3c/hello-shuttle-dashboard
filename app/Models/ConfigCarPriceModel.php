@@ -31,6 +31,7 @@ class ConfigCarPriceModel extends Model
         'pickup_fee_fixed_amount',
         'pickup_fee_active',
         'max_luggages',
+        'free_luggages_quantity',
         'extra_luggages_price',
         'max_passengers',
         'free_passengers_quantity',
@@ -69,6 +70,7 @@ class ConfigCarPriceModel extends Model
                 'pickup_fee_active' => $data->pickUpFeeActive,
                 //---
                 'max_luggages' => $data->maxLuggages,
+                'free_luggages_quantity' => $data->freeLuggagesQuantity,
                 'extra_luggages_price' => $data->extraLuggagesPrice,
                 //---
                 'max_passengers' => $data->maxPassengers,

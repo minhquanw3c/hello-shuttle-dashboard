@@ -58,6 +58,7 @@ class CarModel extends Model
             'config_cars_price.pickup_fee_active AS pickUpFeeActive',
             //---
             'config_cars_price.max_luggages AS maxLuggages',
+            'config_cars_price.free_luggages_quantity AS freeLuggagesQuantity',
             'config_cars_price.extra_luggages_price AS extraLuggagesPrice',
             //---
             'config_cars_price.max_passengers AS maxPassengers',

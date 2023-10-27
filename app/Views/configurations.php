@@ -615,6 +615,19 @@
 
             <div class="col-12 col-md-3">
                 <b-form-group
+                    :state="validateInputField($v.modals.editCar.freeLuggagesQuantity)"
+                    :invalid-feedback="errorMessages.required"
+                    label="Free cost luggages">
+                    <b-form-input
+                        min="0"
+                        type="number"
+                        v-model="$v.modals.editCar.freeLuggagesQuantity.$model">
+                    </b-form-input>
+                </b-form-group>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <b-form-group
                     :state="validateInputField($v.modals.editCar.extraLuggagesPrice)"
                     :invalid-feedback="errorMessages.required"
                     label="Price extra luggage">
