@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="<?= base_url('static/images/favicon.ico') ?>" type="image/x-icon">
+	<link rel="shortcut icon" href="<?= base_url('static/images/logo/favicons/32x36.png') ?>" type="image/x-icon">
 	<link href="<?= base_url('static/css/theme/bootstrap.min.css') ?>" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
@@ -13,6 +13,11 @@
 	<style>
 		.text-right {
 			text-align: right !important;
+		}
+
+		.max-width-logo {
+			max-width: 250px;
+			width: 100%;
 		}
 	</style>
 	<title>Login | Hello Shuttle</title>
@@ -24,7 +29,11 @@
 			<div class="col-lg-5 px-0 bg-login">
 				<div class="login-left pb-4">
 					<a href="<?= base_url('/') ?>">
-						<img src="<?= base_url('static/images/logo/hello-shuttle-white-03.png') ?>" class="mt-4 ps-3 ms-4" alt="hello-shuttle-car-rental">
+						<img
+							src="<?= base_url('static/images/logo/hello-shuttle-gold-hand-white-text.png') ?>"
+							class="mt-4 ps-3 ms-4 max-width-logo"
+							alt="hello-shuttle-car-rental"
+						/>
 					</a>
 					<img class="img-fluid login-img" src="<?= base_url('static/images/login.png') ?>" alt="">
 					<img src="<?= base_url('static/images/ball-b.png') ?>" class="ball1 img-fluid d-none d-md-block" alt="">
