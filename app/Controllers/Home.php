@@ -383,21 +383,6 @@ class Home extends BaseController
         return $this->response->setJSON($response);
     }
 
-    public function clearBookings()
-    {
-        $booking_model = model(BookingModel::class);
-        $booking_schedule_model = model(BookingScheduleModel::class);
-
-        $clear_bookings_result = $booking_model->clearBookings();
-        $clear_schedules_result = $booking_schedule_model->clearSchedules();
-
-        $response = [
-            'result' => $clear_bookings_result && $clear_schedules_result
-        ];
-
-        return $this->response->setJSON($response);
-    }
-
     public function editBooking()
     {
         $request_params = (object) $this->request->getVar('form');
@@ -435,5 +420,48 @@ class Home extends BaseController
         ];
 
         return $this->response->setJSON($response);
+    }
+
+    public function completeBooking()
+    {
+        $response = [
+            'result' => false,
+            'message' => 'There are errors occurred',
+        ];
+
+        $booking_id = $this->request->getJSONVar('booking_id');
+
+        $booking_exist = $this->checkBookingAvailability($booking_id);
+
+        if (!$booking_exist) {
+            $this->response->setJSON($response);
+        }
+
+        $booking_model = model(BookingModel::class);
+
+        $update_data = [
+            'booking_status' => 'bk-sts-cpt'
+        ];
+
+        $update_booking_status = $booking_model->updateBookingById($booking_id, $update_data);
+
+        $response['result'] = $update_booking_status;
+        $response['message'] = $update_booking_status ? 'Booking updated successfully' : 'There are errors occurred';
+
+        return $this->response->setJSON($response);
+    }
+
+    private function checkBookingAvailability($booking_id)
+    {
+        $booking_model = model(BookingModel::class);
+
+        $result = $booking_model->getBookingById($booking_id) != null ? true : false;
+
+        return $result;
+    }
+
+    public function scheduleBookingCompleteDate()
+    {
+        return $this->response->setJSON(false);
     }
 }

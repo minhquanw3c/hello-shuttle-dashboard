@@ -14,6 +14,10 @@ class BookingScheduleModel extends Model
         'booking_id',
 		'car_id',
         'scheduled_date',
+        'scheduled_time',
+        'estimated_complete_date',
+        'estimated_complete_time',
+        'schedule_active',
 	];
 
     public function getAvailableCarsForDate($date)
@@ -39,10 +43,13 @@ class BookingScheduleModel extends Model
         return $create_schedules_query;
     }
 
-    public function clearSchedules()
+    public function updateBookingScheduleById($id)
     {
-        $clear_schedules_query = $this->truncate();
+        $update_query = $this->update(
+            $id,
+            $data
+        );
 
-        return $clear_schedules_query;
+        return $update_query;
     }
 }

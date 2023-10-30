@@ -31,23 +31,50 @@
 		</template>
 
 		<template #cell(actions)="row">
-			<b-button-group>
+			<b-button-group verticle>
 				<b-button
-					size="sm"
-					variant="outline-primary"
+					v-b-tooltip.hover
+					variant="primary"
 					title="View booking details"
 					@click="viewBookingDetails(row.item)">
 					<b-icon icon="eye"></b-icon>
 				</b-button>
 
-				<b-button
-					v-if="row.item.bookingStatus === 'Processing'"
-					size="sm"
-					variant="outline-success"
-					title="Edit booking details"
-					@click="showEditBookingModal(row.item)">
-					<b-icon icon="pencil"></b-icon>
-				</b-button>
+				<template v-if="row.item.bookingStatus === 'Processing'">
+					<b-button
+						class="mx-3"
+						v-b-tooltip.hover
+						variant="primary"
+						title="Edit customer details"
+						@click="showEditBookingModal(row.item)">
+						<b-icon icon="person-lines-fill"></b-icon>
+					</b-button>
+
+					<b-button
+						class="mr-3"
+						v-b-tooltip.hover
+						@click.prevent="cancelBooking(row.item)"
+						variant="danger"
+						title="Cancel this booking">
+						<b-icon icon="x-circle"></b-icon>
+					</b-button>
+
+					<b-button
+						class="mr-3"
+						v-b-tooltip.hover
+						@click.prevent="completeBooking(row.item)"
+						variant="primary"
+						title="Mark this booking as Done">
+						<b-icon icon="check2-square"></b-icon>
+					</b-button>
+
+					<b-button
+						@click.prevent="toggleModalVisibility('scheduleCompleteBooking', true, row.item)"
+						variant="primary"
+						title="Schedule booking complete date">
+						<b-icon icon="clock"></b-icon>
+					</b-button>
+				</template>
 			</b-button-group>
 		</template>
 	</b-table-lite>
@@ -154,12 +181,12 @@
 	</section>
 </b-modal>
 
-<!-- Edit booking -->
+<!-- Edit customer details -->
 <b-modal
 	static
 	:visible="modalConfig.editBookingDetails.show"
 	@close="() => { modalConfig.editBookingDetails.show = false; modalConfig.editBookingDetails.form = {} }"
-	title="Edit booking details"
+	title="Edit customer details"
 	no-close-on-esc
 	no-close-on-backdrop
 	size="md"
@@ -198,15 +225,150 @@
 
 	<template #modal-footer>
 		<b-button
-			@click.prevent="cancelBooking"
-			class="px-4 mr-2"
-			variant="danger">
-			Cancel booking
-		</b-button>
-		
-		<b-button
 			class="px-4"
 			@click="editBookingDetails"
+			variant="primary">
+			Save
+		</b-button>
+	</template>
+</b-modal>
+
+<!-- Schedule booking complete date -->
+<b-modal
+	static
+	:visible="modalConfig.scheduleCompleteBooking.show"
+	@show="mapBookingDataForScheduling"
+	@close="toggleModalVisibility('scheduleCompleteBooking', false)"
+	title="Schedule booking complete date"
+	no-close-on-esc
+	no-close-on-backdrop
+	size="xl"
+	body-class="p-md-4">
+	<section>
+		<div class="row">
+			<div class="col-6">
+				<b-form-group
+					label="Trip type"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.tripType)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-input
+						disabled
+						type="text"
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.tripType.$model">
+					</b-form-input>
+				</b-form-group>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Pick-up date"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupDate)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-datepicker
+						disabled
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupDate.$model">
+					</b-form-datepicker>
+				</b-form-group>
+			</div>
+
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Pick-up time"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupTime)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-timepicker
+						disabled
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupTime.$model">
+					</b-form-timepicker>
+				</b-form-group>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Schedule date"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.scheduleCompleteDate)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-datepicker
+						:min="$v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupDate.$model"
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.scheduleCompleteDate.$model">
+					</b-form-datepicker>
+				</b-form-group>
+			</div>
+
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Schedule time"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.scheduleCompleteTime)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-timepicker
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.oneWayTrip.scheduleCompleteTime.$model">
+					</b-form-timepicker>
+				</b-form-group>
+			</div>
+		</div>
+	</section>
+
+	<section v-if="modalConfig.scheduleCompleteBooking.form.tripType === 'round-trip'">
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Pick-up date"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-datepicker
+						disabled
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate.$model">
+					</b-form-datepicker>
+				</b-form-group>
+			</div>
+
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Pick-up time"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupTime)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-timepicker
+						disabled
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupTime.$model">
+					</b-form-timepicker>
+				</b-form-group>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Schedule date"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.roundTrip.scheduleCompleteDate)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-datepicker
+						:min="$v.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate.$model"
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.roundTrip.scheduleCompleteDate.$model">
+					</b-form-datepicker>
+				</b-form-group>
+			</div>
+
+			<div class="col-12 col-md-6">
+				<b-form-group
+					label="Schedule time"
+					:state="validateInputField($v.modalConfig.scheduleCompleteBooking.form.roundTrip.scheduleCompleteTime)"
+					:invalid-feedback="errorMessages.required">
+					<b-form-timepicker
+						v-model="$v.modalConfig.scheduleCompleteBooking.form.roundTrip.scheduleCompleteTime.$model">
+					</b-form-timepicker>
+				</b-form-group>
+			</div>
+		</div>
+	</section>
+
+	<template #modal-footer>
+		<b-button
+			class="px-4"
+			@click="scheduleBookingCompleteDate"
 			variant="primary">
 			Save
 		</b-button>

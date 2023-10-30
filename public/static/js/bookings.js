@@ -2,6 +2,25 @@ Vue.use(window.vuelidate.default);
 Vue.component('multiselect', window.VueMultiselect.default);
 const { required, requiredIf, minLength, email, minValue } = window.validators;
 
+const originalForms = {
+    scheduleCompleteBooking: {
+        bookingId: null,
+        tripType: null,
+        oneWayTrip: {
+            pickupDate: null,
+            pickupTime: null,
+            scheduleCompleteDate: null,
+            scheduleCompleteTime: null,
+        },
+        roundTrip: {
+            pickupDate: null,
+            pickupTime: null,
+            scheduleCompleteDate: null,
+            scheduleCompleteTime: null,
+        },
+    },
+};
+
 var app = new Vue({
     el: '#main-app',
     data: function () {
@@ -17,8 +36,6 @@ var app = new Vue({
                         value: false,
                     },
                 ],
-            },
-            form: {
             },
             tableConfig: {
                 bookings: {
@@ -72,7 +89,12 @@ var app = new Vue({
                     data: {},
                     form: {},
                     cancelBookingLink: null,
-                }
+                },
+                scheduleCompleteBooking: {
+                    show: false,
+                    data: {},
+                    form: originalForms.scheduleCompleteBooking
+                },
             },
         }
     },
@@ -302,12 +324,9 @@ var app = new Vue({
 
             self.modalConfig.editBookingDetails.show = true;
             self.modalConfig.editBookingDetails.form = {...bookingData};
-            // self.modalConfig.editBookingDetails.cancelBookingLink = self.generateCancelBookingLink({...bookingData});
         },
-        cancelBooking: function () {
+        cancelBooking: function (bookingData) {
             const self = this;
-
-            let bookingData = self.modalConfig.editBookingDetails.form;
 
             const payload = {
                 booking_id: bookingData.bookingId,
@@ -320,7 +339,6 @@ var app = new Vue({
                     
                     if (res.data.result) {
                         self.fetchBookingsList(showToast = false);
-                        self.modalConfig.editBookingDetails.show = false;
                     }
 
                     var toastType = res.data.result === true ? 'success' : 'error';
@@ -330,6 +348,89 @@ var app = new Vue({
                     var toastType = 'error';
                     self.showToastNotification(toastType);
                 });
+        },
+        completeBooking: function (bookingData) {
+            const self = this;
+
+            const payload = {
+                booking_id: bookingData.bookingId,
+            };
+
+            axios
+                .post(baseURL + '/api/bookings/complete', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                    }
+
+                    var toastType = res.data.result === true ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
+        },
+        scheduleBookingCompleteDate: function () {
+            const self = this;
+
+            self.$v.modalConfig.scheduleCompleteBooking.form.$touch();
+            const formValidity = !self.$v.modalConfig.scheduleCompleteBooking.form.$invalid;
+
+            if (formValidity === false) {
+                return;
+            }
+
+            const payload = {
+                form: self.modalConfig.scheduleCompleteBooking.form
+            };
+
+            axios
+                .post(baseURL + '/api/bookings/schedule', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                    }
+
+                    var toastType = res.data.result === true ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
+        },
+        toggleModalVisibility: function (modalId, state, data = null) {
+            const self = this;
+
+            if (state === true) {
+                if (data) {
+                    self.modalConfig[modalId].data = data;
+                }
+            } else {
+                self.modalConfig[modalId].form = originalForms[modalId];
+                self.modalConfig[modalId].data = null;
+            }
+
+            self.modalConfig[modalId].show = state;
+        },
+        mapBookingDataForScheduling: function () {
+            const self = this;
+
+            const bookingData = self.modalConfig.scheduleCompleteBooking.data;
+
+            const bookingDetails = JSON.parse(bookingData.bookingData);
+
+            self.modalConfig.scheduleCompleteBooking.form.bookingId = bookingData.bookingId;
+            self.modalConfig.scheduleCompleteBooking.form.tripType = bookingDetails.reservation.tripType;
+
+            self.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupDate = bookingDetails.reservation.oneWayTrip.pickup.date;
+            self.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupTime = bookingDetails.reservation.oneWayTrip.pickup.time;
+
+            self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate = bookingDetails.reservation.roundTrip.pickup.date;
+            self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupTime = bookingDetails.reservation.roundTrip.pickup.time;
         },
     },
     computed: {
@@ -347,6 +448,45 @@ var app = new Vue({
                     },
                     customerPhone: {
                         required: required
+                    },
+                },
+            },
+            scheduleCompleteBooking: {
+                form: {
+                    tripType: {
+                        required: required
+                    },
+                    oneWayTrip: {
+                        pickupDate: {
+
+                        },
+                        pickupTime: {
+
+                        },
+                        scheduleCompleteDate: {
+                            required: required
+                        },
+                        scheduleCompleteTime: {
+                            required: required
+                        },
+                    },
+                    roundTrip: {
+                        pickupDate: {
+
+                        },
+                        pickupTime: {
+                            
+                        },
+                        scheduleCompleteDate: {
+                            requiredIf: requiredIf(function () {
+                                return this.modalConfig.scheduleCompleteBooking.form.tripType === 'round-trip';
+                            })
+                        },
+                        scheduleCompleteTime: {
+                            requiredIf: requiredIf(function () {
+                                return this.modalConfig.scheduleCompleteBooking.form.tripType === 'round-trip';
+                            })
+                        },
                     },
                 },
             },

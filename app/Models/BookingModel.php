@@ -93,4 +93,15 @@ class BookingModel extends Model
 
         return $retrieve_query;
     }
+
+    public function getBookingById($booking_id, $select_fields = [])
+    {
+        $query = $this->select("*")->where('booking_id', $booking_id)->first();
+
+        if (count($select_fields) > 0) {
+            $query = $this->select(implode(", ", $select_fields))->where('booking_id', $booking_id)->first();
+        }
+
+        return $query;
+    }
 }
