@@ -69,7 +69,7 @@
 					</b-button>
 
 					<b-button
-						@click.prevent="toggleModalVisibility('scheduleCompleteBooking', true, row.item)"
+						@click.prevent="onShowSchedulingCompleteBookingModal(row.item)"
 						variant="primary"
 						title="Schedule booking complete date">
 						<b-icon icon="clock"></b-icon>
@@ -237,8 +237,7 @@
 <b-modal
 	static
 	:visible="modalConfig.scheduleCompleteBooking.show"
-	@show="mapBookingDataForScheduling"
-	@close="toggleModalVisibility('scheduleCompleteBooking', false)"
+	@close="onCloseSchedulingCompleteBookingModal"
 	title="Schedule booking complete date"
 	no-close-on-esc
 	no-close-on-backdrop
@@ -381,5 +380,5 @@
 	const bookingFormUrl = "<?= $bookingFormUrl ?>";
 </script>
 
-<script src="<?= base_url('static/js/bookings.js?v=' . now()) ?>"></script>
+<script src="<?= base_url('static/js/bookings.js') ?>"></script>
 <?= $this->endSection() ?>

@@ -43,7 +43,7 @@ class BookingScheduleModel extends Model
         return $create_schedules_query;
     }
 
-    public function updateBookingScheduleById($id)
+    public function updateBookingScheduleById($id, $data)
     {
         $update_query = $this->update(
             $id,

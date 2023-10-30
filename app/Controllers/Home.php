@@ -462,6 +462,46 @@ class Home extends BaseController
 
     public function scheduleBookingCompleteDate()
     {
-        return $this->response->setJSON(false);
+        $response = [
+            'result' => false,
+            'message' => 'There are errors occurred',
+        ];
+
+        $request_params = $this->request->getJsonVar('form');
+        $booking_id = $request_params->bookingId;
+
+        $schedule_model = model(BookingScheduleModel::class);
+
+        $estimated_complete_data = [
+            'oneWayTrip' => [
+                'estimated_complete_date' => $request_params->oneWayTrip->scheduleCompleteDate,
+                'estimated_complete_time' => $request_params->oneWayTrip->scheduleCompleteTime,
+            ],
+            'roundTrip' => [
+                'estimated_complete_date' => $request_params->roundTrip->scheduleCompleteDate,
+                'estimated_complete_time' => $request_params->roundTrip->scheduleCompleteTime,
+            ],
+        ];
+
+        $update_query = $schedule_model
+                            ->set($estimated_complete_data['oneWayTrip'])
+                            ->where([
+                                'booking_id' => $booking_id,
+                                'car_id' => $request_params->oneWayTrip->carId
+                            ])->update();
+
+        if ($request_params->tripType === 'round-trip') {
+            $update_query = $schedule_model
+                            ->set($estimated_complete_data['roundTrip'])
+                            ->where([
+                                'booking_id' => $booking_id,
+                                'car_id' => $request_params->roundTrip->carId
+                            ])->update();
+        }
+
+        $response['result'] = $update_query;
+        $response['message'] = $update_query ? 'Scheduling book successfully' : 'There are errors occurred';
+
+        return $this->response->setJSON($response);
     }
 }

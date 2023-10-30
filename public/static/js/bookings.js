@@ -7,12 +7,14 @@ const originalForms = {
         bookingId: null,
         tripType: null,
         oneWayTrip: {
+            carId: null,
             pickupDate: null,
             pickupTime: null,
             scheduleCompleteDate: null,
             scheduleCompleteTime: null,
         },
         roundTrip: {
+            carId: null,
             pickupDate: null,
             pickupTime: null,
             scheduleCompleteDate: null,
@@ -93,7 +95,7 @@ var app = new Vue({
                 scheduleCompleteBooking: {
                     show: false,
                     data: {},
-                    form: originalForms.scheduleCompleteBooking
+                    form: JSON.parse(JSON.stringify(originalForms.scheduleCompleteBooking)),
                 },
             },
         }
@@ -392,6 +394,7 @@ var app = new Vue({
                     
                     if (res.data.result) {
                         self.fetchBookingsList(showToast = false);
+                        self.onCloseSchedulingCompleteBookingModal();
                     }
 
                     var toastType = res.data.result === true ? 'success' : 'error';
@@ -402,35 +405,34 @@ var app = new Vue({
                     self.showToastNotification(toastType);
                 });
         },
-        toggleModalVisibility: function (modalId, state, data = null) {
+        onShowSchedulingCompleteBookingModal: function (bookingData) {
             const self = this;
-
-            if (state === true) {
-                if (data) {
-                    self.modalConfig[modalId].data = data;
-                }
-            } else {
-                self.modalConfig[modalId].form = originalForms[modalId];
-                self.modalConfig[modalId].data = null;
-            }
-
-            self.modalConfig[modalId].show = state;
-        },
-        mapBookingDataForScheduling: function () {
-            const self = this;
-
-            const bookingData = self.modalConfig.scheduleCompleteBooking.data;
 
             const bookingDetails = JSON.parse(bookingData.bookingData);
 
             self.modalConfig.scheduleCompleteBooking.form.bookingId = bookingData.bookingId;
             self.modalConfig.scheduleCompleteBooking.form.tripType = bookingDetails.reservation.tripType;
 
+            self.modalConfig.scheduleCompleteBooking.form.oneWayTrip.carId = bookingDetails.selectCar.oneWayTrip.vehicle.carId;
             self.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupDate = bookingDetails.reservation.oneWayTrip.pickup.date;
             self.modalConfig.scheduleCompleteBooking.form.oneWayTrip.pickupTime = bookingDetails.reservation.oneWayTrip.pickup.time;
 
-            self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate = bookingDetails.reservation.roundTrip.pickup.date;
-            self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupTime = bookingDetails.reservation.roundTrip.pickup.time;
+            if (bookingDetails.reservation.tripType === 'round-trip') {
+                self.modalConfig.scheduleCompleteBooking.form.roundTrip.carId = bookingDetails.selectCar.roundTrip.vehicle.carId;
+                self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupDate = bookingDetails.reservation.roundTrip.pickup.date;
+                self.modalConfig.scheduleCompleteBooking.form.roundTrip.pickupTime = bookingDetails.reservation.roundTrip.pickup.time;
+            }
+
+            self.modalConfig.scheduleCompleteBooking.show = true;
+        },
+        onCloseSchedulingCompleteBookingModal: function () {
+            const self = this;
+
+            self.modalConfig.scheduleCompleteBooking.form = JSON.parse(JSON.stringify(originalForms.scheduleCompleteBooking));
+            self.modalConfig.scheduleCompleteBooking.data = null;
+            self.$v.modalConfig.scheduleCompleteBooking.form.$reset();
+
+            self.modalConfig.scheduleCompleteBooking.show = false;
         },
     },
     computed: {
