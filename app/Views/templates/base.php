@@ -122,8 +122,10 @@
 
 				<div class="row my-2 g-3 g-lg-4 top-border footer">
 					<div class="col-lg-6">
-						<span class="text-center text-lg-start d-block w-100">Copyright © <?= date('Y') ?> | Designed by
-							<a href="https://dannythedesigner.com/" target="_blank">DannyTheDesigner</a></span>
+						<span class="text-lg-start d-block w-100">
+							&copy; <?= date('Y') ?> HelloShuttle. All Rights Reserved.
+						</span>
+						<span>Designed by <a href="https://dannythedesigner.com/" target="_blank">DannyTheDesigner</a></span>
 					</div>
 					<div class="col-lg-6">
 						<ul class="d-flex gap-2 gap-xl-4 p-0 align-items-center flex-wrap justify-content-center justify-content-lg-end">
