@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class BookingScheduleModel extends Model
 {
 	protected $table = 'booking_schedules';
-	protected $primaryKey = 'schedule_id';
-    protected $useAutoIncrement = true;
+	protected $primaryKey = 'booking_id';
+    protected $useAutoIncrement = false;
 
 	protected $allowedFields = [
         'booking_id',
@@ -51,5 +51,14 @@ class BookingScheduleModel extends Model
         );
 
         return $update_query;
+    }
+
+    public function removeBookingScheduleById($booking_id)
+    {
+        $INACTIVE_SCHEDULE = 0;
+
+        $remove_schedules_query = $this->update($booking_id, ['schedule_active' => $INACTIVE_SCHEDULE]);
+
+        return $remove_schedules_query;
     }
 }

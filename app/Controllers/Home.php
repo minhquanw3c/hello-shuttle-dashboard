@@ -438,15 +438,17 @@ class Home extends BaseController
         }
 
         $booking_model = model(BookingModel::class);
+        $booking_schedule_model = model(BookingScheduleModel::class);
 
         $update_data = [
             'booking_status' => 'bk-sts-cpt'
         ];
 
         $update_booking_status = $booking_model->updateBookingById($booking_id, $update_data);
+        $remove_booking_schedule = $booking_schedule_model->removeBookingScheduleById($booking_id);
 
-        $response['result'] = $update_booking_status;
-        $response['message'] = $update_booking_status ? 'Booking updated successfully' : 'There are errors occurred';
+        $response['result'] = $update_booking_status && $remove_booking_schedule;
+        $response['message'] = $update_booking_status && $remove_booking_schedule ? 'Booking updated successfully' : 'There are errors occurred';
 
         return $this->response->setJSON($response);
     }
