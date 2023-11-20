@@ -110,6 +110,9 @@ class Home extends BaseController
         $logged_in_data = [
             'username' => $user['userEmail'],
             'user_id' => $user['userId'],
+            'user_first_name' => $user['userFirstName'],
+            'user_last_name' => $user['userLastName'],
+            'user_phone' => $user['userPhone'],
             'user_full_name' => $user['userFullName'],
             // 'expiration' => time() + 5,
             'role' => $user['userRole'],
@@ -505,5 +508,18 @@ class Home extends BaseController
         $response['message'] = $update_query ? 'Scheduling book successfully' : 'There are errors occurred';
 
         return $this->response->setJSON($response);
+    }
+
+    public function showAccountSettings()
+    {
+        if (!session()->has('logged_in')) {
+            return view('login');
+        }
+
+        $data = [
+            'pageTitle' => 'Account settings'
+        ];
+
+        return view('account_settings', $data);
     }
 }

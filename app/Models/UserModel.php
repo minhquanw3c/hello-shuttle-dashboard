@@ -11,11 +11,11 @@ class UserModel extends Model
     protected $useAutoIncrement = false;
 
 	protected $allowedFields = [
-        'user_id',
 		'user_email',
         'user_hashed_password',
         'user_first_name',
         'user_last_name',
+        'user_phone',
         'user_role',
         'user_active',
         'user_created_at',
@@ -37,6 +37,7 @@ class UserModel extends Model
             'users.user_hashed_password AS userPassword',
             'users.user_first_name AS userFirstName',
             'users.user_last_name AS userLastName',
+            'users.user_phone AS userPhone',
             'CONCAT(users.user_last_name, " ", users.user_first_name) AS userFullName',
             'users.user_role AS userRole',
             'GROUP_CONCAT(roles_permissions.allowed_route_pattern SEPARATOR "|") AS userAllowedRoutes',

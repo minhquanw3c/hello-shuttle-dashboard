@@ -380,5 +380,5 @@
 	const bookingFormUrl = "<?= $bookingFormUrl ?>";
 </script>
 
-<script src="<?= base_url('static/js/bookings.js') ?>"></script>
+<script src="<?= base_url('static/js/bookings.js?v=' . now()) ?>"></script>
 <?= $this->endSection() ?>
