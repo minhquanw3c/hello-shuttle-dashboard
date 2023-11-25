@@ -58,6 +58,7 @@ $routes->post('api/bookings/complete', 'Home::completeBooking');
 $routes->post('api/bookings/schedule', 'Home::scheduleBookingCompleteDate');
 
 $routes->get('account/settings', 'Home::showAccountSettings');
+$routes->post('account/settings/update', 'PasswordManagerController::changePasswordGateway');
 
 /*
  * --------------------------------------------------------------------

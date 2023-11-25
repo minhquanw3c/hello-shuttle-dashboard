@@ -39,21 +39,22 @@
 		<template #cell(actions)="row">
 			<b-button-group>
 				<b-button
-					class="mr-2"
-					@click.prevent="cancelBooking(row.item)"
-					size="sm"
-					title="Cancel this booking"
-					variant="outline-danger">
-					<b-icon icon="x-circle"></b-icon>
-				</b-button>
-
-				<b-button
 					size="sm"
 					variant="outline-primary"
 					title="View booking details"
 					@click="viewBookingDetails(row.item)"
 				>
 					<b-icon icon="eye"></b-icon>
+				</b-button>
+
+				<b-button
+					v-if="row.item.bookingStatus === 'Processing'"
+					class="mr-2"
+					@click.prevent="cancelBooking(row.item)"
+					size="sm"
+					title="Cancel this booking"
+					variant="outline-danger">
+					<b-icon icon="x-circle"></b-icon>
 				</b-button>
 			</b-button-group>
 		</template>

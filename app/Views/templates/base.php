@@ -149,6 +149,7 @@
 	<script src="<?= base_url('static/js/vendors/lodash.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/moment-with-locales.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/vue.min.js') ?>" type="text/javascript"></script>
+	<script src="<?= base_url('static/js/common/utilities.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/vue-multiselect.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/portal-vue.umd.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('static/js/vendors/bootstrap-vue.min.js') ?>" type="text/javascript"></script>

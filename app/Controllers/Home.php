@@ -99,10 +99,15 @@ class Home extends BaseController
         $user = $user[0];
         $hash = $user['userPassword'];
 
-        if (!password_verify($user_data['password'], $hash)) {
-            $session->setFlashdata('_ci_validation_errors', ['account' => 'Email or password is incorrect']);
-            return redirect()->back()->withInput();
-        };
+        $password_handler = new PasswordManagerController();
+
+        // if (!$password_handler->verifyPasswordPairMatch(
+        //     $user_data['password'],
+        //     $password_handler->decryptPassword($hash)
+        // )) {
+        //     $session->setFlashdata('_ci_validation_errors', ['account' => 'Email or password is incorrect']);
+        //     return redirect()->back()->withInput();
+        // };
 
         $navigation_menu_model = model(NavigationMenuModel::class);
         $nav_items = $navigation_menu_model->getNavItemsByRole($user['userRole']);
