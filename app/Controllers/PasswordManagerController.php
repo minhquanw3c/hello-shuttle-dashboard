@@ -75,30 +75,26 @@ class PasswordManagerController extends BaseController
 
     public function encryptPassword($data)
     {
-        $config = new \Config\Encryption();
-        $config->key = 'qnHpj9OG7AQN8S3YvrkKzgiRX0Z5PWaDCcu';
+        // $encrypter = \Config\Services::encrypter();
+        // $encrypted_password = base64_encode($encrypter->encrypt($data));
 
-        $encrypter = \Config\Services::encrypter($config);
-
-        $encrypted_password = base64_encode($encrypter->encrypt($data));
+        $encrypted_password = base64_encode(password_hash($data, PASSWORD_DEFAULT));
 
         return $encrypted_password;
     }
 
     public function decryptPassword($data)
     {
-        $config = new \Config\Encryption();
-        $config->key = 'qnHpj9OG7AQN8S3YvrkKzgiRX0Z5PWaDCcu';
-
-        $encrypter = \Config\Services::encrypter($config);
-
-        $decrypted_password = base64_decode($encrypter->decrypt($data));
+        // Not working now
+        // $encrypter = \Config\Services::encrypter();
+        // $decrypted_password = base64_decode($encrypter->decrypt($data));
+        $decrypted_password = null;
 
         return $decrypted_password;
     }
 
-    public function verifyPasswordPairMatch($provided_password, $user_password)
+    public function verifyPasswordPairMatch($provided_password, $hased_password)
     {
-        return $provided_password === $user_password;
+        return password_verify($provided_password, base64_decode($hased_password));
     }
 }
