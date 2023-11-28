@@ -71,13 +71,18 @@
                 >
                     You will be disconnected from the system after changing password.
                     Please login to the system again for the changes to take affect.
+                    <p class="mt-2 mb-0">New password must satisfy:</p>
+                    <ul>
+                        <li>At least 10 characters in length</li>
+                        <li>Contain uppercase, lowercase and numeric characters [a-zA-Z0-9]</li>
+                    </ul>
                 </b-alert>
             </div>
             <div class="col-12 col-md-6">
                 <b-form-group
                     label="New password"
                     :state="validateInputField($v.forms.password.newPassword)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.invalid"
                 >
                     <b-form-input
                         type="password"
@@ -91,7 +96,7 @@
                 <b-form-group
                     label="Confirm password"
                     :state="validateInputField($v.forms.password.confirmNewPassword)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.invalid"
                 >
                     <b-form-input
                         type="password"

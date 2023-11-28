@@ -1,5 +1,5 @@
 Vue.use(window.vuelidate.default);
-const { required, requiredIf, minLength, email, minValue } = window.validators;
+const { required, requiredIf, minLength, email, minValue, sameAs, helpers } = window.validators;
 
 var app = new Vue({
     el: '#main-app',
@@ -20,6 +20,7 @@ var app = new Vue({
             },
             errorMessages: {
                 required: 'This field is required',
+                invalid: 'This field is invalid',
             },
         }
     },
@@ -89,10 +90,17 @@ var app = new Vue({
             },
             password: {
                 newPassword: {
-                    required: required
+                    required: required,
+                    minLength: minLength(10),
+                    regex: function (val) {
+                        return /^[a-zA-Z0-9]+$/g.test(val);
+                    },
                 },
                 confirmNewPassword: {
-                    required: required
+                    required: required,
+                    sameAs: sameAs(function() {
+                        return this.forms.password.newPassword;
+                    })
                 }
             },
         }
