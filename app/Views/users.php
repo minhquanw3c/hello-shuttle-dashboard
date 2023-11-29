@@ -4,9 +4,13 @@
 <?php if ($userRole === 'admin'): ?>
     <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded mb-4">
         <div class="col-12 text-right px-0 mb-3">
-            <b-button class="btn" variant="outline-primary">
+            <b-button
+                class="btn"
+                variant="outline-primary"
+                @click="openModal('createUser')"
+            >
                 <b-icon icon="plus-circle"></b-icon>
-                User
+                Employee
             </b-button>
         </div>
         <div class="col-12">
@@ -34,7 +38,7 @@
 	<div class="col-12 text-right px-0 mb-3">
 		<b-button class="btn" variant="outline-primary">
 			<b-icon icon="plus-circle"></b-icon>
-			User
+			Customer
 		</b-button>
 	</div>
 	<div class="col-12">
@@ -49,7 +53,7 @@
 				{{ row.index + 1 }}
 			</template>
 			<template #cell(actions)="row">
-				<b-button variant="outline-primary" @click="openModal('editUser', row.item)" class="btn-sm">
+				<b-button variant="outline-primary" @click="" class="btn-sm">
 					<b-icon icon="pencil-fill"></b-icon>
 				</b-button>
 			</template>
@@ -58,6 +62,79 @@
 </div>
 
 <!-- Modals sections -->
+<b-modal
+    title="Create employee"
+    no-close-on-esc
+    no-close-on-backdrop
+    @close="clearModalState('createUser', true)"
+    :visible="showModal.createUser">
+	<b-form-group
+        label="Email"
+        :state="validateInputField($v.modals.createUser.userEmail)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="email"
+            v-model="$v.modals.createUser.userEmail.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group
+        label="Password"
+        :state="validateInputField($v.modals.createUser.userPassword)"
+        :invalid-feedback="errorMessages.required">
+        <b-input-group>
+            <b-form-input
+                type="text"
+                readonly
+                v-model="$v.modals.createUser.userPassword.$model">
+            </b-form-input>
+            <b-input-append>
+                <b-button @click.prevent="generatePassword">Generate</b-button>
+            </b-input-append>
+        </b-input-group>
+	</b-form-group>
+
+	<b-form-group
+        label="First name"
+        :state="validateInputField($v.modals.createUser.userFirstName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.createUser.userFirstName.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<b-form-group
+        label="Last name"
+        :state="validateInputField($v.modals.createUser.userLastName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.createUser.userLastName.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group
+        label="Phone"
+        :state="validateInputField($v.modals.createUser.userPhone)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="tel"
+            v-model="$v.modals.createUser.userPhone.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<template #modal-footer>
+		<b-button
+            class="px-4"
+            variant="primary"
+            @click.prevent="createUser"
+        >
+            Create
+        </b-button>
+	</template>
+</b-modal>
+
 <b-modal
     title="Edit user"
     no-close-on-esc

@@ -251,6 +251,39 @@ class Home extends BaseController
         return $this->response->setJSON($users);
     }
 
+    public function createUser()
+    {
+        $user_model = model(UserModel::class);
+
+        $request_params = $this->request->getJsonVar('form');
+
+        $password_handler = new PasswordManagerController();
+
+        $user_id = Uuid::uuid4()->toString();
+        $user_hashed_password = $password_handler->encryptPassword($request_params->userPassword);
+
+        $data = [
+            'user_id' => $user_id,
+            'user_email' => $request_params->userEmail,
+            'user_hashed_password' => $user_hashed_password,
+            'user_phone' => $request_params->userPhone,
+            'user_first_name' => $request_params->userFirstName,
+            'user_last_name' => $request_params->userLastName,
+            'user_active' => 1,
+            'user_role' => 'staff',
+            'user_created_at' => Time::now('UTC'),
+            'user_updated_at' => Time::now('UTC'),
+        ];
+
+        $create_user_result = $user_model->createUser($data);
+
+        $response = [
+            'result' => $create_user_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
     public function editUser()
     {
         $user_model = model(UserModel::class);

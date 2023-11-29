@@ -54,6 +54,7 @@ $routes->post('api/coupons/edit', 'Home::editCoupon');
 // $routes->post('api/bookings/clear', 'Home::clearBookings');
 $routes->post('api/bookings/edit', 'Home::editBooking');
 $routes->post('api/users/edit', 'Home::editUser');
+$routes->post('api/users/create', 'Home::createUser');
 $routes->post('api/bookings/complete', 'Home::completeBooking');
 $routes->post('api/bookings/schedule', 'Home::scheduleBookingCompleteDate');
 

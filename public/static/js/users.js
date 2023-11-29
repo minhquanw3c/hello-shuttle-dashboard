@@ -63,9 +63,17 @@ var app = new Vue({
                 required: 'This field is required',
             },
             showModal: {
+                createUser: false,
                 editUser: false,
             },
             modals: {
+                createUser: {
+                    userEmail: null,
+                    userPassword: null,
+                    userFirstName: null,
+                    userLastName: null,
+                    userPhone: null,
+                },
                 editUser: {
                     userId: null,
                     userEmail: null,
@@ -129,11 +137,14 @@ var app = new Vue({
                 }
             );
         },
-        openModal: function (modalId, data) {
+        openModal: function (modalId, data = null) {
             const self = this;
 
             self.showModal[modalId] = true;
-            self.modals[modalId] = { ...data };
+
+            if (data) {
+                self.modals[modalId] = { ...data };
+            }
         },
         clearModalState: function (modalId, closeModal = false) {
             const self = this;
@@ -144,6 +155,65 @@ var app = new Vue({
 
             self.$v.modals[modalId].$reset();
             self.modals[modalId] = {...self.modals[modalId]};
+        },
+        generatePassword: function () {
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const digitChars = '0123456789';
+      
+            const allChars = lowercaseChars + uppercaseChars + digitChars;
+      
+            let password = '';
+      
+            // Add at least one lowercase character
+            password += lowercaseChars.charAt(Math.floor(Math.random() * lowercaseChars.length));
+      
+            // Add at least one uppercase character
+            password += uppercaseChars.charAt(Math.floor(Math.random() * uppercaseChars.length));
+      
+            // Add at least one digit
+            password += digitChars.charAt(Math.floor(Math.random() * digitChars.length));
+      
+            // Add remaining characters
+            for (let i = 3; i < 12; i++) {
+              password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+            }
+      
+            // Shuffle the password characters
+            password = password.split('').sort(() => Math.random() - 0.5).join('');
+      
+            this.modals.createUser.userPassword = password;
+        },
+        createUser: function () {
+            const self = this;
+
+            self.$v.modals.createUser.$touch();
+            if (self.$v.modals.createUser.$invalid) { return; }
+
+            const modalData = { ...self.modals.createUser };
+
+            const payload = {
+                form: {
+                    userEmail: modalData.userEmail,
+                    userPassword: modalData.userPassword,
+                    userFirstName: modalData.userFirstName,
+                    userLastName: modalData.userLastName,
+                    userPhone: modalData.userPhone,
+                }
+            };
+
+            axios
+                .post(baseURL + '/api/users/create', payload)
+                .then(res => {
+                    var toastType = res.status === 200 ? 'success' : 'error';
+                    self.showToastNotification(toastType);
+                    self.clearModalState(modalId = 'createUser', closeModal = true);
+                    self.fetchUsersList(showToast = false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    self.clearModalState(modalId = 'createUser', closeModal = true);
+                });
         },
         editUser: function () {
             const self = this;
@@ -183,6 +253,24 @@ var app = new Vue({
     },
     validations: {
         modals: {
+            createUser: {
+                userEmail: {
+                    required: required
+                },
+                userPassword: {
+                    required: required,
+                    minLength: minLength(10)
+                },
+                userFirstName: {
+                    required: required
+                },
+                userLastName: {
+                    required: required
+                },
+                userPhone: {
+                    required: required
+                },
+            },
             editUser: {
                 userEmail: {
                     required: required
