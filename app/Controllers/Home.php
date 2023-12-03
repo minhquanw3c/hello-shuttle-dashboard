@@ -251,29 +251,31 @@ class Home extends BaseController
         return $this->response->setJSON($users);
     }
 
-    public function createUser()
+    public function createUser($from_api = true, $data = [])
     {
         $user_model = model(UserModel::class);
 
-        $request_params = $this->request->getJsonVar('form');
+        if ($from_api) {
+            $request_params = $this->request->getJsonVar('form');
 
-        $password_handler = new PasswordManagerController();
+            $password_handler = new PasswordManagerController();
 
-        $user_id = Uuid::uuid4()->toString();
-        $user_hashed_password = $password_handler->encryptPassword($request_params->userPassword);
+            $user_id = Uuid::uuid4()->toString();
+            $user_hashed_password = $password_handler->encryptPassword($request_params->userPassword);
 
-        $data = [
-            'user_id' => $user_id,
-            'user_email' => $request_params->userEmail,
-            'user_hashed_password' => $user_hashed_password,
-            'user_phone' => $request_params->userPhone,
-            'user_first_name' => $request_params->userFirstName,
-            'user_last_name' => $request_params->userLastName,
-            'user_active' => 1,
-            'user_role' => 'staff',
-            'user_created_at' => Time::now('UTC'),
-            'user_updated_at' => Time::now('UTC'),
-        ];
+            $data = [
+                'user_id' => $user_id,
+                'user_email' => $request_params->userEmail,
+                'user_hashed_password' => $user_hashed_password,
+                'user_phone' => $request_params->userPhone,
+                'user_first_name' => $request_params->userFirstName,
+                'user_last_name' => $request_params->userLastName,
+                'user_active' => 1,
+                'user_role' => 'staff',
+                'user_created_at' => Time::now('UTC'),
+                'user_updated_at' => Time::now('UTC'),
+            ];
+        }
 
         $create_user_result = $user_model->createUser($data);
 
@@ -281,7 +283,7 @@ class Home extends BaseController
             'result' => $create_user_result,
         ];
 
-        return $this->response->setJSON($response);
+        return $from_api ? $this->response->setJSON($response) : $response['result'];
     }
 
     public function editUser()
@@ -305,6 +307,52 @@ class Home extends BaseController
 
         $response = [
             'result' => $edit_user_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function createCustomer()
+    {
+        $customer_model = model(CustomerModel::class);
+
+        $request_params = $this->request->getJsonVar('form');
+
+        $password_handler = new PasswordManagerController();
+
+        $customer_id = Uuid::uuid4()->toString();
+        $customer_hashed_password = $password_handler->encryptPassword($request_params->customerPassword);
+
+        $data = [
+            'customer_id' => $customer_id,
+            'email' => $request_params->customerEmail,
+            'phone' => $request_params->customerPhone,
+            'first_name' => $request_params->customerFirstName,
+            'last_name' => $request_params->customerLastName,
+            'has_account' => 1,
+            'register_account' => 0,
+            'created_at' => Time::now('UTC'),
+            'updated_at' => Time::now('UTC'),
+        ];
+
+        $user_data = [
+            'user_id' => $customer_id,
+            'user_email' => $request_params->customerEmail,
+            'user_hashed_password' => $customer_hashed_password,
+            'user_phone' => $request_params->customerPhone,
+            'user_first_name' => $request_params->customerFirstName,
+            'user_last_name' => $request_params->customerLastName,
+            'user_active' => 1,
+            'user_role' => 'customer',
+            'user_created_at' => Time::now('UTC'),
+            'user_updated_at' => Time::now('UTC'),
+        ];
+
+        $create_customer_result = $customer_model->createcustomer($data);
+        $create_customer_user_type_result = $this->createUser(false, $user_data);
+
+        $response = [
+            'result' => $create_customer_result && $create_customer_user_type_result,
         ];
 
         return $this->response->setJSON($response);

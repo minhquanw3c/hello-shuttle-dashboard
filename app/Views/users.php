@@ -36,7 +36,11 @@
 
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
 	<div class="col-12 text-right px-0 mb-3">
-		<b-button class="btn" variant="outline-primary">
+		<b-button
+            class="btn"
+            variant="outline-primary"
+            @click.prevent="openModal('createCustomer')"
+        >
 			<b-icon icon="plus-circle"></b-icon>
 			Customer
 		</b-button>
@@ -61,7 +65,7 @@
 	</div>
 </div>
 
-<!-- Modals sections -->
+<!-- Create employee -->
 <b-modal
     title="Create employee"
     no-close-on-esc
@@ -89,7 +93,7 @@
                 v-model="$v.modals.createUser.userPassword.$model">
             </b-form-input>
             <b-input-append>
-                <b-button @click.prevent="generatePassword">Generate</b-button>
+                <b-button @click.prevent="() => { modals.createUser.userPassword = generatePassword() }">Generate</b-button>
             </b-input-append>
         </b-input-group>
 	</b-form-group>
@@ -135,6 +139,7 @@
 	</template>
 </b-modal>
 
+<!-- Edit employee -->
 <b-modal
     title="Edit user"
     no-close-on-esc
@@ -200,6 +205,81 @@
         </b-button>
 	</template>
 </b-modal>
+
+<!-- Create customer -->
+<b-modal
+    title="Create customer"
+    no-close-on-esc
+    no-close-on-backdrop
+    @close="clearModalState('createCustomer', true)"
+    :visible="showModal.createCustomer">
+	<b-form-group
+        label="Email"
+        :state="validateInputField($v.modals.createCustomer.customerEmail)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="email"
+            v-model="$v.modals.createCustomer.customerEmail.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group
+        label="Password"
+        :state="validateInputField($v.modals.createCustomer.customerPassword)"
+        :invalid-feedback="errorMessages.required">
+        <b-input-group>
+            <b-form-input
+                type="text"
+                v-model="$v.modals.createCustomer.customerPassword.$model">
+            </b-form-input>
+            <b-input-append>
+                <b-button @click.prevent="() => { modals.createCustomer.customerPassword = generatePassword() }">Generate</b-button>
+            </b-input-append>
+        </b-input-group>
+	</b-form-group>
+
+	<b-form-group
+        label="First name"
+        :state="validateInputField($v.modals.createCustomer.customerFirstName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.createCustomer.customerFirstName.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<b-form-group
+        label="Last name"
+        :state="validateInputField($v.modals.createCustomer.customerLastName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.createCustomer.customerLastName.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group
+        label="Phone"
+        :state="validateInputField($v.modals.createCustomer.customerPhone)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="tel"
+            v-model="$v.modals.createCustomer.customerPhone.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<template #modal-footer>
+		<b-button
+            class="px-4"
+            variant="primary"
+            @click.prevent="createCustomer"
+        >
+            Create
+        </b-button>
+	</template>
+</b-modal>
+
+<!-- Edit customer -->
 <?= $this->endSection() ?>
 
 <?= $this->section("page-scripts") ?>

@@ -1,6 +1,31 @@
 Vue.use(window.vuelidate.default);
 const { required, requiredIf, minLength, email, minValue } = window.validators;
 
+const appData = {
+    createUser: {
+        userEmail: null,
+        userPassword: null,
+        userFirstName: null,
+        userLastName: null,
+        userPhone: null,
+    },
+    editUser: {
+        userId: null,
+        userEmail: null,
+        userFirstName: null,
+        userLastName: null,
+        userPhone: null,
+        userActive: null,
+    },
+    createCustomer: {
+        customerEmail: null,
+        customerPassword: null,
+        customerFirstName: null,
+        customerLastName: null,
+        customerPhone: null,
+    }
+};
+
 var app = new Vue({
     el: '#main-app',
     data: function () {
@@ -65,23 +90,12 @@ var app = new Vue({
             showModal: {
                 createUser: false,
                 editUser: false,
+                createCustomer: false,
             },
             modals: {
-                createUser: {
-                    userEmail: null,
-                    userPassword: null,
-                    userFirstName: null,
-                    userLastName: null,
-                    userPhone: null,
-                },
-                editUser: {
-                    userId: null,
-                    userEmail: null,
-                    userFirstName: null,
-                    userLastName: null,
-                    userPhone: null,
-                    userActive: null,
-                }
+                createUser: {...appData.createUser},
+                editUser: {...appData.editUser},
+                createCustomer: {...appData.createCustomer},
             },
         }
     },
@@ -154,7 +168,7 @@ var app = new Vue({
             }
 
             self.$v.modals[modalId].$reset();
-            self.modals[modalId] = {...self.modals[modalId]};
+            self.modals[modalId] = {...appData[modalId]};
         },
         generatePassword: function () {
             const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
@@ -182,7 +196,7 @@ var app = new Vue({
             // Shuffle the password characters
             password = password.split('').sort(() => Math.random() - 0.5).join('');
       
-            this.modals.createUser.userPassword = password;
+            return password;
         },
         createUser: function () {
             const self = this;
@@ -247,6 +261,37 @@ var app = new Vue({
                     self.clearModalState(modalId = 'editUser', closeModal = true);
                 });
         },
+        createCustomer: function () {
+            const self = this;
+
+            self.$v.modals.createCustomer.$touch();
+            if (self.$v.modals.createCustomer.$invalid) { return; }
+
+            const modalData = { ...self.modals.createCustomer };
+
+            const payload = {
+                form: {
+                    customerEmail: modalData.customerEmail,
+                    customerPassword: modalData.customerPassword,
+                    customerFirstName: modalData.customerFirstName,
+                    customerLastName: modalData.customerLastName,
+                    customerPhone: modalData.customerPhone,
+                }
+            };
+
+            axios
+                .post(baseURL + '/api/customers/create', payload)
+                .then(res => {
+                    var toastType = res.status === 200 ? 'success' : 'error';
+                    self.showToastNotification(toastType);
+                    self.clearModalState(modalId = 'createCustomer', closeModal = true);
+                    self.fetchUsersList(showToast = false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    self.clearModalState(modalId = 'createCustomer', closeModal = true);
+                });
+        },
     },
     computed: {
 
@@ -286,6 +331,24 @@ var app = new Vue({
                 },
                 userActive: {
 
+                },
+            },
+            createCustomer: {
+                customerEmail: {
+                    required: required
+                },
+                customerPassword: {
+                    required: required,
+                    minLength: minLength(10)
+                },
+                customerFirstName: {
+                    required: required
+                },
+                customerLastName: {
+                    required: required
+                },
+                customerPhone: {
+                    required: required
                 },
             },
         },
