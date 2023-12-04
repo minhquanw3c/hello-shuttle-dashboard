@@ -15,9 +15,9 @@ class CarModel extends Model
         'car_quantity',
         'car_editable',
         'car_active',
-        'car_start_price',
-        'car_created_at',
-        'car_updated_at',
+        'car_image',
+        'config_car_created_at',
+        'config_car_updated_at',
 	];
 
     public function getCarsList()

@@ -2,6 +2,53 @@ Vue.use(window.vuelidate.default);
 Vue.component('multiselect', window.VueMultiselect.default);
 const { required, requiredIf, minLength, email, minValue, numeric, decimal } = window.validators;
 
+const modalsData = {
+    createCar: {
+        carName: null,
+        carSeats: 0,
+        carQuantity: 0,
+        carEditable: 0,
+        carActive: 0,
+        carImage: null,
+        priceConfig: {
+            openDoorPrice: 0,
+            firstMiles: 0,
+            firstMilesPrice: 0,
+            firstMilesPriceActive: 0,
+            secondMiles: 0,
+            secondMilesPrice: 0,
+            secondMilesPriceActive: 0,
+            thirdMiles: 0,
+            thirdMilesPrice: 0,
+            thirdMilesPriceActive: 0,
+            adminFee: {
+                limitMiles: 0,
+                type: null,
+                percentage: 0,
+                fixedAmount: 0,
+                active: 0,
+            },
+            pickupFee: {
+                limitMiles: 0,
+                type: null,
+                percentage: 0,
+                fixedAmount: 0,
+                active: 0,
+            },
+            luggage: {
+                maxCapacity: 0,
+                freeQuantity: 0,
+                extrasPrice: 0,
+            },
+            passenger: {
+                maxCapacity: 0,
+                freeQuantity: 0,
+                extrasPrice: 0,
+            },
+        },
+    },
+};
+
 var app = new Vue({
     el: '#main-app',
     data: function () {
@@ -100,6 +147,7 @@ var app = new Vue({
             },
             showEditConfigModal: false,
             showEditCarModal: false,
+            showCreateCarModal: false,
             showAddConfigModal: false,
             modals: {
                 editConfig: {},
@@ -111,6 +159,7 @@ var app = new Vue({
                     configMaximumQuantity: 1,
                     configCountable: null,
                 },
+                createCar: {...modalsData.createCar}
             },
             bookingOptionTypes: [
                 {
@@ -132,7 +181,7 @@ var app = new Vue({
                     value: 'fixed',
                 },
             ],
-            pickUpFeeTypes: [
+            pickupFeeTypes: [
                 {
                     text: 'Percentage',
                     value: 'percentage',
@@ -391,6 +440,11 @@ var app = new Vue({
                     self.clearCreateConfigModalState(true);
                 });
         },
+        onCloseCreateNewCar: function () {
+            const self = this;
+
+            self.showCreateCarModal = false;
+        }
     },
     computed: {
         errorMessage_firstMiles: function () {
@@ -587,6 +641,98 @@ var app = new Vue({
                 },
                 extraPassengersPrice: {
                     required: required,
+                },
+            },
+            createCar: {
+                carName: {
+                    required: required
+                },
+                carSeats: {
+                    required: required
+                },
+                carQuantity: {
+                    required: required
+                },
+                carActive: {
+                    required: required
+                },
+                priceConfig: {
+                    openDoorPrice: {
+                        required: required
+                    },
+                    firstMiles: {
+                        required: required
+                    },
+                    firstMilesPrice: {
+                        required: required
+                    },
+                    firstMilesPriceActive: {},
+                    secondMiles: {
+                        required: required
+                    },
+                    secondMilesPrice: {
+                        required: required
+                    },
+                    secondMilesPriceActive: {},
+                    thirdMiles: {
+                        required: required
+                    },
+                    thirdMilesPrice: {
+                        required: required
+                    },
+                    thirdMilesPriceActive: {},
+                    adminFee: {
+                        limitMiles: {
+                            required: required
+                        },
+                        type: {
+                            required: required
+                        },
+                        percentage: {
+                            required: required
+                        },
+                        fixedAmount: {
+                            required: required
+                        },
+                        active: {},
+                    },
+                    pickupFee: {
+                        limitMiles: {
+                            required: required
+                        },
+                        type: {
+                            required: required
+                        },
+                        percentage: {
+                            required: required
+                        },
+                        fixedAmount: {
+                            required: required
+                        },
+                        active: {},
+                    },
+                    luggage: {
+                        maxCapacity: {
+                            required: required
+                        },
+                        freeQuantity: {
+                            required: required
+                        },
+                        extrasPrice: {
+                            required: required
+                        },
+                    },
+                    passenger: {
+                        maxCapacity: {
+                            required: required
+                        },
+                        freeQuantity: {
+                            required: required
+                        },
+                        extrasPrice: {
+                            required: required
+                        },
+                    },
                 },
             },
         },
