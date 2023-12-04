@@ -58,7 +58,7 @@ $routes->get('api/users/list', 'Home::getUsersList');
 $routes->post('api/users/edit', 'Home::editUser');
 $routes->post('api/users/create', 'Home::createUser');
 
-$routes->post('api/customers/edit', 'Home::editUser');
+$routes->post('api/customers/edit', 'Home::editCustomer');
 $routes->post('api/customers/create', 'Home::createCustomer');
 
 $routes->post('api/bookings/complete', 'Home::completeBooking');

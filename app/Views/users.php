@@ -25,7 +25,7 @@
                     {{ row.index + 1 }}
                 </template>
                 <template #cell(actions)="row">
-                    <b-button variant="outline-primary" @click="openModal('editUser', row.item)" class="btn-sm">
+                    <b-button variant="outline-primary" @click.prevent="openModal('editUser', row.item)" class="btn-sm">
                         <b-icon icon="pencil-fill"></b-icon>
                     </b-button>
                 </template>
@@ -57,7 +57,7 @@
 				{{ row.index + 1 }}
 			</template>
 			<template #cell(actions)="row">
-				<b-button variant="outline-primary" @click="" class="btn-sm">
+				<b-button variant="outline-primary" @click.prevent="openModal('editCustomer', row.item)" class="btn-sm">
 					<b-icon icon="pencil-fill"></b-icon>
 				</b-button>
 			</template>
@@ -275,6 +275,74 @@
             @click.prevent="createCustomer"
         >
             Create
+        </b-button>
+	</template>
+</b-modal>
+
+<!-- Edit customer -->
+<b-modal
+    title="Edit customer"
+    no-close-on-esc
+    no-close-on-backdrop
+    @close="clearModalState('editCustomer', true)"
+    :visible="showModal.editCustomer">
+	<b-form-group
+        label="Email"
+        :state="validateInputField($v.modals.editCustomer.userEmail)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            readonly
+            type="email"
+            v-model="$v.modals.editCustomer.userEmail.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<b-form-group
+        label="First name"
+        :state="validateInputField($v.modals.editCustomer.userFirstName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.editCustomer.userFirstName.$model">
+		</b-form-input>
+	</b-form-group>
+
+	<b-form-group
+        label="Last name"
+        :state="validateInputField($v.modals.editCustomer.userLastName)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="text"
+            v-model="$v.modals.editCustomer.userLastName.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group
+        label="Phone"
+        :state="validateInputField($v.modals.editCustomer.userPhone)"
+        :invalid-feedback="errorMessages.required">
+		<b-form-input
+            type="tel"
+            v-model="$v.modals.editCustomer.userPhone.$model">
+		</b-form-input>
+	</b-form-group>
+
+    <b-form-group>
+        <b-form-checkbox
+            value="1"
+            unchecked-value="0"
+            v-model="$v.modals.editCustomer.userActive.$model">
+            Active?
+        </b-form-checkbox>
+    </b-form-group>
+
+	<template #modal-footer>
+		<b-button
+            class="px-4"
+            variant="primary"
+            @click.prevent="editCustomer"
+        >
+            Save
         </b-button>
 	</template>
 </b-modal>

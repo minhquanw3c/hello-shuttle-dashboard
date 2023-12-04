@@ -286,22 +286,24 @@ class Home extends BaseController
         return $from_api ? $this->response->setJSON($response) : $response['result'];
     }
 
-    public function editUser()
+    public function editUser($from_api = true, $user_id = null, $data = [])
     {
         $user_model = model(UserModel::class);
 
-        $request_params = $this->request->getVar('form');
+        if ($from_api) {
+            $request_params = $this->request->getVar('form');
 
-        $user_id = $request_params->userId;
+            $user_id = $request_params->userId;
 
-        $data = [
-            'user_email' => $request_params->userEmail,
-            'user_phone' => $request_params->userPhone,
-            'user_first_name' => $request_params->userFirstName,
-            'user_last_name' => $request_params->userLastName,
-            'user_active' => $request_params->userActive,
-            'user_updated_at' => Time::now('UTC'),
-        ];
+            $data = [
+                'user_email' => $request_params->userEmail,
+                'user_phone' => $request_params->userPhone,
+                'user_first_name' => $request_params->userFirstName,
+                'user_last_name' => $request_params->userLastName,
+                'user_active' => $request_params->userActive,
+                'user_updated_at' => Time::now('UTC'),
+            ];
+        }
 
         $edit_user_result = $user_model->updateUserById($user_id, $data);
 
@@ -309,7 +311,7 @@ class Home extends BaseController
             'result' => $edit_user_result,
         ];
 
-        return $this->response->setJSON($response);
+        return $from_api ? $this->response->setJSON($response) : $response['result'];
     }
 
     public function createCustomer()
@@ -353,6 +355,39 @@ class Home extends BaseController
 
         $response = [
             'result' => $create_customer_result && $create_customer_user_type_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function editCustomer()
+    {
+        $customer_model = model(CustomerModel::class);
+
+        $request_params = $this->request->getJsonVar('form');
+
+        $customer_data = [
+            'email' => $request_params->customerEmail,
+            'phone' => $request_params->customerPhone,
+            'first_name' => $request_params->customerFirstName,
+            'last_name' => $request_params->customerLastName,
+            'updated_at' => Time::now('UTC'),
+        ];
+
+        $user_data = [
+            'user_email' => $request_params->customerEmail,
+            'user_phone' => $request_params->customerPhone,
+            'user_first_name' => $request_params->customerFirstName,
+            'user_last_name' => $request_params->customerLastName,
+            'user_active' => $request_params->customerActive,
+            'user_updated_at' => Time::now('UTC'),
+        ];
+
+        $edit_customer_result = $customer_model->updateCustomerDetails($request_params->customerId, $customer_data);
+        $edit_customer_user_type_result = $this->editUser(false, $request_params->customerId, $user_data);
+
+        $response = [
+            'result' => $edit_customer_result && $edit_customer_user_type_result,
         ];
 
         return $this->response->setJSON($response);

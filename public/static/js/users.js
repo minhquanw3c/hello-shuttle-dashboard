@@ -23,6 +23,14 @@ const appData = {
         customerFirstName: null,
         customerLastName: null,
         customerPhone: null,
+    },
+    editCustomer: {
+        userId: null,
+        userEmail: null,
+        userFirstName: null,
+        userLastName: null,
+        userPhone: null,
+        userActive: null,
     }
 };
 
@@ -91,11 +99,13 @@ var app = new Vue({
                 createUser: false,
                 editUser: false,
                 createCustomer: false,
+                editCustomer: false,
             },
             modals: {
                 createUser: {...appData.createUser},
                 editUser: {...appData.editUser},
                 createCustomer: {...appData.createCustomer},
+                editCustomer: {...appData.editCustomer},
             },
         }
     },
@@ -292,6 +302,38 @@ var app = new Vue({
                     self.clearModalState(modalId = 'createCustomer', closeModal = true);
                 });
         },
+        editCustomer: function () {
+            const self = this;
+
+            self.$v.modals.editCustomer.$touch();
+            if (self.$v.modals.editCustomer.$invalid) { return; }
+
+            const modalData = { ...self.modals.editCustomer };
+
+            const payload = {
+                form: {
+                    customerId: modalData.userId,
+                    customerEmail: modalData.userEmail,
+                    customerFirstName: modalData.userFirstName,
+                    customerLastName: modalData.userLastName,
+                    customerPhone: modalData.userPhone,
+                    customerActive: modalData.userActive,
+                }
+            };
+
+            axios
+                .post(baseURL + '/api/customers/edit', payload)
+                .then(res => {
+                    var toastType = res.status === 200 ? 'success' : 'error';
+                    self.showToastNotification(toastType);
+                    self.clearModalState(modalId = 'editCustomer', closeModal = true);
+                    self.fetchUsersList(showToast = false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    self.clearModalState(modalId = 'editCustomer', closeModal = true);
+                });
+        },
     },
     computed: {
 
@@ -349,6 +391,23 @@ var app = new Vue({
                 },
                 customerPhone: {
                     required: required
+                },
+            },
+            editCustomer: {
+                userEmail: {
+                    required: required
+                },
+                userFirstName: {
+                    required: required
+                },
+                userLastName: {
+                    required: required
+                },
+                userPhone: {
+                    required: required
+                },
+                userActive: {
+
                 },
             },
         },
