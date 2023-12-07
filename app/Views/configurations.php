@@ -125,7 +125,7 @@
     <b-form-group
         label="Config name"
         :state="validateInputField($v.modals.addConfig.configName)"
-        :invalid-feedback="errorMessages.required">
+        :invalid-feedback="baseErrorMessages.required">
         <b-form-input
             type="text"
             v-model="$v.modals.addConfig.configName.$model">
@@ -134,7 +134,7 @@
 
     <b-form-group
         :state="validateInputField($v.modals.addConfig.configValue)"
-        :invalid-feedback="errorMessages.required"
+        :invalid-feedback="baseErrorMessages.required"
         label="Config value">
         <b-input-group>
             <b-form-input
@@ -151,7 +151,7 @@
 
     <b-form-group
         :state="validateInputField($v.modals.addConfig.configType)"
-        :invalid-feedback="errorMessages.required"
+        :invalid-feedback="baseErrorMessages.required"
         label="Config type">
         <b-form-select
             :options="bookingOptionTypes"
@@ -172,7 +172,7 @@
     <template v-if="$v.modals.addConfig.configCountable.$model === '1'">
         <b-form-group
             :state="validateInputField($v.modals.addConfig.configMaximumQuantity)"
-            :invalid-feedback="errorMessages.required"
+            :invalid-feedback="baseErrorMessages.required"
             label="Config maximum quantity">
             <b-form-input
                 type="number"
@@ -207,7 +207,7 @@
 
     <b-form-group
         :state="validateInputField($v.modals.editConfig.configValue)"
-        :invalid-feedback="errorMessages.required"
+        :invalid-feedback="baseErrorMessages.required"
         label="Config value">
         <b-input-group>
             <b-form-input
@@ -235,7 +235,7 @@
     <template v-if="$v.modals.editConfig.configCountable.$model === '1'">
         <b-form-group
             :state="validateInputField($v.modals.editConfig.configMaximumQuantity)"
-            :invalid-feedback="errorMessages.required"
+            :invalid-feedback="baseErrorMessages.required"
             label="Config maximum quantity">
             <b-input-group>
                 <b-form-input
@@ -317,7 +317,7 @@
             <div class="col-12 col-md-6">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.openDoorPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Open door">
                     <b-form-input
                         type="number"
@@ -329,7 +329,7 @@
             <div class="col-12 col-md-6">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.carQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Quantity">
                     <b-form-input
                         min="1"
@@ -361,7 +361,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.firstMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="First price">
                     <b-form-input
                         min="0"
@@ -400,7 +400,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.secondMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Second price">
                     <b-form-input
                         min="0"
@@ -439,7 +439,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.thirdMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Third price">
                     <b-form-input
                         min="0"
@@ -469,7 +469,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.adminFeeLimitMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Limit miles">
                     <b-form-input
                         min="0"
@@ -482,7 +482,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.adminFeeType)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Fee type">
                     <b-form-select
                         text-field="text"
@@ -498,7 +498,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.adminFeePercentage)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Percentage">
                     <b-form-input
                         min="0"
@@ -513,7 +513,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.adminFeeFixedAmount)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Fixed amount">
                     <b-form-input
                         min="0"
@@ -543,7 +543,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.pickUpFeeLimitMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Limit miles">
                     <b-form-input
                         min="0"
@@ -556,7 +556,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.pickUpFeeType)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Fee type">
                     <b-form-select
                         text-field="text"
@@ -572,7 +572,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.pickUpFeePercentage)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Percentage">
                     <b-form-input
                         min="0"
@@ -587,7 +587,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.pickUpFeeFixedAmount)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Fixed amount">
                     <b-form-input
                         min="0"
@@ -617,7 +617,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.maxLuggages)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Maximum luggages">
                     <b-form-input
                         min="0"
@@ -630,7 +630,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.freeLuggagesQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Free cost luggages">
                     <b-form-input
                         min="0"
@@ -643,7 +643,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.extraLuggagesPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Price extra luggage">
                     <b-form-input
                         min="0"
@@ -662,7 +662,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.maxPassengers)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Maximum passengers">
                     <b-form-input
                         min="0"
@@ -675,7 +675,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.freePassengersQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Free cost passengers">
                     <b-form-input
                         min="0"
@@ -688,7 +688,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.editCar.extraPassengersPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="baseErrorMessages.required"
                     label="Price extra passenger">
                     <b-form-input
                         min="0"
@@ -738,6 +738,7 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <b-form-group
+                    :invalid-feedback="errorMessages.createCar.carName"
                     :state="validateInputField($v.modals.createCar.carName)"
                     label="Name"
                 >
@@ -750,6 +751,7 @@
 
             <div class="col-12 col-md-6">
                 <b-form-group
+                    :invalid-feedback="errorMessages.createCar.carSeats"
                     :state="validateInputField($v.modals.createCar.carSeats)"
                     label="Seats"
                 >
@@ -766,11 +768,11 @@
             <div class="col-12 col-md-6">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.openDoorPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.openDoorPrice"
                     label="Open door">
                     <b-form-input
                         type="number"
-                        min="0"
+                        min="1"
                         v-model="$v.modals.createCar.priceConfig.openDoorPrice.$model">
                     </b-form-input>
                 </b-form-group>
@@ -779,7 +781,7 @@
             <div class="col-12 col-md-6">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.carQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.carQuantity"
                     label="Quantity">
                     <b-form-input
                         min="1"
@@ -798,7 +800,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.firstMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.firstMiles"
                     label="First miles">
                     <b-form-input
                         min="1"
@@ -811,8 +813,8 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.firstMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
-                    label="First price">
+                    :invalid-feedback="errorMessages.createCar.priceConfig.firstMilesPrice"
+                    label="First miles price">
                     <b-form-input
                         min="0"
                         type="number"
@@ -837,7 +839,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.secondMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.secondMiles"
                     label="Second miles">
                     <b-form-input
                         min="1"
@@ -850,8 +852,8 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.secondMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
-                    label="Second price">
+                    :invalid-feedback="errorMessages.createCar.priceConfig.secondMilesPrice"
+                    label="Second miles price">
                     <b-form-input
                         min="0"
                         type="number"
@@ -876,7 +878,7 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.thirdMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.thirdMiles"
                     label="Third miles">
                     <b-form-input
                         min="1"
@@ -889,8 +891,8 @@
             <div class="col-12 col-md-4">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.thirdMilesPrice)"
-                    :invalid-feedback="errorMessages.required"
-                    label="Third price">
+                    :invalid-feedback="errorMessages.createCar.priceConfig.thirdMilesPrice"
+                    label="Third miles price">
                     <b-form-input
                         min="0"
                         type="number"
@@ -920,7 +922,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.adminFee.limitMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.adminFee.limitMiles"
                     label="Limit miles">
                     <b-form-input
                         min="0"
@@ -933,7 +935,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.adminFee.type)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.adminFee.type"
                     label="Fee type">
                     <b-form-select
                         text-field="text"
@@ -949,7 +951,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.adminFee.percentage)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.adminFee.percentage"
                     label="Percentage">
                     <b-form-input
                         min="0"
@@ -964,7 +966,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.adminFee.fixedAmount)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.adminFee.fixedAmount"
                     label="Fixed amount">
                     <b-form-input
                         min="0"
@@ -994,7 +996,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.pickupFee.limitMiles)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.pickupFee.limitMiles"
                     label="Limit miles">
                     <b-form-input
                         min="0"
@@ -1007,7 +1009,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.pickupFee.type)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.pickupFee.type"
                     label="Fee type">
                     <b-form-select
                         text-field="text"
@@ -1023,7 +1025,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.pickupFee.percentage)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.pickupFee.percentage"
                     label="Percentage">
                     <b-form-input
                         min="0"
@@ -1038,7 +1040,7 @@
                 class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.pickupFee.fixedAmount)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.pickupFee.fixedAmount"
                     label="Fixed amount">
                     <b-form-input
                         min="0"
@@ -1068,7 +1070,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.luggage.maxCapacity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.luggage.maxCapacity"
                     label="Maximum luggages">
                     <b-form-input
                         min="0"
@@ -1081,7 +1083,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.luggage.freeQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.luggage.freeQuantity"
                     label="Free cost luggages">
                     <b-form-input
                         min="0"
@@ -1094,7 +1096,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.luggage.extrasPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.luggage.extrasPrice"
                     label="Price extra luggage">
                     <b-form-input
                         min="0"
@@ -1113,7 +1115,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.passenger.maxCapacity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.passenger.maxCapacity"
                     label="Maximum passengers">
                     <b-form-input
                         min="0"
@@ -1126,7 +1128,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.passenger.freeQuantity)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.passenger.freeQuantity"
                     label="Free cost passengers">
                     <b-form-input
                         min="0"
@@ -1139,7 +1141,7 @@
             <div class="col-12 col-md-3">
                 <b-form-group
                     :state="validateInputField($v.modals.createCar.priceConfig.passenger.extrasPrice)"
-                    :invalid-feedback="errorMessages.required"
+                    :invalid-feedback="errorMessages.createCar.priceConfig.passenger.extrasPrice"
                     label="Price extra passenger">
                     <b-form-input
                         min="0"
@@ -1170,7 +1172,7 @@
         <b-button
             class="px-4"
             variant="primary"
-            @click.prevent="">
+            @click="createCar">
             Create
         </b-button>
     </template>

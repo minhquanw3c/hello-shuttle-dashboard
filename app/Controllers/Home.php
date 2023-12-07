@@ -436,6 +436,26 @@ class Home extends BaseController
         return $this->response->setJSON($response);
     }
 
+    public function createCar()
+    {
+        helper('text');
+
+        $car_model = model(CarModel::class);
+        $car_price_config_model = model(ConfigCarPriceModel::class);
+
+        $request_params = $this->request->getVar('form');
+        $request_params->carId = random_string('alpha', 8);
+
+        $create_car_result = $car_model->createCar($request_params);
+        $create_car_price_config_result = $car_price_config_model->createCarPriceConfig($request_params);
+
+        $response = [
+            'result' => $create_car_result && $create_car_price_config_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
     public function editCar()
     {
         $car_model = model(CarModel::class);

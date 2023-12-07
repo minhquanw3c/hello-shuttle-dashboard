@@ -10,6 +10,7 @@ class CarModel extends Model
 	protected $primaryKey = 'car_id';
 
 	protected $allowedFields = [
+        'car_id',
         'car_name',
         'car_seats_capacity',
         'car_quantity',
@@ -69,6 +70,22 @@ class CarModel extends Model
         ->findAll();
 
         return $get_list_query;
+    }
+
+    public function createCar($data)
+    {
+        $car_data = [
+            'car_id' => $data->carId,
+            'car_name' => $data->carName,
+            'car_seats_capacity' => $data->carSeats,
+            'car_quantity' => $data->carQuantity,
+            'car_active' => $data->carActive,
+            'car_editable' => 1,
+        ];
+
+        $insert_car_result = $this->insert($car_data, false);
+
+        return $insert_car_result;
     }
 
     public function editCar($data)
