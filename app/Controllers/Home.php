@@ -654,7 +654,7 @@ class Home extends BaseController
     public function showAccountSettings()
     {
         if (!session()->has('logged_in')) {
-            return view('login');
+            return redirect()->to('/');
         }
 
         $data = [

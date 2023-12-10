@@ -569,8 +569,7 @@ var app = new Vue({
       self.showCreateCarModal = false;
 
       if (clearModalState) {
-        self.modals.createCar = { ...modalsData.createCar };
-        self.$v.modals.createCar.$touch();
+        self.$v.modals.createCar.$reset();
       }
     },
   },
