@@ -19,8 +19,8 @@ class Home extends BaseController
 
         $resources = (object) [];
 
-        $resources->form = $current_env === 'production' ? 'https://helloshuttle.com/' : 'http://localhost/projects/hello-shuttle/public/';
-        $resources->dashboard = $current_env === 'production' ? 'https://dashboard.helloshuttle.com/' : 'http://localhost/projects/hello-shuttle-dashboard/public/';
+        $resources->form = $current_env === 'production' ? 'https://helloshuttle.project.minhquanle.a2hosted.com/' : 'http://localhost/projects/hello-shuttle/public/';
+        $resources->dashboard = $current_env === 'production' ? 'https://helloshuttledashboard.project.minhquanle.a2hosted.com/' : 'http://localhost/projects/hello-shuttle-dashboard/public/';
 
         return $resources->{$resource_type};
     }
