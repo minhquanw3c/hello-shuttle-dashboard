@@ -72,9 +72,12 @@ class BookingModel extends Model
 
     public function clearBookings()
     {
-        $clear_booking_query = $this->truncate();
+        $booking_schedule_model = model(BookingScheduleModel::class);
 
-        return $clear_booking_query;
+        $clear_bookings_query = $this->truncate();
+        $clear_booking_schedules_query = $booking_schedule_model->truncate();
+
+        return $clear_bookings_query && $clear_booking_schedules_query;
     }
 
     public function updateBookingById($booking_id, $data)

@@ -165,6 +165,17 @@ class Home extends BaseController
         return view('configurations', $data);
     }
 
+    public function resetConfigurations()
+    {
+        $config_model = model(ConfigModel::class);
+
+        $response = [
+            'result' => $config_model->resetConfigurations(),
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
     public function showCoupons()
     {
         session()->start();
@@ -522,6 +533,17 @@ class Home extends BaseController
 
         $response = [
             'result' => $edit_coupon_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function clearBookings()
+    {
+        $booking_model = model(BookingModel::class);
+
+        $response = [
+            'result' => $booking_model->clearBookings(),
         ];
 
         return $this->response->setJSON($response);

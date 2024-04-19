@@ -61,4 +61,11 @@ class BookingScheduleModel extends Model
 
         return $remove_schedules_query;
     }
+
+    public function clearBookingSchedules()
+    {
+        $query_result = $this->truncate();
+
+        return $query_result;
+    }
 }

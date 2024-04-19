@@ -434,6 +434,27 @@ var app = new Vue({
 
             self.modalConfig.scheduleCompleteBooking.show = false;
         },
+        clearBookings: function () {
+            const self = this;
+
+            const payload = {};
+
+            axios
+                .post(baseURL + '/api/bookings/clear', payload)
+                .then(res => {
+                    
+                    if (res.data.result) {
+                        self.fetchBookingsList(showToast = false);
+                    }
+
+                    var toastType = res.data.result === true ? 'success' : 'error';
+                    self.showToastNotification(toastType, res.data.message);
+                })
+                .catch(error => {
+                    var toastType = 'error';
+                    self.showToastNotification(toastType);
+                });
+        },
     },
     computed: {
 

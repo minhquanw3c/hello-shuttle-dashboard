@@ -3,7 +3,13 @@
 <?= $this->section("main") ?>
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
     <div class="col-12 text-right px-0 mb-3">
-        <b-button variant="outline-primary" @click="openCreateConfigModal">
+        <?php if (session()->get('logged_in.role') == "admin"): ?>
+			<b-button variant="outline-success" @click.prevent="resetConfigurations">
+				<b-icon icon="bootstrap-reboot"></b-icon>
+                Configurations
+			</b-button>
+		<?php endif ?>
+        <b-button variant="outline-primary" @click.prevent="openCreateConfigModal">
             <b-icon icon="plus-square"></b-icon>
             Configuration
         </b-button>
