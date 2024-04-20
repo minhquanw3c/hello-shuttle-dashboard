@@ -89,4 +89,25 @@ class UserModel extends Model
 
         return $update_query;
     }
+
+    public function resetUsers($role)
+    {
+        $delete_query = $this->where("user_role", $role)->delete();
+
+        if ($role === "staff") {
+            $insert_query = $this->db->query("
+                INSERT INTO `users` (`user_id`, `user_email`, `user_hashed_password`, `user_first_name`, `user_last_name`, `user_phone`, `user_role`, `user_active`, `user_created_at`, `user_updated_at`) VALUES
+                ('18', 'teststaff@helloshuttle.localhost', 'JDJ5JDEwJDJtaW1DLmplRm9OUHFMVXdKdmxydnVZTVF2ZTZvMW85cTZWUGZpMjFuY1doU3J3dDE3TE9T', 'Test', 'Staff', '0123456789', 'staff', 1, '2023-07-16 18:32:03', '2023-11-29 09:57:46');
+            ");
+        }
+
+        if ($role === "customer") {
+            $insert_query = $this->db->query("
+                INSERT INTO `users` (`user_id`, `user_email`, `user_hashed_password`, `user_first_name`, `user_last_name`, `user_phone`, `user_role`, `user_active`, `user_created_at`, `user_updated_at`) VALUES
+                ('1377df29-4724-475a-8ee5-eb64b50e86e6', 'testcustomer001@gmail.com', 'JDJ5JDEwJDJtaW1DLmplRm9OUHFMVXdKdmxydnVZTVF2ZTZvMW85cTZWUGZpMjFuY1doU3J3dDE3TE9T', 'test', '002', '0123456', 'customer', 1, '2023-12-03 11:33:19', '2023-12-04 09:29:50');
+            ");
+        }
+
+        return $delete_query && $insert_query;
+    }
 }

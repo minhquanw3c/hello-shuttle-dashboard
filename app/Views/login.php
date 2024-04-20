@@ -26,7 +26,7 @@
 <body>
 	<div class="container-fluid px-0">
 		<div class="row">
-			<div class="col-lg-5 px-0 bg-login">
+			<div class="col-lg-5 px-0 bg-login d-none d-lg-block">
 				<div class="login-left pb-4">
 					<a href="<?= base_url('/') ?>">
 						<img
@@ -54,7 +54,11 @@
 			<div class="col-lg-7 px-0">
 				<div class="login-right">
 					<div class="login-form">
-						<h3 class="text-center">Dashboard login</h3>
+						<div class="d-flex justify-content-end mb-3">
+							<button class="btn btn-primary" id="adminBtn">Admin</button>
+							<button class="btn btn-primary mx-2" id="employeeBtn">Employee</button>
+							<button class="btn btn-primary" id="customerBtn">Customer</button>
+						</div>
 						<?php
 							$errors = validation_errors();
 						?>
@@ -80,13 +84,7 @@
 									</span>
 								</button>
 							</div>
-							<div class="d-flex flex-wrap justify-content-between gap-2 pt-2 pb-4">
-								<div>
-									<input type="checkbox" id="remember">
-									<label for="remember" class="cursor">Remember Me</label>
-								</div>
-							</div>
-							<div class="d-flex mt-2 justify-content-center">
+							<div class="d-flex mt-5 justify-content-end">
 								<a class="outline-btn text-center w-25 me-3" href="<?= $bookingFormUrl ?>">
 									Back to booking
 								</a>
@@ -107,8 +105,12 @@
 		}
 
 		let passwordInput = document.getElementById("txtPassword"),
+			emailInput = document.getElementById("email"),
 			toggle = document.getElementById("btnToggle"),
-			icon = document.getElementById("eyeIcon");
+			icon = document.getElementById("eyeIcon"),
+			adminBtn = document.getElementById("adminBtn"),
+			employeeBtn = document.getElementById("employeeBtn"),
+			customerBtn = document.getElementById("customerBtn");
 
 		function togglePassword() {
 			if (passwordInput.type === "password") {
@@ -132,8 +134,30 @@
 			}
 		}
 
+		function autoFillLoginInfo(role) {
+			const pwd = "123";
+
+			if (role === "admin") {
+				emailInput.value = "admin@helloshuttle.localhost";
+			}
+
+			if (role === "employee") {
+				emailInput.value = "teststaff@helloshuttle.localhost";
+			}
+
+			if (role === "customer") {
+				emailInput.value = "testcustomer001@gmail.com";
+			}
+
+			passwordInput.value = pwd;
+		}
+
 		toggle.addEventListener("click", togglePassword, false);
 		passwordInput.addEventListener("keyup", checkInput, false);
+
+		adminBtn.addEventListener("click", () => autoFillLoginInfo("admin"), false);
+		employeeBtn.addEventListener("click", () => autoFillLoginInfo("employee"), false);
+		customerBtn.addEventListener("click", () => autoFillLoginInfo("customer"), false);
 	</script>
 </body>
 

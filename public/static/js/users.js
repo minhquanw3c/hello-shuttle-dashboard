@@ -167,10 +167,11 @@ var app = new Vue({
                 messageType,
                 {
                     title: titleType,
-                    autoHideDelay: 5000,
+                    autoHideDelay: 3000,
                     variant: variantType,
                     solid: true,
                     noCloseButton: true,
+                    append: true
                 }
             );
         },

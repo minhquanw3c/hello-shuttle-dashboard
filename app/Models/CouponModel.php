@@ -68,4 +68,10 @@ class CouponModel extends Model
 
         return $update_query;
     }
+
+    public function resetCoupons()
+    {
+        $delete_query = $this->truncate();
+        return $delete_query;
+    }
 }

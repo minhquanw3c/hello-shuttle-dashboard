@@ -276,8 +276,6 @@ class Home extends BaseController
         return $this->response->setJSON($users);
     }
 
-    
-
     public function createUser($from_api = true, $data = [])
     {
         $user_model = model(UserModel::class);
@@ -339,6 +337,18 @@ class Home extends BaseController
         ];
 
         return $from_api ? $this->response->setJSON($response) : $response['result'];
+    }
+
+    public function resetUsers()
+    {
+        $roleToReset = $this->request->getJsonVar("role");
+        $user_model = model(UserModel::class);
+
+        $response = [
+            'result' => $user_model->resetUsers($roleToReset),
+        ];
+
+        return $this->response->setJSON($response);
     }
 
     public function createCustomer()
@@ -549,6 +559,17 @@ class Home extends BaseController
 
         $response = [
             'result' => $edit_coupon_result,
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
+    public function resetCoupons()
+    {
+        $coupon_model = model(CouponModel::class);
+
+        $response = [
+            'result' => $coupon_model->resetCoupons(),
         ];
 
         return $this->response->setJSON($response);

@@ -3,6 +3,12 @@
 <?= $this->section("main") ?>
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
 	<div class="col-12 text-right px-0 mb-3">
+		<?php if (session()->get('logged_in.role') == "admin"): ?>
+			<b-button variant="outline-success" @click.prevent="resetCoupons" title="Reset coupons" class="mr-2">
+				<b-icon icon="bootstrap-reboot"></b-icon>
+                Coupons
+			</b-button>
+		<?php endif ?>
 		<b-button class="btn" variant="outline-primary" @click="() => { showModal.createCoupon = true; }">
 			<b-icon icon="plus-circle"></b-icon>
 			Coupon

@@ -44,6 +44,7 @@ $routes->get('api/configurations/list', 'Home::getConfigList');
 $routes->get('api/cars/list', 'Home::getCarsList');
 $routes->post('api/bookings/list', 'Home::getBookingsList');
 $routes->get('api/coupons/list', 'Home::getCouponsList');
+$routes->post('api/coupons/reset', 'Home::resetCoupons');
 
 $routes->post('api/configurations/edit', 'Home::editConfig');
 $routes->post('api/configurations/create', 'Home::createConfig');

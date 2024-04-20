@@ -23,6 +23,10 @@
 			max-width: 180px;
 			width: 100%;
 		}
+
+		.toast:not(.showing):not(.show) {
+			opacity: 1;
+		}
 	</style>
 </head>
 

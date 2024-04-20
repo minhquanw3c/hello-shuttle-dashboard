@@ -223,7 +223,28 @@ var app = new Vue({
             }
 
             this.modals.createCoupon.couponCode = result;
-        }
+        },
+        resetCoupons: function () {
+			const self = this;
+
+			const payload = {};
+
+			axios
+				.post(baseURL + "/api/coupons/reset", payload)
+				.then((res) => {
+					if (res.data.result) {
+						self.fetchCouponsList((showToast = false));
+					}
+
+					var toastType =
+						res.data.result === true ? "success" : "error";
+					self.showToastNotification(toastType, res.data.message);
+				})
+				.catch((error) => {
+					var toastType = "error";
+					self.showToastNotification(toastType);
+				});
+		},
     },
     computed: {
 
