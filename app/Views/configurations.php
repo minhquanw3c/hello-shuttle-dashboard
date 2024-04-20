@@ -4,7 +4,7 @@
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
     <div class="col-12 text-right px-0 mb-3">
         <?php if (session()->get('logged_in.role') == "admin"): ?>
-			<b-button variant="outline-success" @click.prevent="resetConfigurations">
+			<b-button variant="outline-success" @click.prevent="resetConfigurations" title="Reset configurations" class="mr-2">
 				<b-icon icon="bootstrap-reboot"></b-icon>
                 Configurations
 			</b-button>
@@ -86,6 +86,12 @@
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded mt-4">
     <div class="row">
         <div class="col-12 text-right px-0 mb-3">
+            <?php if (session()->get('logged_in.role') == "admin"): ?>
+                <b-button variant="outline-success" @click.prevent="resetCarConfigurations" title="Reset car configurations" class="mr-2">
+                    <b-icon icon="bootstrap-reboot"></b-icon>
+                    Car
+                </b-button>
+            <?php endif ?>
             <b-button
                 variant="outline-primary"
                 @click.prevent="() => showCreateCarModal = true"

@@ -608,6 +608,27 @@ var app = new Vue({
 					self.showToastNotification(toastType);
 				});
 		},
+		resetCarConfigurations: function () {
+			const self = this;
+
+			const payload = {};
+
+			axios
+				.post(baseURL + "/api/cars/reset", payload)
+				.then((res) => {
+					if (res.data.result) {
+						self.fetchCarsList((showToast = false));
+					}
+
+					var toastType =
+						res.data.result === true ? "success" : "error";
+					self.showToastNotification(toastType, res.data.message);
+				})
+				.catch((error) => {
+					var toastType = "error";
+					self.showToastNotification(toastType);
+				});
+		},
 	},
 	computed: {
 		errorMessage_firstMiles: function () {

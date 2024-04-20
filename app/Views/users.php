@@ -4,6 +4,12 @@
 <?php if ($userRole === 'admin'): ?>
     <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded mb-4">
         <div class="col-12 text-right px-0 mb-3">
+            <?php if (session()->get('logged_in.role') == "admin"): ?>
+                <b-button variant="outline-success" @click.prevent="resetUsers('staff')" title="Reset employees" class="mr-2">
+                    <b-icon icon="bootstrap-reboot"></b-icon>
+                    Employee
+                </b-button>
+            <?php endif ?>
             <b-button
                 class="btn"
                 variant="outline-primary"
@@ -36,6 +42,12 @@
 
 <div class="stat-box px-3 px-md-4 py-3 py-lg-4 shadow-sm rounded">
 	<div class="col-12 text-right px-0 mb-3">
+        <?php if (session()->get('logged_in.role') == "admin"): ?>
+            <b-button variant="outline-success" @click.prevent="resetUsers('customer')" title="Reset customers" class="mr-2">
+                <b-icon icon="bootstrap-reboot"></b-icon>
+                Customer
+            </b-button>
+        <?php endif ?>
 		<b-button
             class="btn"
             variant="outline-primary"

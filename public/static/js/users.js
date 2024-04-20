@@ -107,11 +107,13 @@ var app = new Vue({
                 createCustomer: {...appData.createCustomer},
                 editCustomer: {...appData.editCustomer},
             },
+            allowedRoles: ["customer", "staff"],
         }
     },
     mounted: async function () {
         console.log('app mounted');
-        this.fetchUsersList(showToast = false);
+        this.fetchUsersList(showToast = false, role = "customer");
+        this.fetchUsersList(showToast = false, role = "staff");
     },
     methods: {
         validateInputField: function (input) {
@@ -119,16 +121,27 @@ var app = new Vue({
 
             return input.$dirty ? !input.$invalid : null;
         },
-        fetchUsersList: function (showToast = true) {
+        fetchUsersList: function (showToast = true, role = "") {
             const self = this;
-            const payload = {};
+
+            if (!self.allowedRoles.includes(role)) {
+                return;
+            }
+
+            const payload = {
+                role: role
+            };
 
             axios
-                .get(baseURL + '/api/users/list', payload)
+                .post(baseURL + '/api/users/list', payload)
                 .then(res => {
-                    console.log(res);
-                    self.customersList = res.data.filter(user => user.userRole === 'customer');
-                    self.employeesList = res.data.filter(user => user.userRole === 'staff');
+                    if (role === "customer") {
+                        self.customersList = res.data.filter(user => user.userRole === 'customer');
+                    }
+
+                    if (role === "staff") {
+                        self.employeesList = res.data.filter(user => user.userRole === 'staff');
+                    }
 
                     if (showToast) {
                         var toastType = res.status === 200 ? 'success' : 'error';
@@ -232,7 +245,7 @@ var app = new Vue({
                     var toastType = res.status === 200 ? 'success' : 'error';
                     self.showToastNotification(toastType);
                     self.clearModalState(modalId = 'createUser', closeModal = true);
-                    self.fetchUsersList(showToast = false);
+                    self.fetchUsersList(showToast = false, role = "staff");
                 })
                 .catch(error => {
                     console.log(error);
@@ -264,13 +277,40 @@ var app = new Vue({
                     var toastType = res.status === 200 ? 'success' : 'error';
                     self.showToastNotification(toastType);
                     self.clearModalState(modalId = 'editUser', closeModal = true);
-                    self.fetchUsersList(showToast = false);
+                    self.fetchUsersList(showToast = false, role = "staff");
                 })
                 .catch(error => {
                     console.log(error);
                     self.clearModalState(modalId = 'editUser', closeModal = true);
                 });
         },
+        resetUsers: function (roleToReset = "") {
+			const self = this;
+
+            if (!self.allowedRoles.includes(role)) {
+                return;
+            }
+
+			const payload = {
+                role: roleToReset
+            };
+
+			axios
+				.post(baseURL + "/api/users/reset", payload)
+				.then((res) => {
+					if (res.data.result) {
+						self.fetchUsersList(showToast = false, roleToReset);
+					}
+
+					var toastType =
+						res.data.result === true ? "success" : "error";
+					self.showToastNotification(toastType, res.data.message);
+				})
+				.catch((error) => {
+					var toastType = "error";
+					self.showToastNotification(toastType);
+				});
+		},
         createCustomer: function () {
             const self = this;
 
@@ -295,7 +335,7 @@ var app = new Vue({
                     var toastType = res.status === 200 ? 'success' : 'error';
                     self.showToastNotification(toastType);
                     self.clearModalState(modalId = 'createCustomer', closeModal = true);
-                    self.fetchUsersList(showToast = false);
+                    self.fetchUsersList(showToast = false, role = "customer");
                 })
                 .catch(error => {
                     console.log(error);
@@ -327,7 +367,7 @@ var app = new Vue({
                     var toastType = res.status === 200 ? 'success' : 'error';
                     self.showToastNotification(toastType);
                     self.clearModalState(modalId = 'editCustomer', closeModal = true);
-                    self.fetchUsersList(showToast = false);
+                    self.fetchUsersList(showToast = false, role = "customer");
                 })
                 .catch(error => {
                     console.log(error);

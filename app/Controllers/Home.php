@@ -41,7 +41,7 @@ class Home extends BaseController
 
     public function activateAccount()
     {
-        
+        // TO DO
     }
 
     public function logout()
@@ -227,6 +227,18 @@ class Home extends BaseController
         return $this->response->setJSON($cars_list);
     }
 
+    public function resetCarConfigurations()
+    {
+        $car_config_model = model(CarModel::class);
+        $car_price_config_model = model(ConfigCarPriceModel::class);
+
+        $response = [
+            'result' => $car_config_model->resetCarConfigurations() && $car_price_config_model->resetCarPriceConfigurations(),
+        ];
+
+        return $this->response->setJSON($response);
+    }
+
     public function getBookingsList()
     {
         $user_id = $this->request->getJsonVar('userId');
@@ -249,18 +261,22 @@ class Home extends BaseController
 
     public function getUsersList()
     {
+        $role = $this->request->getJsonVar("role");
         $user_model = model(UserModel::class);
 
-        $user_data = session()->get('logged_in');
+        $user_email = session()->get('logged_in.username');
+        $user_role = session()->get('logged_in.role');
 
-        $excluded_roles = [];
-        array_push($excluded_roles, $user_data['role']);
-        $user_data['role'] === 'staff' && array_push($excluded_roles, 'admin');
+        $excluded_entities = [];
+        array_push($excluded_entities, $user_email);
+        $user_role !== "admin" && array_push($excluded_entities, "admin@helloshuttle.localhost");
 
-        $users = $user_model->getUsers($excluded_roles);
+        $users = $user_model->getUsers($excluded_entities, $role);
 
         return $this->response->setJSON($users);
     }
+
+    
 
     public function createUser($from_api = true, $data = [])
     {

@@ -51,15 +51,17 @@ $routes->post('api/configurations/reset', 'Home::resetConfigurations');
 
 $routes->post('api/cars/edit', 'Home::editCar');
 $routes->post('api/cars/create', 'Home::createCar');
+$routes->post('api/cars/reset', 'Home::resetCarConfigurations');
 
 $routes->post('api/coupons/create', 'Home::createCoupon');
 $routes->post('api/coupons/edit', 'Home::editCoupon');
 $routes->post('api/bookings/clear', 'Home::clearBookings');
 $routes->post('api/bookings/edit', 'Home::editBooking');
 
-$routes->get('api/users/list', 'Home::getUsersList');
+$routes->post('api/users/list', 'Home::getUsersList');
 $routes->post('api/users/edit', 'Home::editUser');
 $routes->post('api/users/create', 'Home::createUser');
+$routes->post('api/users/reset', 'Home::resetUsers');
 
 $routes->post('api/customers/edit', 'Home::editCustomer');
 $routes->post('api/customers/create', 'Home::createCustomer');

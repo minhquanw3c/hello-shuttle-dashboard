@@ -61,7 +61,7 @@ class UserModel extends Model
         return $get_user_query;
     }
 
-    public function getUsers($excluded_roles)
+    public function getUsers($excluded_entities, $role)
     {
         $query = $this->select([
             'users.user_id AS userId',
@@ -73,7 +73,8 @@ class UserModel extends Model
             'users.user_active AS userActive',
             'users.user_role AS userRole',
         ])
-        ->whereNotIn('users.user_role', $excluded_roles)
+        ->whereNotIn('users.user_email', $excluded_entities)
+        ->where('users.user_role', $role)
         ->findAll();
 
         return $query;
